@@ -1,0 +1,140 @@
+import { Box, Grid, Stack, CircularProgress, Typography } from "@mui/material";
+import Header from "@/components/common/BaseComponents/Header/Header";
+import FormUserBox from "@/components/features/FormUser/FormUserComponents/AddInput";
+import FootButton from "@/components/common/BaseComponents/FootButton/FootButton";
+import UseEditInfo from "./UseEditinfo";
+
+export default function ShowEditInfo() {
+  const {
+    loading,
+    error,
+    formData,
+    updateField,
+    updateAddressField,
+    updateCompanyField,
+    handleSave,
+    handleCancel,
+  } = UseEditInfo();
+
+  const size = 5;
+  return loading ? (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "50vh",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <CircularProgress />
+      <Typography>Loading User Details...</Typography>
+    </Box>
+  ) : (
+    <Box>
+      <Header label="Edit User" handlenavigate={handleCancel} />
+      <Stack spacing={9}>
+        <Box>
+          <Grid
+            container
+            rowSpacing={4}
+            sx={{
+              justifySelf: "center",
+              justifyContent: "space-between",
+              width: "80%",
+            }}
+          >
+            {/* Row1 */}
+            <Grid size={size}>
+              <FormUserBox
+                error={error.username}
+                label="Username: "
+                value={formData.username}
+                onChange={(e) => updateField("username", e.target.value)}
+              />
+            </Grid>
+            <Grid size={size}></Grid>
+
+            {/* Row2 */}
+            <Grid size={size}>
+              <FormUserBox
+                error={error.name}
+                label="Name: "
+                value={formData.name}
+                onChange={(e) => updateField("name", e.target.value)}
+              />
+            </Grid>
+            <Grid size={size}>
+              <FormUserBox
+                error={error.email}
+                label="Email: "
+                value={formData.email}
+                onChange={(e) => updateField("email", e.target.value)}
+              />
+            </Grid>
+
+            {/* Row3 */}
+            <Grid size={size}>
+              <FormUserBox
+                label="Street: "
+                value={formData.address?.street || ""}
+                onChange={(e) => updateAddressField("street", e.target.value)}
+              />
+            </Grid>
+            <Grid size={size}>
+              <FormUserBox
+                label="Suite: "
+                value={formData.address?.suite || ""}
+                onChange={(e) => updateAddressField("suite", e.target.value)}
+              />
+            </Grid>
+
+            {/* Row4 */}
+            <Grid size={size}>
+              <FormUserBox
+                label="City: "
+                value={formData.address?.city || ""}
+                onChange={(e) => updateAddressField("city", e.target.value)}
+              />
+            </Grid>
+            <Grid size={size}>
+              <FormUserBox
+                label="Zip code: "
+                value={formData.address?.zipcode || ""}
+                onChange={(e) => updateAddressField("zipcode", e.target.value)}
+              />
+            </Grid>
+
+            {/* Row5 */}
+            <Grid size={size}>
+              <FormUserBox
+                label="Phone: "
+                value={formData.phone}
+                onChange={(e) => updateField("phone", e.target.value)}
+              />
+            </Grid>
+            <Grid size={size}>
+              <FormUserBox
+                error={error.website}
+                label="Website: "
+                value={formData.website}
+                onChange={(e) => updateField("website", e.target.value)}
+              />
+            </Grid>
+
+            {/* Row6 */}
+            <Grid size={size}>
+              <FormUserBox
+                label="Company: "
+                value={formData.company?.name || ""}
+                onChange={(e) => updateCompanyField("name", e.target.value)}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      </Stack>
+      <FootButton label="Save" handlemethod={handleSave} />
+    </Box>
+  );
+}
