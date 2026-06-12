@@ -6,25 +6,19 @@ export function Signup() {
   return useMutation({
     // The variables passed to mutate() arrive here (e.g., newTodo)
     mutationFn: async (form: Form) => {
-      const response = await fetch("http://localhost:5001/api/users", {
+      const response = await fetch("http://localhost:5001/api/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(form),
       });
-
+      const data = await response.json();
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(data.message || "Something went wrong");
       }
 
-      console.log("Hello");
-      return response.json();
+      return data;
     },
-
-    // Invalidate the cache to automatically trigger a background re-fetch
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries({ queryKey: ["users"] });
-    // },
   });
 }

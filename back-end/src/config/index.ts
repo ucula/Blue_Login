@@ -1,2 +1,2 @@
-export const PORT = process.env.PORT || 5001;
-export const MONGO_URI = "mongodb://localhost:27017/local_store_db";
+export const PORT = process.env.PORT;
+export const MONGO_URI = process.env.MONGO_URI;

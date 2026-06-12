@@ -12,6 +12,6 @@ configureMiddlewares(app);
 connectDB();
 
 // Routes
-app.use("/api/users", userRouter);
+app.use("/api", userRouter);
 
 export default app;

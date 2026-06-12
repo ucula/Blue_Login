@@ -3,7 +3,7 @@ import { Box, Stack, Button, TextField } from "@mui/material";
 import LoginLogic from "./UseLogin";
 
 export default function ShowLogin() {
-  const { handleLogin, handleSignup, updateField } = LoginLogic();
+  const { errform, handleLogin, handleSignup, updateField } = LoginLogic();
   return (
     <Box
       sx={{ alignContent: "center", justifyItems: "center", height: "700px" }}
@@ -17,6 +17,8 @@ export default function ShowLogin() {
       >
         <Stack>
           <TextField
+            helperText={errform.email}
+            error={!!errform.email}
             id="filled-basic"
             label="Email"
             variant="standard"
@@ -24,20 +26,22 @@ export default function ShowLogin() {
             onChange={(e) => updateField("email", e.target.value)}
           />
           <TextField
+            helperText={errform.pass}
+            error={!!errform.pass}
             id="outlined-basic"
             label="Password"
             variant="standard"
             sx={{ marginBottom: 7 }}
             onChange={(e) => updateField("pass", e.target.value)}
           />
-          <Button sx={{ bgcolor: "#abdcffff" }} onClick={handleSignup}>
-            Signup
-          </Button>
           <Button
             sx={{ bgcolor: "rgba(255, 158, 133, 1)" }}
-            onClick={handleSignup}
+            onClick={handleLogin}
           >
             Login
+          </Button>
+          <Button sx={{ bgcolor: "#abdcffff" }} onClick={handleSignup}>
+            Signup
           </Button>
         </Stack>
       </Box>
