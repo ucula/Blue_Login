@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User, UserError } from "@/types/user";
 import { UsersList } from "@/services/mongo/fetchUsers";
-import { EditUsersList } from "@/services/mongo/postUsers";
+import { addUser } from "@/services/mongo/postUsers";
 
 export default function FormUserLogic() {
   const navigate = useNavigate();
 
   const { data: users } = UsersList();
-  const { mutate: addUser } = EditUsersList();
+  const { mutate: signup } = addUser();
   const [error, setError] = useState<UserError>({
     username: "",
     name: "",

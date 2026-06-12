@@ -1,12 +1,12 @@
-import type { User } from "@/types/user";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { Form } from "@/types/signlog";
+import { useMutation } from "@tanstack/react-query";
 
-export function EditUsersList() {
-  const queryClient = useQueryClient();
+export function addUser() {
+  // const queryClient = useQueryClient();
   return useMutation({
     // The variables passed to mutate() arrive here (e.g., newTodo)
-    mutationFn: async (user: User) => {
-      const response = await fetch("http://localhost:5001/api/users", {
+    mutationFn: async (user: Partial<Form>) => {
+      const response = await fetch("http://localhost:5001/api/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -15,15 +15,15 @@ export function EditUsersList() {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Network response error");
       }
 
       return response.json();
     },
 
     // Invalidate the cache to automatically trigger a background re-fetch
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
-    },
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: ["users"] });
+    // },
   });
 }

@@ -1,26 +1,26 @@
 import mongoose from "mongoose";
 
 const dataSchema = new mongoose.Schema({
-  name: { type: String, required: true, trim: true },
-  pass: { type: String, required: true, trim: true },
-  username: { type: String, required: true, trim: true },
+  name: { type: String, trim: true, default: "" },
+  // pass: { type: String, required: true, trim: true },
+  username: { type: String, trim: true, default: "" },
   email: { type: String, required: true },
   address: {
-    street: { type: String, trim: true },
-    suite: { type: String, trim: true },
-    city: { type: String, trim: true },
-    zipcode: { type: String, trim: true },
+    street: { type: String, trim: true, default: "" },
+    suite: { type: String, trim: true, default: "" },
+    city: { type: String, trim: true, default: "" },
+    zipcode: { type: String, trim: true, default: "" },
     geo: {
-      lat: { type: String, trim: true },
-      lng: { type: String, trim: true },
+      lat: { type: String, trim: true, default: "" },
+      lng: { type: String, trim: true, default: "" },
     },
   },
-  phone: { type: String, trim: true },
-  website: { type: String, trim: true },
+  phone: { type: String, trim: true, default: "" },
+  website: { type: String, trim: true, default: "" },
   company: {
-    name: { type: String, trim: true },
-    catchPhrase: { type: String, trim: true },
-    bs: { type: String, trim: true },
+    name: { type: String, trim: true, default: "" },
+    catchPhrase: { type: String, trim: true, default: "" },
+    bs: { type: String, trim: true, default: "" },
   },
 });
 

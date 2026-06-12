@@ -1,12 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 export function DelUserById() {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const { id } = useParams<{ id: string }>();
   return useMutation({
     mutationFn: async () => {
-      const response = await fetch(`http://localhost:5001/api/users/${id}`, {
+      const response = await fetch(`http://localhost:5001/api/user/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -21,8 +21,8 @@ export function DelUserById() {
     },
 
     // Invalidate the cache to automatically trigger a background re-fetch
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
-    },
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: ["user"] });
+    // },
   });
 }

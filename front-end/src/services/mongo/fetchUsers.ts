@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const fetchUsers = async () => {
-  const response = await fetch("http://localhost:5001/api/users");
+  const response = await fetch("http://localhost:5001/api/user");
   if (!response.ok) throw new Error("Network response failed");
   const data = await response.json();
   // console.log(data);

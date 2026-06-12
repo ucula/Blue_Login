@@ -24,7 +24,7 @@ export default function UserAllInfoLogic() {
   const handleDelete = () => {
     deleteUser(undefined, {
       onSuccess: () => {
-        navigate("/brief");
+        handleHome();
       },
     });
   };
