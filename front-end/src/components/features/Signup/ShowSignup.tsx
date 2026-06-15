@@ -46,7 +46,7 @@ export default function ShowSignup() {
                 sx={{ bgcolor: "rgba(255, 158, 133, 1)" }}
                 onClick={handleSignup}
               >
-                Next
+                Signup
               </Button>
             </>
           )}

@@ -1,54 +1,58 @@
-import { Signup } from "@/services/mongo/signup";
 import type { Form } from "@/types/signlog";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { checkDupe } from "@/services/mongo/checkDupe";
 
 export default function LoginLogic() {
   const navigate = useNavigate();
-  const { mutate: signup } = Signup();
+  const [form, setForm] = useState<Partial<Form>>({});
+  const [errForm, setErrForm] = useState<Partial<Form>>({});
 
-  const [form, setForm] = useState<Form>({
-    email: "",
-    pass: "",
-  });
-  const [errform, setErrForm] = useState<Form>({
-    email: "",
-    pass: "",
-  });
-  // const updateError = (key: keyof Form, value: string) => {
-  //   setErrForm((prev) => ({ ...prev, [key]: value }));
-  //   // console.log(form);
-  // };
-
-  const updateField = (key: keyof Form, value: string) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-    // console.log(form);
+  const updateForm = (label: string, value: string) => {
+    setForm((prev) => ({ ...prev, [label]: value }));
   };
 
-  const handleLogin = () => {
-    navigate("/brief");
+  const updateErrForm = (label: string, value: string) => {
+    setErrForm((prev) => ({ ...prev, [label]: value }));
   };
-
-  const handleMissing = () => {
-    let newError = { email: "", pass: "" };
-    let hasError = false;
-    // Validate missing inputs
-    if (form.email === "") {
-      hasError = true;
-      newError.email = "Missing inputs";
-    } else {
-      if (form.pass === "") {
-        hasError = true;
-        newError.pass = "Please input your passwords";
-      }
-    }
-    setErrForm(newError);
-    if (hasError) return;
-  };
-
   const handleSignup = () => {
     navigate("/signup");
   };
 
-  return { errform, handleLogin, handleSignup, updateField };
+  const Input = (label: string) => {
+    if (label === "email") {
+      if (!form.email || form.email.trim() === "") {
+        updateErrForm("email", "No Input");
+        return false;
+      }
+      return true;
+    }
+    if (label === "pass") {
+      if (!form.pass || form.pass.trim() === "") {
+        updateErrForm("pass", "No Input");
+        return false;
+      }
+      return true;
+    }
+  };
+
+  const validateEmail = async () => {
+    const { isAvailable } = await checkDupe(form);
+    if (isAvailable) {
+      updateErrForm("email", "Email unregistered");
+      return true;
+    }
+    return false;
+  };
+
+  const handleLogin = async () => {
+    setErrForm({});
+    if (!Input("email")) return;
+    if (await validateEmail()) return;
+    if (!Input("pass")) return;
+
+    navigate("/brief");
+  };
+
+  return { errForm, handleLogin, handleSignup, updateForm };
 }

@@ -1,12 +1,8 @@
-import { checkDupeEmail } from "@/services/mongo/checkDupeEmail";
+import { checkDupe } from "@/services/mongo/checkDupe";
 import { addUser } from "@/services/mongo/postUsers";
+import type { Form } from "@/types/signlog";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-export type Form = {
-  email: string;
-  pass: string;
-};
 
 export default function UseAuthHandler() {
   const { mutate: signup } = addUser();
@@ -19,44 +15,45 @@ export default function UseAuthHandler() {
     setForm((prev) => ({ ...prev, [label]: value }));
   };
 
+  const updateErrForm = (label: string, value: string) => {
+    setErrForm((prev) => ({ ...prev, [label]: value }));
+  };
+
   const handleCancel = () => {
     navigate("/");
   };
 
-  const noInput = (label: string) => {
+  const Input = (label: string) => {
     if (label === "email") {
       if (!form.email || form.email.trim() === "") {
-        setErrForm({ ...errForm, email: "No Input" });
+        updateErrForm("email", "No Input");
         return true;
       }
       return false;
     }
     if (label === "pass") {
       if (!form.pass || form.pass.trim() === "") {
-        setErrForm({ ...errForm, pass: "No Input" });
+        updateErrForm("pass", "No Input");
         return true;
       }
       return false;
     }
   };
 
-  const notFormat = (label: string) => {
+  const Format = (label: string) => {
     if (label === "email") {
       const isEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
         form.email.trim(),
       );
       if (!isEmail) {
-        setErrForm({ ...errForm, email: "Not Email Format" });
+        updateErrForm("email", "Not Email Format");
         return true;
       }
       return false;
     }
     if (label === "pass") {
       if (form.pass.length < 8) {
-        setErrForm({
-          ...errForm,
-          pass: "Password must be longer than 8 chars",
-        });
+        updateErrForm("pass", "Password must be longer than 8 chars");
         return true;
       }
       return false;
@@ -64,26 +61,39 @@ export default function UseAuthHandler() {
   };
 
   const isDupe = async () => {
-    const isDupe = await checkDupeEmail(form.email);
-    if (isDupe) {
-      setErrForm({ ...errForm, email: "Email already Exists" });
+    const { isAvailable, message } = await checkDupe(form);
+    if (!isAvailable) {
+      updateErrForm("email", message);
       return true;
     }
     return false;
   };
 
   const handleEmail = async () => {
-    // console.log(insPass);
-    if (noInput("email")) return;
-    if (notFormat("email")) return;
+    setErrForm({});
+    if (Input("email")) return;
+    if (Format("email")) return;
     if (await isDupe()) return;
 
     setInsPass(true);
   };
 
   const handleSignup = async () => {
-    if (noInput("pass")) return;
-    if (notFormat("pass")) return;
+    setErrForm({});
+    if (await isDupe()) {
+      setInsPass(false);
+      return;
+    }
+    if (Input("email")) {
+      setInsPass(false);
+      return;
+    }
+    if (Format("email")) {
+      setInsPass(false);
+      return;
+    }
+    if (Input("pass")) return;
+    if (Format("pass")) return;
 
     signup(form);
     navigate("/");

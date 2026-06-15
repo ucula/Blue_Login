@@ -6,8 +6,8 @@ export function EditUserById() {
   const queryClient = useQueryClient();
   const { id } = useParams<{ id: string }>();
   return useMutation({
-    mutationFn: async (updatedData: User) => {
-      const response = await fetch(`http://localhost:5001/api/users/${id}`, {
+    mutationFn: async (updatedData: Partial<User>) => {
+      const response = await fetch(`http://localhost:5001/api/user/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

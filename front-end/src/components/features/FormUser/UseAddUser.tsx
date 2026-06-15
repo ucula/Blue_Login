@@ -8,29 +8,9 @@ export default function FormUserLogic() {
   const navigate = useNavigate();
 
   const { data: users } = UsersList();
-  const { mutate: signup } = addUser();
-  const [error, setError] = useState<UserError>({
-    username: "",
-    name: "",
-    email: "",
-    website: "",
-  });
-
-  const [newUser, setNewUser] = useState<User>({
-    username: "",
-    name: "",
-    email: "",
-    address: {
-      street: "",
-      suite: "",
-      city: "",
-      zipcode: "",
-      geo: { lat: "", lng: "" },
-    },
-    phone: "",
-    website: "",
-    company: { name: "", catchPhrase: "", bs: "" },
-  });
+  const { mutate: add } = addUser();
+  const [error, setError] = useState<Partial<UserError>>({});
+  const [newUser, setNewUser] = useState<Partial<User>>({});
 
   const handleHome = () => {
     navigate("/brief");
@@ -38,7 +18,6 @@ export default function FormUserLogic() {
 
   const updateField = (key: keyof User, value: string) => {
     setNewUser((prev) => ({ ...prev, [key]: value }));
-    // console.log(formData);
   };
 
   const updateAddressField = (key: keyof User["address"], value: string) => {
@@ -88,12 +67,15 @@ export default function FormUserLogic() {
     // Check duplicates
     if (
       newUser.username.trim() &&
-      users.some((u) => u.username === newUser.username)
+      users.some((u: User) => u.username === newUser.username)
     ) {
       newError.username = "Username already exists";
       hasError = true;
     }
-    if (newUser.email.trim() && users.some((u) => u.email === newUser.email)) {
+    if (
+      newUser.email.trim() &&
+      users.some((u: User) => u.email === newUser.email)
+    ) {
       newError.email = "Email already exists";
       hasError = true;
     }
@@ -114,9 +96,9 @@ export default function FormUserLogic() {
       return;
     }
 
-    addUser(newUser, {
+    add(newUser, {
       onSuccess: () => {
-        navigate("/");
+        navigate("/brief");
       },
     });
   }
