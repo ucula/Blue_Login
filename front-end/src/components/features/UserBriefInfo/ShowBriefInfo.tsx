@@ -5,18 +5,21 @@ import BriefInfoBox from "./UserBriefInfoComponents/BriefInfoBox";
 import LoadingTemp from "@/components/common/Skeleton/LoadingTemp";
 import type { User } from "@/types/user";
 import { Box, Grid, Stack } from "@mui/material";
+import Header from "@/components/common/BaseComponents/Header/Header";
 
 export default function UserBriefInfo() {
   const {
     users,
     handleAdd,
     handleInfo,
+    handleBack,
     filterText,
     setFilterText,
     filteredUsers,
   } = UserBriefInfoLogic();
   return (
     <Box>
+      <Header label="Brief Users" handlenavigate={handleBack} />
       <Grid container sx={{ marginBottom: 5 }}>
         <Grid size={11}>
           <TextField

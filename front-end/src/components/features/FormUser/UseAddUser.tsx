@@ -1,111 +1,127 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User, UserError } from "@/types/user";
-import { UsersList } from "@/services/mongo/fetchUsers";
 import { addUser } from "@/services/mongo/postUsers";
+import { checkDupe } from "@/services/mongo/checkDupe";
 
 export default function FormUserLogic() {
   const navigate = useNavigate();
-
-  const { data: users } = UsersList();
   const { mutate: add } = addUser();
   const [error, setError] = useState<Partial<UserError>>({});
-  const [newUser, setNewUser] = useState<Partial<User>>({});
+  const [form, setForm] = useState<User>({
+    name: "",
+    username: "",
+    email: "",
+    phone: "",
+    website: "",
+    address: {
+      street: "",
+      suite: "",
+      city: "",
+      zipcode: "",
+    },
+    company: {
+      name: "",
+    },
+  });
 
   const handleHome = () => {
     navigate("/brief");
   };
 
   const updateField = (key: keyof User, value: string) => {
-    setNewUser((prev) => ({ ...prev, [key]: value }));
+    setForm((prev) => ({ ...prev, [key]: value.trim() }));
   };
 
   const updateAddressField = (key: keyof User["address"], value: string) => {
-    setNewUser((prev) => ({
+    setForm((prev) => ({
       ...prev,
-      address: { ...prev.address, [key]: value },
+      address: { ...prev.address, [key]: value.trim() },
     }));
   };
 
   const updateCompanyField = (key: keyof User["company"], value: string) => {
-    setNewUser((prev) => ({
+    setForm((prev) => ({
       ...prev,
-      company: { ...prev.company, [key]: value },
+      company: { ...prev.company, [key]: value.trim() },
     }));
   };
 
-  const isValidEmail = (email: string) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
+  const updateErrForm = (key: keyof User, value: string) => {
+    setError((prev) => ({ ...prev, [key]: value.trim() }));
   };
 
-  const isValidWebsite = (url: string) => {
-    const urlRegex =
-      /^(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
-
-    return urlRegex.test(url);
+  const ValidateEmail = (email: string) => {
+    const isEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+      email,
+    );
+    if (!isEmail) {
+      updateErrForm("email", "Wrong Email Format");
+      return false;
+    }
+    return true;
   };
 
-  async function handleSave() {
-    const newError = { username: "", name: "", email: "", website: "" };
-    let hasError = false;
+  const ValidateWebsite = (url: string) => {
+    const isWebsite =
+      /^(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(
+        url,
+      );
+    if (!isWebsite && url !== "") {
+      updateErrForm("website", "Wrong Website Format");
+      return false;
+    }
+    return true;
+  };
 
-    // Check empty fields
-    if (newUser.username.trim() === "") {
-      newError.username = "Username is empty";
-      hasError = true;
+  const Input = () => {
+    let hasInput = true;
+    if (!form.email) {
+      updateErrForm("email", "No Input");
+      hasInput = false;
     }
-    if (newUser.name.trim() === "") {
-      newError.name = "Name is empty";
-      hasError = true;
+    if (!form.username) {
+      updateErrForm("username", "Username is empty");
+      hasInput = false;
     }
-    if (newUser.email.trim() === "") {
-      newError.email = "Email is empty";
-      hasError = true;
+    if (!form.name) {
+      updateErrForm("name", "Name is empty");
+      hasInput = false;
     }
+    return hasInput;
+  };
 
-    // Check duplicates
-    if (
-      newUser.username.trim() &&
-      users.some((u: User) => u.username === newUser.username)
-    ) {
-      newError.username = "Username already exists";
-      hasError = true;
+  const isDupe = async () => {
+    const { user } = await checkDupe(form);
+    if (!user) return false;
+    if (user.email === form.email) {
+      updateErrForm("email", "Email already exists");
     }
-    if (
-      newUser.email.trim() &&
-      users.some((u: User) => u.email === newUser.email)
-    ) {
-      newError.email = "Email already exists";
-      hasError = true;
+    if (user.username === form.username) {
+      updateErrForm("username", "Username already exists");
     }
+    return true;
+  };
 
-    // Check format
-    if (newUser.email.trim() && !isValidEmail(newUser.email)) {
-      newError.email = "Invalid email format";
-      hasError = true;
-    }
-    if (newUser.website.trim() && !isValidWebsite(newUser.website)) {
-      newError.website = "Invalid website URL";
-      hasError = true;
-    }
-
-    setError(newError);
-
-    if (hasError) {
-      return;
-    }
-
-    add(newUser, {
+  const handleSave = async () => {
+    setError({});
+    if (!Input()) return;
+    if (!ValidateEmail(form.email)) return;
+    if (!ValidateWebsite(form.website)) return;
+    if (await isDupe()) return;
+    add(form, {
       onSuccess: () => {
         navigate("/brief");
       },
+      onError: () => {
+        console.log(error);
+      },
     });
-  }
+  };
 
   return {
     error,
-    newUser,
+    form,
     updateField,
     updateAddressField,
     updateCompanyField,

@@ -7,7 +7,7 @@ import FootButton from "@/components/common/BaseComponents/FootButton/FootButton
 export default function FormUser() {
   const {
     error,
-    newUser,
+    form,
     updateField,
     updateAddressField,
     updateCompanyField,
@@ -36,7 +36,7 @@ export default function FormUser() {
               <FormUserBox
                 error={error.username}
                 label="Username: "
-                value={newUser.username}
+                value={form.username}
                 onChange={(e) => updateField("username", e.target.value)}
               />
             </Grid>
@@ -47,7 +47,7 @@ export default function FormUser() {
               <FormUserBox
                 error={error.name}
                 label="Name: "
-                value={newUser.name}
+                value={form.name}
                 onChange={(e) => updateField("name", e.target.value)}
               />
             </Grid>
@@ -55,7 +55,7 @@ export default function FormUser() {
               <FormUserBox
                 error={error.email}
                 label="Email: "
-                value={newUser.email}
+                value={form.email}
                 onChange={(e) => updateField("email", e.target.value)}
               />
             </Grid>
@@ -64,14 +64,14 @@ export default function FormUser() {
             <Grid size={size}>
               <FormUserBox
                 label="Street: "
-                value={newUser.address.street}
+                value={form.address.street}
                 onChange={(e) => updateAddressField("street", e.target.value)}
               />
             </Grid>
             <Grid size={size}>
               <FormUserBox
                 label="Suite: "
-                value={newUser.address.suite}
+                value={form.address.suite}
                 onChange={(e) => updateAddressField("suite", e.target.value)}
               />
             </Grid>
@@ -80,14 +80,14 @@ export default function FormUser() {
             <Grid size={size}>
               <FormUserBox
                 label="City: "
-                value={newUser.address.city}
+                value={form.address.city}
                 onChange={(e) => updateAddressField("city", e.target.value)}
               />
             </Grid>
             <Grid size={size}>
               <FormUserBox
                 label="Zip code: "
-                value={newUser.address.zipcode}
+                value={form.address.zipcode}
                 onChange={(e) => updateAddressField("zipcode", e.target.value)}
               />
             </Grid>
@@ -96,7 +96,7 @@ export default function FormUser() {
             <Grid size={size}>
               <FormUserBox
                 label="Phone: "
-                value={newUser.phone}
+                value={form.phone}
                 onChange={(e) => updateField("phone", e.target.value)}
               />
             </Grid>
@@ -104,7 +104,7 @@ export default function FormUser() {
               <FormUserBox
                 error={error.website}
                 label="Website: "
-                value={newUser.website}
+                value={form.website}
                 onChange={(e) => updateField("website", e.target.value)}
               />
             </Grid>
@@ -113,7 +113,7 @@ export default function FormUser() {
             <Grid size={size}>
               <FormUserBox
                 label="Company: "
-                value={newUser.company.name}
+                value={form.company.name}
                 onChange={(e) => updateCompanyField("name", e.target.value)}
               />
             </Grid>

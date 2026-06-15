@@ -8,6 +8,9 @@ export default function UserBriefInfoLogic() {
   const { data: users, isLoading } = UsersList();
   const [filterText, setFilterText] = useState("");
 
+  const handleBack = () => {
+    navigate("/");
+  };
   const handleAdd = () => {
     navigate("/add");
   };
@@ -31,6 +34,7 @@ export default function UserBriefInfoLogic() {
   return {
     users,
     isLoading,
+    handleBack,
     handleAdd,
     handleInfo,
     filteredUsers,

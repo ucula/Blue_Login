@@ -4,20 +4,16 @@ import { useId } from "react";
 export default function FormUserBox({
   label,
   error,
-  // width = "100%",
   value,
   onChange,
 }: {
   label: string;
-  width?: string;
   error?: string;
-  type?: string;
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }) {
   const uniqueId = useId();
   const sx = {
-    // width: { width },
     "& .MuiInputBase-input": {
       padding: "8px 10px",
       fontSize: "21px",
@@ -28,7 +24,7 @@ export default function FormUserBox({
       <Stack>
         <Typography sx={{ color: "black" }}>{label}</Typography>
         <TextField
-          value={value}
+          value={value || ""}
           onChange={onChange}
           sx={sx}
           error={!!error}
