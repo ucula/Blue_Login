@@ -6,6 +6,7 @@ import { UsersList } from "@/services/mongo/fetchUsers";
 export default function UserBriefInfoLogic() {
   const navigate = useNavigate();
   const { data: users, isLoading } = UsersList();
+  console.log(users);
   const [filterText, setFilterText] = useState("");
 
   const handleBack = () => {

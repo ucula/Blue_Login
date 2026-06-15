@@ -44,8 +44,9 @@ export default function UserBriefInfo() {
           </Button>
         </Grid>
       </Grid>
-
       {!users ? (
+        <LoadingTemp label="Loading" />
+      ) : users.length === 0 ? (
         <LoadingTemp label="No User yet" />
       ) : (
         <Stack spacing={5}>
