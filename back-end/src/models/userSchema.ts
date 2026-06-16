@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const dataSchema = new mongoose.Schema({
   name: { type: String, trim: true, default: "" },
-  // pass: { type: String, required: true, trim: true },
+  pass: { type: String, trim: true, default: "1234567890" },
   username: { type: String, trim: true, default: "" },
   email: { type: String, required: true },
   address: {

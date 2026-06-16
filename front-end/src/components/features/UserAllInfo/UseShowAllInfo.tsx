@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import type { Address, Company } from "@/types/user";
-import { UserById } from "@/services/mongo/fetchUserbyId";
-import { DelUserById } from "@/services/mongo/deleteUserById";
+import { UserById } from "@/services/CRUD/fetchUserbyId";
+import { DelUserById } from "@/services/CRUD/deleteUserById";
 import { useState } from "react";
 
 export default function UserAllInfoLogic() {
@@ -14,9 +14,11 @@ export default function UserAllInfoLogic() {
   const handledialogue = () => {
     setDel(!del);
   };
+
   const handleHome = () => {
     navigate("/brief");
   };
+
   const handleEdit = () => {
     navigate(`/edit/${id}`);
   };
@@ -28,6 +30,7 @@ export default function UserAllInfoLogic() {
       },
     });
   };
+
   const showAddress = ({ street, suite, city, zipcode }: Address) => {
     return <span>{`${street}, ${suite}, ${city}, ${zipcode}`}</span>;
   };

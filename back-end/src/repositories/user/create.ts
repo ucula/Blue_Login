@@ -1,5 +1,6 @@
 import myData from "../../externals/userModel";
+import { User } from "../../types/user";
 
-export async function create(userData: any) {
-  return await myData.create(userData);
+export async function create(user: User) {
+  return await myData.create(user);
 }

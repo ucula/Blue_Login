@@ -1,9 +1,4 @@
-import { create } from "./create";
-import { del } from "./delete";
-// import { findExistEmail } from "./findExistEmail";
-import { get } from "./get";
-import { getDupe } from "./getDupe";
-import { list } from "./list";
-import { update } from "./update";
+import { login, signup } from "./auth/index";
+import { create, del, get, list, update } from "./CRUD/index";
 
-export default { getDupe, create, del, get, list, update };
+export default { create, del, get, list, update, signup, login };

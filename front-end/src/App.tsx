@@ -6,12 +6,14 @@ import ShowBriefInfo from "./pages/ShowBriefInfo";
 import EditUser from "./pages/EditUser";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ResetPass from "./pages/ResetPass";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/reset-pass" element={<ResetPass />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/brief" element={<ShowBriefInfo />} />
         <Route path="/info/:id" element={<ShowAllInfo />} />

@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "@/types/user";
-import { UsersList } from "@/services/mongo/fetchUsers";
+import { UsersList } from "@/services/CRUD/fetchUsers";
 
 export default function UserBriefInfoLogic() {
   const navigate = useNavigate();
   const { data: users, isLoading } = UsersList();
-  console.log(users);
   const [filterText, setFilterText] = useState("");
 
   const handleBack = () => {
     navigate("/");
   };
+
   const handleAdd = () => {
     navigate("/add");
   };

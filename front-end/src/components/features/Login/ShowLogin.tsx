@@ -1,4 +1,12 @@
-import { Box, Stack, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Button,
+  TextField,
+  Typography,
+  InputAdornment,
+  Link,
+} from "@mui/material";
 import LoginLogic from "./UseLogin";
 
 export default function ShowLogin() {
@@ -14,6 +22,15 @@ export default function ShowLogin() {
           width: "30%",
         }}
       >
+        <Box
+          sx={{
+            textAlign: "center",
+            justifyContent: "center",
+            marginBottom: 6,
+          }}
+        >
+          <Typography variant="h5">Log In</Typography>
+        </Box>
         <Stack>
           <TextField
             helperText={errForm.email}
@@ -30,9 +47,14 @@ export default function ShowLogin() {
             id="outlined-basic"
             label="Password"
             variant="standard"
-            sx={{ marginBottom: 7 }}
             onChange={(e) => updateForm("pass", e.target.value)}
           />
+
+          <Link component="button" underline="hover" sx={{ marginBottom: 5 }}>
+            <Typography sx={{ justifySelf: "end", fontSize: "20px" }}>
+              Forgot password?
+            </Typography>
+          </Link>
           <Button
             sx={{ bgcolor: "rgba(255, 158, 133, 1)" }}
             onClick={handleLogin}

@@ -1,10 +1,9 @@
-import { signUpHandler } from "@/services/auth/signup";
 import type { User } from "@/types/user";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function UseSignup() {
-  const { mutate: signup } = signUpHandler();
+export default function UseReset() {
+  const { mutate: reset } = resetHandler();
   const [insPass, setInsPass] = useState<boolean>(false);
   const [form, setForm] = useState<Partial<User>>({});
   const [errForm, setErrForm] = useState<Partial<User>>({});
@@ -64,7 +63,7 @@ export default function UseSignup() {
     if (!hasInput("email")) return;
     if (!correctFormat("email")) return;
 
-    signup(form, {
+    reset(form, {
       onSuccess: () => {
         setInsPass(true);
       },
@@ -80,7 +79,7 @@ export default function UseSignup() {
     if (!hasInput("pass")) return;
     if (!correctFormat("pass")) return;
 
-    signup(form, {
+    reset(form, {
       onSuccess: () => {
         navigate("/");
       },

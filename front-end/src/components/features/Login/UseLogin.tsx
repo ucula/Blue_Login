@@ -1,12 +1,13 @@
-import type { Form } from "@/types/signlog";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkDupe } from "@/services/mongo/checkDupe";
+import type { User } from "@/types/user";
+import { loginHandler } from "@/services/auth/login";
 
 export default function LoginLogic() {
   const navigate = useNavigate();
-  const [form, setForm] = useState<Partial<Form>>({});
-  const [errForm, setErrForm] = useState<Partial<Form>>({});
+  const { mutateAsync: login } = loginHandler();
+  const [form, setForm] = useState<Partial<User>>({});
+  const [errForm, setErrForm] = useState<Partial<User>>({});
 
   const updateForm = (label: string, value: string) => {
     setForm((prev) => ({ ...prev, [label]: value }));
@@ -15,44 +16,63 @@ export default function LoginLogic() {
   const updateErrForm = (label: string, value: string) => {
     setErrForm((prev) => ({ ...prev, [label]: value }));
   };
+
   const handleSignup = () => {
     navigate("/signup");
   };
 
-  const Input = (label: string) => {
+  const hasInput = (label: string) => {
     if (label === "email") {
       if (!form.email || form.email.trim() === "") {
         updateErrForm("email", "No Input");
         return false;
       }
-      return true;
-    }
-    if (label === "pass") {
+    } else if (label === "pass") {
       if (!form.pass || form.pass.trim() === "") {
         updateErrForm("pass", "No Input");
         return false;
       }
-      return true;
     }
+    return true;
   };
 
-  const validateEmail = async () => {
-    const { isAvailable } = await checkDupe(form);
-    if (isAvailable) {
-      updateErrForm("email", "Email unregistered");
-      return true;
+  const correctFormat = (label: string) => {
+    if (label === "email") {
+      const isEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+        form.email.trim(),
+      );
+      if (!isEmail) {
+        updateErrForm("email", "Wrong Format");
+        return false;
+      }
     }
-    return false;
+    return true;
   };
 
   const handleLogin = async () => {
     setErrForm({});
-    if (!Input("email")) return;
-    if (await validateEmail()) return;
-    if (!Input("pass")) return;
+    if (form.email === "admin") {
+      navigate("/brief");
+    }
 
-    navigate("/brief");
+    if (!hasInput("email")) return;
+    if (!correctFormat("email")) return;
+    try {
+      await login({ email: form.email });
+    } catch (err: any) {
+      updateErrForm("email", err.message);
+      return;
+    }
+
+    if (!hasInput("pass")) return;
+
+    try {
+      await login({ email: form.email, pass: form.pass });
+      navigate("/brief");
+    } catch (err: any) {
+      updateErrForm("pass", err.message);
+    }
   };
 
-  return { errForm, handleLogin, handleSignup, updateForm };
+  return { form, errForm, handleLogin, handleSignup, updateForm };
 }

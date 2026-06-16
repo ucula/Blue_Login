@@ -19,10 +19,5 @@ export function DelUserById() {
 
       return response.json();
     },
-
-    // Invalidate the cache to automatically trigger a background re-fetch
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries({ queryKey: ["user"] });
-    // },
   });
 }

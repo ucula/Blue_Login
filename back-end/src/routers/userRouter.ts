@@ -9,6 +9,7 @@ router.post("/user", userControllers.createUser);
 router.patch("/user/:id", userControllers.updateUserById);
 router.delete("/user/:id", userControllers.deleteuserById);
 
-router.post("/user/check-dupe", userControllers.checkDupe);
+router.post("/user/signup", userControllers.signup);
+router.post("/user/login", userControllers.login);
 
 export default router;

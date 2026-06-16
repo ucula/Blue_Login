@@ -1,6 +1,7 @@
 export interface User {
   _id?: string;
   name: string;
+  pass?: string;
   username: string;
   email: string;
   address?: Address;
@@ -30,6 +31,7 @@ export interface Company {
 
 export interface UserError {
   username: string;
+  pass: string;
   name: string;
   email: string;
   website: string;

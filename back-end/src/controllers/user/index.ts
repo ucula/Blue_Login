@@ -1,9 +1,11 @@
-import { createUser } from "./createUser";
-import { deleteuserById } from "./deleteuserById";
-import { getUserById } from "./getUserById";
-import { getUser } from "./getUser";
-import { updateUserById } from "./updateUserById";
-import { checkDupe } from "./checkDupe";
+import {
+  createUser,
+  updateUserById,
+  deleteuserById,
+  getUserById,
+  getUser,
+} from "./CRUD/index";
+import { signup, login } from "./auth/index";
 
 export default {
   createUser,
@@ -11,5 +13,6 @@ export default {
   getUser,
   getUserById,
   updateUserById,
-  checkDupe,
+  signup,
+  login,
 };

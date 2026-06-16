@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { User, UserError } from "@/types/user";
-import { EditUserById } from "@/services/mongo/patchUserbyId";
-import { UserById } from "@/services/mongo/fetchUserbyId";
-import { checkDupe } from "@/services/mongo/checkDupe";
-// import { UsersList } from "@/services/mongo/fetchUsers";
+import { EditUserById } from "@/services/CRUD/patchUserbyId";
+import { UserById } from "@/services/CRUD/fetchUserbyId";
+// import { checkDupe } from "@/services/mongo/checkDupe";
 
 export default function UseEditInfo() {
   const navigate = useNavigate();
@@ -90,30 +89,29 @@ export default function UseEditInfo() {
     return hasInput;
   };
 
-  const isDupe = async () => {
-    const { user } = await checkDupe(form);
-    let dupe = false;
-    if (user.email === form.email && user.email !== userbyid.email) {
-      updateErrForm("email", "Email already exists");
-      dupe = true;
-    }
-    if (
-      user.username === form.username &&
-      user.username !== userbyid.username
-    ) {
-      updateErrForm("username", "Username already exists");
-      dupe = true;
-    }
-    return dupe;
-  };
+  // const isDupe = async () => {
+  //   const { user } = await checkDupe(form);
+  //   let dupe = false;
+  //   if (user.email === form.email && user.email !== userbyid.email) {
+  //     updateErrForm("email", "Email already exists");
+  //     dupe = true;
+  //   }
+  //   if (
+  //     user.username === form.username &&
+  //     user.username !== userbyid.username
+  //   ) {
+  //     updateErrForm("username", "Username already exists");
+  //     dupe = true;
+  //   }
+  //   return dupe;
+  // };
 
   const handleSave = async () => {
     setError({});
     if (!Input()) return;
-
     if (!ValidateEmail(form.email)) return;
     if (!ValidateWebsite(form.website)) return;
-    if (await isDupe()) return;
+    // if (await isDupe()) return;
     editUser(form, {
       onSuccess: () => {
         navigate(`/info/${id}`);

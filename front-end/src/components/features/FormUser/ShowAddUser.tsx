@@ -41,7 +41,6 @@ export default function FormUser() {
               />
             </Grid>
             <Grid size={size}></Grid>
-
             {/* Row2 */}
             <Grid size={size}>
               <FormUserBox
@@ -64,14 +63,14 @@ export default function FormUser() {
             <Grid size={size}>
               <FormUserBox
                 label="Street: "
-                value={form.address.street}
+                value={form.address?.street}
                 onChange={(e) => updateAddressField("street", e.target.value)}
               />
             </Grid>
             <Grid size={size}>
               <FormUserBox
                 label="Suite: "
-                value={form.address.suite}
+                value={form.address?.suite}
                 onChange={(e) => updateAddressField("suite", e.target.value)}
               />
             </Grid>
@@ -80,14 +79,14 @@ export default function FormUser() {
             <Grid size={size}>
               <FormUserBox
                 label="City: "
-                value={form.address.city}
+                value={form.address?.city}
                 onChange={(e) => updateAddressField("city", e.target.value)}
               />
             </Grid>
             <Grid size={size}>
               <FormUserBox
                 label="Zip code: "
-                value={form.address.zipcode}
+                value={form.address?.zipcode}
                 onChange={(e) => updateAddressField("zipcode", e.target.value)}
               />
             </Grid>
@@ -113,7 +112,7 @@ export default function FormUser() {
             <Grid size={size}>
               <FormUserBox
                 label="Company: "
-                value={form.company.name}
+                value={form.company?.name}
                 onChange={(e) => updateCompanyField("name", e.target.value)}
               />
             </Grid>

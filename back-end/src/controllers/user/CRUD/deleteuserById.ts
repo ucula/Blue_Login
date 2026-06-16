@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import service from "../../services/user/index";
+import service from "../../../services/user/index";
 
 export async function deleteuserById(req: Request, res: Response) {
   try {

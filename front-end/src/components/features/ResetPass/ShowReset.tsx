@@ -1,6 +1,6 @@
 import { Box, Stack, Button, TextField, Typography } from "@mui/material";
-import UseSignup from "./UseSignup";
-export default function ShowSignup() {
+import UseReset from "./UseReset";
+export default function ShowReset() {
   const {
     insPass,
     errForm,
@@ -9,7 +9,7 @@ export default function ShowSignup() {
     updateForm,
     handleNext,
     handleSignup,
-  } = UseSignup();
+  } = UseReset();
   return (
     <Box
       sx={{ alignContent: "center", justifyItems: "center", height: "700px" }}
