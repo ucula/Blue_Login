@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import service from "../../../services/user/index";
-import { HttpResponseCode, ApiResponse } from "../../../types/httpResponseCode";
+import service from "@/services/user/index";
+import { HttpResponseCode, ApiResponse } from "@/types/httpResponseCode";
 
 export async function resetPass(
   req: Request,

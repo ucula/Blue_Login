@@ -1,9 +1,9 @@
-import repo from "../../../repositories/user/index";
-import { User } from "../../../types/user";
+import repo from "@/repositories/user/index";
+import { User } from "@/types/user";
 import bcrypt from "bcryptjs";
-import { AppError } from "../../../utils/error";
-import { AppSuccess } from "../../../utils/succes";
-import { HttpResponseCode } from "../../../types/httpResponseCode";
+import { AppError } from "@/utils/error";
+import { AppSuccess } from "@/utils/succes";
+import { HttpResponseCode } from "@/types/httpResponseCode";
 
 export async function login(user: User) {
   try {

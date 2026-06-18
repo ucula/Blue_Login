@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import service from "../../../services/user/index";
+import service from "@/services/user/index";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../../config";
+import { JWT_SECRET } from "@/config";
 
 export async function login(req: Request, res: Response) {
   try {

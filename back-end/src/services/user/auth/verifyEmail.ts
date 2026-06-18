@@ -1,7 +1,7 @@
-import repo from "../../../repositories/user/index";
-import { HttpResponseCode } from "../../../types/httpResponseCode";
-import { AppError } from "../../../utils/error";
-import { AppSuccess } from "../../../utils/succes";
+import repo from "@/repositories/user/index";
+import { HttpResponseCode } from "@/types/httpResponseCode";
+import { AppError } from "@/utils/error";
+import { AppSuccess } from "@/utils/succes";
 
 export async function verifyEmail(email: string, type: string) {
   const data = await repo.findOne({ email });

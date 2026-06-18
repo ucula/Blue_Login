@@ -1,10 +1,10 @@
-import { SALT_ROUNDS } from "../../../config";
-import repo from "../../../repositories/user/index";
-import { User } from "../../../types/user";
+import { SALT_ROUNDS } from "@/config";
+import repo from "@/repositories/user/index";
+import { User } from "@/types/user";
 import bcrypt from "bcryptjs";
-import { AppError } from "../../../utils/error";
-import { AppSuccess } from "../../../utils/succes";
-import { HttpResponseCode } from "../../../types/httpResponseCode";
+import { AppError } from "@/utils/error";
+import { AppSuccess } from "@/utils/succes";
+import { HttpResponseCode } from "@/types/httpResponseCode";
 
 export async function signup(user: User) {
   user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);

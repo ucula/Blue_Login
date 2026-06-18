@@ -3,7 +3,7 @@ import { JWT_SECRET } from "../config/index";
 import jwt from "jsonwebtoken";
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
-  if (!Bun.env.JWT_SECRET) {
+  if (!JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined in env");
   }
 

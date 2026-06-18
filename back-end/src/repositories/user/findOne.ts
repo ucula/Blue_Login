@@ -1,6 +1,4 @@
-import myData from "../../externals/userModel";
-import type { User } from "../../types/user";
-import { AppError } from "../../utils/error";
+import myData from "@/externals/userModel";
 
 export async function findOne(payload: any) {
   return await myData.findOne({

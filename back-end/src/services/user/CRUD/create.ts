@@ -1,8 +1,8 @@
-import { SALT_ROUNDS } from "../../../config";
-import repo from "../../../repositories/user/index";
+import { SALT_ROUNDS } from "@/config";
+import repo from "@/repositories/user/index";
 import bcrypt from "bcryptjs";
-import { AppError } from "../../../utils/error";
-import { AppSuccess } from "../../../utils/succes";
+import { AppError } from "@/utils/error";
+import { AppSuccess } from "@/utils/succes";
 
 export async function create(user: any) {
   const errors: Record<string, string> = {};
@@ -30,4 +30,3 @@ export async function create(user: any) {
     throw new AppError("Database Error", 500);
   }
 }
-

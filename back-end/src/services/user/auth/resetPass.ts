@@ -1,10 +1,10 @@
-import repo from "../../../repositories/user/index";
-import { User } from "../../../types/user";
+import repo from "@/repositories/user/index";
+import { User } from "@/types/user";
 import bcrypt from "bcryptjs";
-import { SALT_ROUNDS } from "../../../config";
-import { AppError } from "../../../utils/error";
-import { AppSuccess } from "../../../utils/succes";
-import { HttpResponseCode } from "../../../types/httpResponseCode";
+import { SALT_ROUNDS } from "@/config";
+import { AppError } from "@/utils/error";
+import { AppSuccess } from "@/utils/succes";
+import { HttpResponseCode } from "@/types/httpResponseCode";
 
 export async function resetPass(user: User) {
   const data = await repo.findOne(user);

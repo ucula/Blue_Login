@@ -1,6 +1,6 @@
-import myData from "../../externals/userModel";
-import { User } from "../../types/user";
-import { AppError } from "../../utils/error";
+import myData from "@/externals/userModel";
+import { User } from "@/types/user";
+import { AppError } from "@/utils/error";
 
 export async function updateOne(user: User) {
   const { email, pass } = user;

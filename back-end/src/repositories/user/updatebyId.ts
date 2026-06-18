@@ -1,4 +1,4 @@
-import myData from "../../externals/userModel";
+import myData from "@/externals/userModel";
 
 export async function updateById(id: string, updatedData: any) {
   return await myData.findByIdAndUpdate(
