@@ -20,5 +20,5 @@ export async function resetPass(user: User) {
 
   user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);
   await repo.updateOne(user);
-  return new AppSuccess(204);
+  return new AppSuccess(HttpResponseCode.NO_CONTENT);
 }
