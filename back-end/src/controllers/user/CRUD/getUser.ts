@@ -3,7 +3,7 @@ import service from "../../../services/user/index";
 
 export async function getUser(req: Request, res: Response) {
   try {
-    const allData = await service.list();
+    const allData = await service.CRUD.list();
     res.status(200).json(allData);
   } catch (error: any) {
     res

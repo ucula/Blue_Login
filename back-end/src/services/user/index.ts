@@ -1,14 +1,9 @@
-import { login, resetPass, signup, verifyEmail } from "./auth/index";
-import { create, del, get, list, update } from "./CRUD/index";
+import * as auth from "./auth/index";
+import * as CRUD from "./CRUD/index";
 
-export default {
-  create,
-  del,
-  get,
-  list,
-  update,
-  signup,
-  login,
-  resetPass,
-  verifyEmail,
+const service = {
+  auth,
+  CRUD,
 };
+
+export default service;

@@ -1,21 +1,9 @@
-import {
-  createUser,
-  updateUserById,
-  deleteuserById,
-  getUserById,
-  getUser,
-} from "./CRUD/index";
-import { signup, login, resetPass } from "./auth/index";
-import { verifyEmail } from "./auth/verifyEmail";
+import * as auth from "./auth/index";
+import * as CRUD from "./CRUD/index";
 
-export default {
-  createUser,
-  deleteuserById,
-  getUser,
-  getUserById,
-  updateUserById,
-  signup,
-  login,
-  resetPass,
-  verifyEmail,
+const controllers = {
+  auth,
+  CRUD,
 };
+
+export default controllers;

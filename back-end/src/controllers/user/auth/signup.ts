@@ -3,7 +3,7 @@ import service from "../../../services/user/index";
 
 export async function signup(req: Request, res: Response) {
   try {
-    await service.signup(req.body);
+    await service.auth.signup(req.body);
     res.status(204).send();
   } catch (error: any) {
     res.status(500).json({ message: error.message });

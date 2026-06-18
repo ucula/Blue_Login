@@ -5,9 +5,9 @@ import { JWT_SECRET } from "../../../config";
 
 export async function login(req: Request, res: Response) {
   try {
-    const dbUser = await service.login(req.body);
+    const dbUser = await service.auth.login(req.body);
     const token = jwt.sign({ Id: dbUser?._id }, JWT_SECRET, {
-      expiresIn: "3s",
+      expiresIn: "10m",
     });
     res.status(200).json({ token });
   } catch (error: any) {

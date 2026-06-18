@@ -4,7 +4,7 @@ import service from "../../../services/user/index";
 export async function getUserById(req: Request, res: Response) {
   try {
     const dataId = req.params.id as string;
-    const data = await service.get(dataId);
+    const data = await service.CRUD.get(dataId);
     res.status(200).json(data);
   } catch (error: any) {
     res

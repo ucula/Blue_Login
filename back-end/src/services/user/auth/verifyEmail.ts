@@ -4,7 +4,6 @@ import { AppSuccess } from "../../../utils/succes";
 
 export async function verifyEmail(email: string, type: string) {
   const data = await repo.findOne({ email });
-  console.log(data);
   if (type === "signup") {
     if (data) throw new AppError("User already exists", 400);
     return new AppSuccess(204);
