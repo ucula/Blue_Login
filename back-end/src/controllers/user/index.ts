@@ -5,7 +5,8 @@ import {
   getUserById,
   getUser,
 } from "./CRUD/index";
-import { signup, login } from "./auth/index";
+import { signup, login, resetPass } from "./auth/index";
+import { verifyEmail } from "./auth/verifyEmail";
 
 export default {
   createUser,
@@ -15,4 +16,6 @@ export default {
   updateUserById,
   signup,
   login,
+  resetPass,
+  verifyEmail,
 };

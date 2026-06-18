@@ -1,6 +1,6 @@
 import { Box, Stack, Button, TextField, Typography } from "@mui/material";
-import UseReset from "./UseReset";
-export default function ShowReset() {
+import useReset from "./useReset";
+export default function showReset() {
   const {
     insPass,
     errForm,
@@ -8,8 +8,8 @@ export default function ShowReset() {
     handleCancel,
     updateForm,
     handleNext,
-    handleSignup,
-  } = UseReset();
+    handleReset,
+  } = useReset();
   return (
     <Box
       sx={{ alignContent: "center", justifyItems: "center", height: "700px" }}
@@ -28,7 +28,7 @@ export default function ShowReset() {
             marginBottom: 6,
           }}
         >
-          <Typography variant="h5">Sign Up</Typography>
+          <Typography variant="h5">Reset Password</Typography>
         </Box>
         <Stack>
           {!insPass && (
@@ -37,7 +37,7 @@ export default function ShowReset() {
                 helperText={errForm.email}
                 error={!!errForm.email}
                 id="filled-basic"
-                label="Email"
+                label="Input your email"
                 variant="standard"
                 sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("email", e.target.value)}
@@ -60,16 +60,16 @@ export default function ShowReset() {
                 helperText={errForm.pass}
                 error={!!errForm.pass}
                 id="filled-basic"
-                label="Password"
+                label="Enter new password"
                 variant="standard"
                 sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("pass", e.target.value)}
               />
               <Button
                 sx={{ bgcolor: "rgba(255, 158, 133, 1)" }}
-                onClick={handleSignup}
+                onClick={handleReset}
               >
-                Signup
+                Update
               </Button>
               <Button sx={{ bgcolor: "#abdcffff" }} onClick={handleBack}>
                 Back

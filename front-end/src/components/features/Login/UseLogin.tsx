@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "@/types/user";
-import { loginHandler } from "@/services/auth/login";
+import service from "@/services";
 
-export default function LoginLogic() {
+export default function useLogin() {
   const navigate = useNavigate();
-  const { mutateAsync: login } = loginHandler();
   const [form, setForm] = useState<Partial<User>>({});
   const [errForm, setErrForm] = useState<Partial<User>>({});
 
@@ -15,10 +14,6 @@ export default function LoginLogic() {
 
   const updateErrForm = (label: string, value: string) => {
     setErrForm((prev) => ({ ...prev, [label]: value }));
-  };
-
-  const handleSignup = () => {
-    navigate("/signup");
   };
 
   const hasInput = (label: string) => {
@@ -49,30 +44,35 @@ export default function LoginLogic() {
     return true;
   };
 
+  const handleSignup = () => {
+    navigate("/signup");
+  };
+
   const handleLogin = async () => {
+    if (form.email === "admin") navigate("brief");
     setErrForm({});
-    if (form.email === "admin") {
-      navigate("/brief");
-    }
 
     if (!hasInput("email")) return;
     if (!correctFormat("email")) return;
     try {
-      await login({ email: form.email });
+      await service.auth.verifyEmail(form.email, "login");
     } catch (err: any) {
       updateErrForm("email", err.message);
       return;
     }
 
     if (!hasInput("pass")) return;
-
     try {
-      await login({ email: form.email, pass: form.pass });
+      await service.auth.logIn(form);
       navigate("/brief");
     } catch (err: any) {
       updateErrForm("pass", err.message);
+      return;
     }
   };
 
-  return { form, errForm, handleLogin, handleSignup, updateForm };
+  const handleforgot = () => {
+    navigate("/reset-pass");
+  };
+  return { form, errForm, handleLogin, handleSignup, handleforgot, updateForm };
 }

@@ -1,15 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
 import type { Address, Company } from "@/types/user";
-import { UserById } from "@/services/CRUD/fetchUserbyId";
-import { DelUserById } from "@/services/CRUD/deleteUserById";
+import service from "@/services";
 import { useState } from "react";
 
-export default function UserAllInfoLogic() {
+export default function useAllInfo() {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [del, setDel] = useState<boolean>(false);
-  const { id } = useParams<{ id: string }>();
-  const { data: user } = UserById(String(id));
-  const { mutate: deleteUser } = DelUserById();
+
+  const { data: user } = service.CRUD.fetchUserById(String(id));
+  const { mutate: deleteUser } = service.CRUD.delUserById(String(id));
 
   const handledialogue = () => {
     setDel(!del);

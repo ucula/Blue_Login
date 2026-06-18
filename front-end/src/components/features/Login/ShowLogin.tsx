@@ -1,16 +1,9 @@
-import {
-  Box,
-  Stack,
-  Button,
-  TextField,
-  Typography,
-  InputAdornment,
-  Link,
-} from "@mui/material";
-import LoginLogic from "./UseLogin";
+import { Box, Stack, Button, TextField, Typography, Link } from "@mui/material";
+import useLogin from "./useLogin";
 
-export default function ShowLogin() {
-  const { errForm, handleLogin, handleSignup, updateForm } = LoginLogic();
+export default function showLogin() {
+  const { errForm, handleLogin, handleSignup, handleforgot, updateForm } =
+    useLogin();
   return (
     <Box
       sx={{ alignContent: "center", justifyItems: "center", height: "700px" }}
@@ -50,7 +43,12 @@ export default function ShowLogin() {
             onChange={(e) => updateForm("pass", e.target.value)}
           />
 
-          <Link component="button" underline="hover" sx={{ marginBottom: 5 }}>
+          <Link
+            component="button"
+            underline="hover"
+            sx={{ marginBottom: 5 }}
+            onClick={handleforgot}
+          >
             <Typography sx={{ justifySelf: "end", fontSize: "20px" }}>
               Forgot password?
             </Typography>

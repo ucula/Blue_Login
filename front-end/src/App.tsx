@@ -1,12 +1,13 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CreateUser from "./pages/CreateUser";
-import ShowAllInfo from "./pages/ShowAllInfo";
-import ShowBriefInfo from "./pages/ShowBriefInfo";
-import EditUser from "./pages/EditUser";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ResetPass from "./pages/ResetPass";
+import AllInfo from "./pages/allInfo";
+import EditUser from "./pages/editUser";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
+import ResetPass from "./pages/resetPass";
+import Home from "./pages/home";
+import AddUser from "./pages/addUser";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
@@ -15,10 +16,13 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/reset-pass" element={<ResetPass />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/brief" element={<ShowBriefInfo />} />
-        <Route path="/info/:id" element={<ShowAllInfo />} />
-        <Route path="/add" element={<CreateUser />} />
-        <Route path="/edit/:id" element={<EditUser />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/brief" element={<Home />} />
+          <Route path="/info/:id" element={<AllInfo />} />
+          <Route path="/add" element={<AddUser />} />
+          <Route path="/edit/:id" element={<EditUser />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -1,8 +1,8 @@
 import { Box, Grid, Stack, CircularProgress, Typography } from "@mui/material";
 import Header from "@/components/common/BaseComponents/Header/Header";
-import FormUserBox from "@/components/features/FormUser/FormUserComponents/AddInput";
+import FormUserBox from "@/components/features/addUser/addUserComponents/AddInput";
 import FootButton from "@/components/common/BaseComponents/FootButton/FootButton";
-import UseEditInfo from "./UseEditinfo";
+import useEditInfo from "./useEditinfo";
 
 export default function ShowEditInfo() {
   const {
@@ -14,7 +14,7 @@ export default function ShowEditInfo() {
     updateCompanyField,
     handleSave,
     handleCancel,
-  } = UseEditInfo();
+  } = useEditInfo();
 
   const size = 5;
   return loading ? (

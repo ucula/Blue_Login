@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "@/types/user";
-import { UsersList } from "@/services/CRUD/fetchUsers";
+import service from "@/services";
 
-export default function UserBriefInfoLogic() {
+export function useHome() {
   const navigate = useNavigate();
-  const { data: users, isLoading } = UsersList();
+  const { data: users, isLoading } = service.CRUD.fetchUsers();
   const [filterText, setFilterText] = useState("");
 
   const handleBack = () => {
@@ -20,7 +20,6 @@ export default function UserBriefInfoLogic() {
     navigate(`/info/${id}`);
   };
 
-  // filter for search box
   const filteredUsers = (): User[] => {
     const query = filterText.trim().toLowerCase();
     if (!query) return users || [];

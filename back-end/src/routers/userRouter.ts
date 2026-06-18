@@ -1,15 +1,21 @@
 import express from "express";
 import userControllers from "../controllers/user/index";
+import { requireAuth } from "../middleware/auth";
 
-const router = express.Router();
+const app = express.Router();
 
-router.get("/user", userControllers.getUser);
-router.get("/user/:id", userControllers.getUserById);
-router.post("/user", userControllers.createUser);
-router.patch("/user/:id", userControllers.updateUserById);
-router.delete("/user/:id", userControllers.deleteuserById);
+// Public auth routes
+app.post("/user/signup", userControllers.signup);
+app.post("/user/login", userControllers.login);
+app.post("/user/verify-email", userControllers.verifyEmail);
+app.patch("/user/reset-pass", userControllers.resetPass);
 
-router.post("/user/signup", userControllers.signup);
-router.post("/user/login", userControllers.login);
+// Protected routes
+app.get("/user", requireAuth, userControllers.getUser);
+app.get("/user/:id", requireAuth, userControllers.getUserById);
+app.post("/user", requireAuth, userControllers.createUser);
+app.patch("/user/:id", requireAuth, userControllers.updateUserById);
+app.delete("/user/:id", requireAuth, userControllers.deleteuserById);
 
-export default router;
+export default app;
+

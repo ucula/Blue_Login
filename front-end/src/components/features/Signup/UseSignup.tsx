@@ -1,13 +1,12 @@
-import { signUpHandler } from "@/services/auth/signup";
-import type { User } from "@/types/user";
+import type { User, UserError } from "@/types/user";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import service from "@/services";
 
-export default function UseSignup() {
-  const { mutate: signup } = signUpHandler();
+export default function useSignup() {
   const [insPass, setInsPass] = useState<boolean>(false);
   const [form, setForm] = useState<Partial<User>>({});
-  const [errForm, setErrForm] = useState<Partial<User>>({});
+  const [errForm, setErrForm] = useState<Partial<UserError>>({});
   const navigate = useNavigate();
 
   const updateForm = (label: string, value: string) => {
@@ -24,67 +23,64 @@ export default function UseSignup() {
 
   const handleBack = () => {
     setInsPass(false);
+    setForm({});
   };
 
-  const hasInput = (label: string) => {
-    if (label === "email") {
-      if (!form.email || form.email.trim() === "") {
-        updateErrForm("email", "No Input");
-        return false;
-      }
-    } else if (label === "pass") {
-      if (!form.pass || form.pass.trim() === "") {
-        updateErrForm("pass", "No Input");
-        return false;
-      }
+  const hasInput = (input: string) => {
+    if (!input || input.trim() === "") {
+      return false;
     }
     return true;
   };
 
   const correctFormat = (label: string) => {
     if (label === "email") {
-      const isEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
         form.email.trim(),
       );
-      if (!isEmail) {
-        updateErrForm("email", "Wrong Format");
-        return false;
-      }
-    } else if (label === "pass") {
-      if (form.pass.length < 8) {
-        updateErrForm("pass", "Password must be longer than 8 chars");
-        return false;
-      }
+    } else if (label === "pass") return form.pass.length >= 8;
+  };
+
+  const handleNext = async () => {
+    setErrForm({});
+    if (!hasInput(form.email)) {
+      updateErrForm("email", "No Input");
+      return;
     }
-    return true;
+
+    if (!correctFormat("email")) {
+      updateErrForm("email", "Incorrect Email Format");
+      return;
+    }
+
+    try {
+      await service.auth.verifyEmail(form.email, "signup");
+      setInsPass(true);
+    } catch (err: any) {
+      updateErrForm("email", err.message);
+      return;
+    }
   };
 
-  const handleNext = () => {
+  const handleSignup = async () => {
     setErrForm({});
-    if (!hasInput("email")) return;
-    if (!correctFormat("email")) return;
+    if (!hasInput(form.pass)) {
+      updateErrForm("pass", "No Input");
+      return;
+    }
 
-    signup(form, {
-      onSuccess: () => {
-        setInsPass(true);
-      },
-      onError: (err: any) => {
-        updateErrForm("email", err.message);
-        return;
-      },
-    });
-  };
+    if (!correctFormat("pass")) {
+      updateErrForm("pass", "Password must be longer than 8 characters");
+      return;
+    }
 
-  const handleSignup = () => {
-    setErrForm({});
-    if (!hasInput("pass")) return;
-    if (!correctFormat("pass")) return;
-
-    signup(form, {
-      onSuccess: () => {
-        navigate("/");
-      },
-    });
+    try {
+      await service.auth.signUp(form);
+      navigate("/");
+    } catch (err: any) {
+      updateErrForm("pass", err.message);
+      return;
+    }
   };
 
   return {

@@ -1,12 +1,13 @@
-import type { User } from "@/types/user";
+import service from "@/services";
+import type { User, UserError } from "@/types/user";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function UseReset() {
-  const { mutate: reset } = resetHandler();
+export default function useReset() {
+  const { mutate: reset } = service.auth.resetHandler();
   const [insPass, setInsPass] = useState<boolean>(false);
   const [form, setForm] = useState<Partial<User>>({});
-  const [errForm, setErrForm] = useState<Partial<User>>({});
+  const [errForm, setErrForm] = useState<Partial<UserError>>({});
   const navigate = useNavigate();
 
   const updateForm = (label: string, value: string) => {
@@ -17,64 +18,36 @@ export default function UseReset() {
     setErrForm((prev) => ({ ...prev, [label]: value }));
   };
 
-  const handleCancel = () => {
-    navigate("/");
-  };
-
-  const handleBack = () => {
-    setInsPass(false);
-  };
-
-  const hasInput = (label: string) => {
-    if (label === "email") {
-      if (!form.email || form.email.trim() === "") {
-        updateErrForm("email", "No Input");
-        return false;
-      }
-    } else if (label === "pass") {
-      if (!form.pass || form.pass.trim() === "") {
-        updateErrForm("pass", "No Input");
-        return false;
-      }
+  const hasInput = (input: string) => {
+    if (!input || input.trim() === "") {
+      return false;
     }
     return true;
   };
 
   const correctFormat = (label: string) => {
     if (label === "email") {
-      const isEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
         form.email.trim(),
       );
-      if (!isEmail) {
-        updateErrForm("email", "Wrong Format");
-        return false;
-      }
-    } else if (label === "pass") {
-      if (form.pass.length < 8) {
-        updateErrForm("pass", "Password must be longer than 8 chars");
-        return false;
-      }
-    }
-    return true;
+    } else if (label === "pass") return form.pass.length >= 8;
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setErrForm({});
     if (!hasInput("email")) return;
     if (!correctFormat("email")) return;
 
-    reset(form, {
-      onSuccess: () => {
-        setInsPass(true);
-      },
-      onError: (err: any) => {
-        updateErrForm("email", err.message);
-        return;
-      },
-    });
+    try {
+      await service.auth.verifyEmail(form.email, "login");
+      setInsPass(true);
+    } catch (err: any) {
+      updateErrForm("email", err.message);
+      return;
+    }
   };
 
-  const handleSignup = () => {
+  const handleReset = () => {
     setErrForm({});
     if (!hasInput("pass")) return;
     if (!correctFormat("pass")) return;
@@ -83,7 +56,20 @@ export default function UseReset() {
       onSuccess: () => {
         navigate("/");
       },
+      onError: (err: any) => {
+        updateErrForm("pass", err.message);
+        return;
+      },
     });
+  };
+
+  const handleCancel = () => {
+    navigate("/");
+  };
+
+  const handleBack = () => {
+    setInsPass(false);
+    setForm({});
   };
 
   return {
@@ -92,7 +78,7 @@ export default function UseReset() {
     handleCancel,
     handleNext,
     updateForm,
-    handleSignup,
+    handleReset,
     handleBack,
   };
 }

@@ -1,10 +1,10 @@
 import { Box, Grid, Stack } from "@mui/material";
 import Header from "@/components/common/BaseComponents/Header/Header";
-import FormUserLogic from "./UseAddUser";
-import FormUserBox from "./FormUserComponents/AddInput";
+import FormUserBox from "./addUserComponents/AddInput";
 import FootButton from "@/components/common/BaseComponents/FootButton/FootButton";
+import useAddUser from "./useAddUser";
 
-export default function FormUser() {
+export default function showAddUser() {
   const {
     error,
     form,
@@ -13,7 +13,7 @@ export default function FormUser() {
     updateCompanyField,
     handleSave,
     handleHome,
-  } = FormUserLogic();
+  } = useAddUser();
 
   const size = 5;
 

@@ -1,22 +1,22 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import UserBriefInfoLogic from "./UseBriefInfo";
-import BriefInfoBox from "./UserBriefInfoComponents/BriefInfoBox";
+import BriefInfoBox from "./homeComponents/BriefInfoBox";
 import LoadingTemp from "@/components/common/Skeleton/LoadingTemp";
 import type { User } from "@/types/user";
 import { Box, Grid, Stack } from "@mui/material";
 import Header from "@/components/common/BaseComponents/Header/Header";
+import { useHome } from "./useHome";
 
-export default function UserBriefInfo() {
+export default function showHome() {
   const {
     users,
+    filterText,
     handleAdd,
     handleInfo,
     handleBack,
-    filterText,
     setFilterText,
     filteredUsers,
-  } = UserBriefInfoLogic();
+  } = useHome();
   return (
     <Box>
       <Header label="Brief Users" handlenavigate={handleBack} />

@@ -1,20 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 
-export function DelUserById() {
-  // const queryClient = useQueryClient();
-  const { id } = useParams<{ id: string }>();
+export function delUserById(id: string) {
   return useMutation({
     mutationFn: async () => {
       const response = await fetch(`http://localhost:5001/api/user/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message);
       }
 
       return response.json();

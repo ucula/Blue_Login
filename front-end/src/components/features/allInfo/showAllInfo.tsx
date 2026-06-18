@@ -1,4 +1,3 @@
-import UserAllInfoLogic from "./UseShowAllInfo";
 import LoadingTemp from "@/components/common/Skeleton/LoadingTemp";
 import { Box, Grid } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -9,11 +8,12 @@ import LanguageIcon from "@mui/icons-material/Language";
 import BusinessIcon from "@mui/icons-material/Business";
 import FaceIcon from "@mui/icons-material/Face";
 import ShowHeader from "@/components/common/BaseComponents/Header/Header";
-import GridBox from "./UserAllInfoComponents/GridBlock";
 import FootButton from "@/components/common/BaseComponents/FootButton/FootButton";
 import ModalAlert from "@/components/common/BaseComponents/ModalAlert/ModalAlert";
+import GridBox from "./allInfoComponents/GridBlock";
+import useAllInfo from "./useAllInfo";
 
-export default function UserAllInfo() {
+export default function showAllInfo() {
   const {
     user,
     del,
@@ -23,7 +23,7 @@ export default function UserAllInfo() {
     handleDelete,
     showAddress,
     showCompanyName,
-  } = UserAllInfoLogic();
+  } = useAllInfo();
   const { username, name, email, address, phone, website, company } =
     user || {};
 

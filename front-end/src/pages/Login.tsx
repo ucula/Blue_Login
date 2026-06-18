@@ -1,5 +1,5 @@
-import ShowLogin from "../components/features/Login/ShowLogin";
+import Page from "../components/features/login/showLogin";
 
 export default function Login() {
-  return <ShowLogin />;
+  return <Page />;
 }

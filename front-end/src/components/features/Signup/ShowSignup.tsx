@@ -1,5 +1,5 @@
 import { Box, Stack, Button, TextField, Typography } from "@mui/material";
-import UseSignup from "./UseSignup";
+import useSignup from "./useSignup";
 export default function ShowSignup() {
   const {
     insPass,
@@ -9,7 +9,7 @@ export default function ShowSignup() {
     updateForm,
     handleNext,
     handleSignup,
-  } = UseSignup();
+  } = useSignup();
   return (
     <Box
       sx={{ alignContent: "center", justifyItems: "center", height: "700px" }}

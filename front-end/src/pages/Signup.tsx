@@ -1,5 +1,5 @@
-import ShowSignup from "@/components/features/Signup/ShowSignup";
+import Page from "@/components/features/signup/showSignup";
 
 export default function Signup() {
-  return <ShowSignup />;
+  return <Page />;
 }
