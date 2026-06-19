@@ -3,11 +3,10 @@ import service from "@/services/user/index";
 
 export async function updateUserById(req: Request, res: Response) {
   try {
-    const id = req.params.id as string;
-    const { updatedData } = req.body;
-    const edited_user = await service.CRUD.update(id, updatedData);
-    res.status(200).json(edited_user);
+    const { id, updatedData } = req.body;
+    const response = await service.CRUD.update(id, updatedData);
+    res.status(response.code).json(response.data);
   } catch (error: any) {
-    res.status(500).json({ message: "Update failed", error: error.message });
+    res.status(error.code).json({ message: error.message });
   }
 }

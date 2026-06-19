@@ -39,17 +39,17 @@ export default function useEditInfo() {
     setError((prev) => ({ ...prev, [key]: value.trim() }));
   };
 
-  const hasInput = (fields: Partial<User>) => {
-    let isValid = true;
-    for (const key in fields) {
-      const typekey = key as keyof UserError;
-      const input = fields[typekey];
-      if (!input || input.trim() === "") {
-        updateErrForm(typekey, "Missing Input");
-        isValid = false;
+  const hasInput = (form: Partial<User>) => {
+    const err: Partial<UserError> = {};
+    const fieldsToCheck: (keyof User)[] = ["username", "name", "email"];
+
+    for (const key of fieldsToCheck) {
+      if (!form[key] || String(form[key]).trim() === "") {
+        err[key as keyof UserError] = "No input";
       }
     }
-    return isValid;
+
+    if (err) return;
   };
 
   const correctFormat = (label: string) => {
@@ -67,11 +67,13 @@ export default function useEditInfo() {
   };
 
   const handleSave = async () => {
+    let err: any;
     setError({});
-    if (
-      !hasInput({ name: form.name, username: form.username, email: form.email })
-    )
-      return;
+
+    err = hasInput(form);
+    if (err) {
+      setError(err);
+    }
     if (!correctFormat("email")) {
       updateErrForm("email", "Wrong Email Format");
       return;

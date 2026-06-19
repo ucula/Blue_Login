@@ -1,10 +1,10 @@
-export async function verifyEmail(email: string, type: string) {
-  const response = await fetch("http://localhost:5001/api/user/verify-email", {
+export async function verifyValue(key: string, value: string) {
+  const response = await fetch("http://localhost:5001/api/user/verify", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email: email, type: type }),
+    body: JSON.stringify({ key: key, value: value }),
   });
 
   if (!response.ok) {

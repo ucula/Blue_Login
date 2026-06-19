@@ -7,8 +7,8 @@ export async function resetPass(
   res: Response<ApiResponse<HttpResponseCode>>,
 ) {
   try {
-    await service.auth.resetPass(req.body);
-    res.status(204).send();
+    const response = await service.auth.resetPass(req.body);
+    res.status(response.code).send();
   } catch (error: any) {
     res.status(error.code).json({ message: error.message });
   }

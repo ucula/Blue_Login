@@ -3,21 +3,28 @@ import repo from "@/repositories/user/index";
 import bcrypt from "bcryptjs";
 import { AppError } from "@/utils/error";
 import { AppSuccess } from "@/utils/succes";
+import { User } from "@/types/user";
+import { HttpResponseCode } from "@/types/httpResponseCode";
 
-export async function create(user: any) {
-  const errors: Record<string, string> = {};
+type error = {
+  username?: string;
+  email?: string;
+};
+export async function create(user: User) {
+  let data;
+  let error: Partial<error> = {};
+  data = await repo.findOne("username", user.username);
+  if (data) error.username = "Username already exists";
 
-  const byUsername = await repo.findOne({ username: user.username });
-  if (byUsername) errors.username = "Username already exists";
+  data = await repo.findOne("email", user.email);
+  if (data) error.email = "Email already exists";
 
-  const byEmail = await repo.findOne({ email: user.email });
-  if (byEmail) errors.email = "Email already exists";
-
-  if (Object.keys(errors).length > 0) {
-    const err = new AppError("Validation failed", 400);
-    (err as any).errors = errors;
-    throw err;
-  }
+  if (error)
+    throw new AppError(
+      HttpResponseCode.BAD_REQUEST,
+      "Validation failed",
+      error,
+    );
 
   if (!user.pass) {
     user.pass = "1234567890";
@@ -27,6 +34,9 @@ export async function create(user: any) {
     await repo.create(user);
     return new AppSuccess(201);
   } catch (err: any) {
-    throw new AppError("Database Error", 500);
+    throw new AppError(
+      HttpResponseCode.INTERNAL_SERVER_ERROR,
+      "Database Error",
+    );
   }
 }

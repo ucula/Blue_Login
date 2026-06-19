@@ -21,7 +21,7 @@ export default function App() {
           <Route path="/brief" element={<Home />} />
           <Route path="/info/:id" element={<AllInfo />} />
           <Route path="/add" element={<AddUser />} />
-          <Route path="/edit/:id" element={<EditUser />} />
+          <Route path="/info/:id/edit" element={<EditUser />} />
         </Route>
       </Routes>
     </BrowserRouter>

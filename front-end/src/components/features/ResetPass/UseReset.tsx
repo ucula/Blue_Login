@@ -1,12 +1,13 @@
 import service from "@/services";
-import type { User, UserError } from "@/types/user";
+import type { Auth } from "@/types/auth";
+import type { UserError } from "@/types/user";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function useReset() {
   const { mutate: reset } = service.auth.resetHandler();
   const [insPass, setInsPass] = useState<boolean>(false);
-  const [form, setForm] = useState<Partial<User>>({});
+  const [form, setForm] = useState<Partial<Auth>>({});
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
   const navigate = useNavigate();
 
@@ -18,33 +19,39 @@ export default function useReset() {
     setErrForm((prev) => ({ ...prev, [label]: value }));
   };
 
-  const hasInput = (input: string) => {
-    if (!input || input.trim() === "") {
-      return false;
-    }
+  const hasInput = (key: keyof Auth) => {
+    if (!form[key] || form[key] === "") return false;
     return true;
   };
 
-  const correctFormat = (label: string) => {
-    if (label === "email") {
-      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        form.email.trim(),
-      );
-    } else if (label === "pass") return form.pass.length >= 8;
+  const correctFormat = (key: keyof Auth) => {
+    if (!form[key]) return false;
+    if (key === "email")
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form[key]);
+    if (key === "pass") return !(form[key].length < 8);
+  };
+
+  const hasUser = async (key: keyof Auth) => {
+    if (!form[key]) return "Missing Email";
+    try {
+      await service.auth.verifyValue(key, form[key]);
+    } catch (err: any) {
+      return err.message;
+    }
   };
 
   const handleNext = async () => {
+    let err;
     setErrForm({});
     if (!hasInput("email")) return;
     if (!correctFormat("email")) return;
 
-    try {
-      await service.auth.verifyEmail(form.email, "login");
-      setInsPass(true);
-    } catch (err: any) {
-      updateErrForm("email", err.message);
+    err = await hasUser("email");
+    if (err) {
+      updateErrForm("email", err);
       return;
     }
+    setInsPass(true);
   };
 
   const handleReset = () => {

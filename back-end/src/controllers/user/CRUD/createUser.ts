@@ -6,8 +6,6 @@ export async function createUser(req: Request, res: Response) {
     const response = await service.CRUD.create(req.body);
     res.status(response.code).send();
   } catch (error: any) {
-    res
-      .status(error.code || 500)
-      .json({ message: error.message, errors: error.errors });
+    res.status(error.code).json({ message: error.message });
   }
 }

@@ -13,8 +13,8 @@ export async function signup(user: User) {
     return new AppSuccess(HttpResponseCode.CREATED);
   } catch (err: any) {
     throw new AppError(
-      "Database Error",
       HttpResponseCode.INTERNAL_SERVER_ERROR,
+      "Database Error",
     );
   }
 }

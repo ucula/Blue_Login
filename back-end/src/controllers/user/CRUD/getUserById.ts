@@ -3,12 +3,10 @@ import service from "@/services/user/index";
 
 export async function getUserById(req: Request, res: Response) {
   try {
-    const dataId = req.params.id as string;
-    const data = await service.CRUD.get(dataId);
-    res.status(200).json(data);
+    const { id } = req.body;
+    const response = await service.CRUD.get(id);
+    res.status(response.code).json(response.data);
   } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: "Database read failure", error: error.message });
+    res.status(error.code).json({ message: error.message });
   }
 }

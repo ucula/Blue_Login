@@ -3,11 +3,9 @@ import service from "@/services/user/index";
 
 export async function getUser(req: Request, res: Response) {
   try {
-    const allData = await service.CRUD.list();
-    res.status(200).json(allData);
+    const response = await service.CRUD.list();
+    res.status(response.code).json(response.data);
   } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: "Database read failure", error: error.message });
+    res.status(error.code).json({ message: error.message });
   }
 }

@@ -1,47 +1,48 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { User } from "@/types/user";
+import type { UserError } from "@/types/user";
 import service from "@/services";
+import type { Auth } from "@/types/auth";
 
 export default function useLogin() {
   const navigate = useNavigate();
-  const [form, setForm] = useState<Partial<User>>({});
-  const [errForm, setErrForm] = useState<Partial<User>>({});
+  const [form, setForm] = useState<Partial<Auth>>({});
+  const [errForm, setErrForm] = useState<Partial<UserError>>({});
 
   const updateForm = (label: string, value: string) => {
-    setForm((prev) => ({ ...prev, [label]: value }));
+    setForm((prev) => ({ ...prev, [label]: value.trim() }));
   };
 
   const updateErrForm = (label: string, value: string) => {
-    setErrForm((prev) => ({ ...prev, [label]: value }));
+    setErrForm((prev) => ({ ...prev, [label]: value.trim() }));
   };
 
-  const hasInput = (label: string) => {
-    if (label === "email") {
-      if (!form.email || form.email.trim() === "") {
-        updateErrForm("email", "No Input");
-        return false;
-      }
-    } else if (label === "pass") {
-      if (!form.pass || form.pass.trim() === "") {
-        updateErrForm("pass", "No Input");
-        return false;
-      }
-    }
+  const hasInput = (key: keyof Auth) => {
+    if (!form[key] || form[key] === "") return false;
     return true;
   };
 
-  const correctFormat = (label: string) => {
-    if (label === "email") {
-      const isEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        form.email.trim(),
-      );
-      if (!isEmail) {
-        updateErrForm("email", "Wrong Format");
-        return false;
-      }
+  const correctFormat = (key: keyof Auth) => {
+    if (!form[key]) return false;
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form[key]);
+  };
+
+  const hasUser = async (key: keyof Auth) => {
+    if (!form[key]) return "Missing Email";
+    try {
+      await service.auth.verifyValue(key, form[key]);
+    } catch (err: any) {
+      return err.message;
     }
-    return true;
+  };
+
+  const logIn = async (form: Auth) => {
+    if (!form) return "";
+    try {
+      await service.auth.logIn(form);
+    } catch (err: any) {
+      return err.message;
+    }
   };
 
   const handleSignup = () => {
@@ -49,23 +50,25 @@ export default function useLogin() {
   };
 
   const handleLogin = async () => {
-    if (form.email === "admin") navigate("brief");
+    let err;
     setErrForm({});
-
-    if (!hasInput("email")) return;
-    if (!correctFormat("email")) return;
-    try {
-      await service.auth.verifyEmail(form.email, "login");
-    } catch (err: any) {
-      updateErrForm("email", err.message);
+    if (!hasInput("email")) {
+      updateErrForm("email", "No Input");
+      return;
+    }
+    if (!correctFormat("email")) {
+      updateErrForm("email", "Wrong Email Format");
+      return;
+    }
+    err = await hasUser("email");
+    if (err) {
+      updateErrForm("email", err);
       return;
     }
 
     if (!hasInput("pass")) return;
-    try {
-      await service.auth.logIn(form);
-      navigate("/brief");
-    } catch (err: any) {
+    err = await logIn(form);
+    if (err) {
       updateErrForm("pass", err.message);
       return;
     }
