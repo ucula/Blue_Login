@@ -1,7 +1,14 @@
 import { Box, Stack, Button, TextField, Typography } from "@mui/material";
-import useSignup from "./useSignup";
-export default function ShowSignup() {
-  const { errForm, handleCancel, updateForm, handleSignup } = useSignup();
+import useSignup from "./useMain";
+export default function showMain() {
+  const {
+    errForm,
+    handleCancel,
+    updateForm,
+    updateAddressField,
+    updateCompanyField,
+    handleSignup,
+  } = useSignup();
   return (
     <Box
       sx={{ alignContent: "center", justifyItems: "center", height: "700px" }}
@@ -30,7 +37,7 @@ export default function ShowSignup() {
             label="Username"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("email", e.target.value)}
+            onChange={(e) => updateForm("username", e.target.value)}
           />
 
           <TextField
@@ -40,7 +47,7 @@ export default function ShowSignup() {
             label="Name"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateForm("name", e.target.value)}
           />
 
           <TextField
@@ -50,7 +57,7 @@ export default function ShowSignup() {
             label="Email"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateForm("email", e.target.value)}
           />
 
           <TextField
@@ -58,7 +65,7 @@ export default function ShowSignup() {
             label="Street"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateForm("street", e.target.value)}
           />
 
           <TextField
@@ -66,7 +73,7 @@ export default function ShowSignup() {
             label="Suite"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateAddressField("suite", e.target.value)}
           />
 
           <TextField
@@ -74,7 +81,7 @@ export default function ShowSignup() {
             label="City"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateAddressField("city", e.target.value)}
           />
 
           <TextField
@@ -82,7 +89,7 @@ export default function ShowSignup() {
             label="Zipcode"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateAddressField("zipcode", e.target.value)}
           />
 
           <TextField
@@ -90,7 +97,7 @@ export default function ShowSignup() {
             label="Phone"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateForm("phone", e.target.value)}
           />
 
           <TextField
@@ -98,7 +105,7 @@ export default function ShowSignup() {
             label="Website"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateForm("website", e.target.value)}
           />
 
           <TextField
@@ -106,7 +113,7 @@ export default function ShowSignup() {
             label="Company"
             variant="standard"
             sx={{ marginBottom: 3 }}
-            onChange={(e) => updateForm("pass", e.target.value)}
+            onChange={(e) => updateCompanyField("name", e.target.value)}
           />
 
           <TextField

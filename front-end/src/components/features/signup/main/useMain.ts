@@ -19,6 +19,20 @@ export default function useSignup() {
     setErrForm((prev) => ({ ...prev, [label]: value }));
   };
 
+  const updateAddressField = (key: keyof User["address"], value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      address: { ...prev.address, [key]: value.trim() },
+    }));
+  };
+
+  const updateCompanyField = (key: keyof User["company"], value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      company: { ...prev.company, [key]: value.trim() },
+    }));
+  };
+
   const handleCancel = () => {
     navigate("/");
   };
@@ -35,7 +49,7 @@ export default function useSignup() {
 
     signUpMutate(form, {
       onSuccess: () => {
-        navigate("/");
+        navigate("/signup/verify");
       },
       onError: (err: any) => {
         if (err.errors) {
@@ -51,6 +65,8 @@ export default function useSignup() {
     errForm,
     handleCancel,
     updateForm,
+    updateAddressField,
+    updateCompanyField,
     handleSignup,
   };
 }

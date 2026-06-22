@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { User } from "@/types/user";
 import service from "@/services";
 
-export function useHome() {
+export default function useHome() {
   const navigate = useNavigate();
   const { data: users, isLoading } = service.CRUD.fetchUsers();
   const [filterText, setFilterText] = useState("");

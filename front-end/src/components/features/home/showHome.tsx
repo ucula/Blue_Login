@@ -5,7 +5,7 @@ import LoadingTemp from "@/components/common/Skeleton/LoadingTemp";
 import type { User } from "@/types/user";
 import { Box, Grid, Stack } from "@mui/material";
 import Header from "@/components/common/BaseComponents/Header/Header";
-import { useHome } from "./useHome";
+import useHome from "./useHome";
 
 export default function showHome() {
   const {

@@ -1,13 +1,14 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AllInfo from "./pages/allInfo";
-import EditUser from "./pages/editUser";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
-import ResetPass from "./pages/resetPass";
-import Home from "./pages/home";
-import AddUser from "./pages/addUser";
-import ProtectedRoute from "./components/ProtectedRoute";
+import AllInfo from "@/pages/user/allInfo";
+import EditUser from "@/pages/user/editUser";
+import Login from "@/pages/auth/login";
+import Signup from "@/pages/auth/signup/main";
+import SignupVerify from "@/pages/auth/signup/main";
+import ResetPass from "@/pages/auth/resetPass";
+import Home from "@/pages/user/home";
+import AddUser from "@/pages/user/addUser";
+import ProtectedRoute from "@/pages/auth/ProtectedRoute";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/reset-pass" element={<ResetPass />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signup/verify" element={<SignupVerify />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/brief" element={<Home />} />
