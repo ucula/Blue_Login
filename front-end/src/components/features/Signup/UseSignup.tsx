@@ -1,13 +1,14 @@
-import type { UserError } from "@/types/user";
+import type { User, UserError } from "@/types/user";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import service from "@/services";
-import type { Auth } from "@/types/auth";
+import { hasInput } from "@/utility/checkInput";
+import { correctFormat } from "@/utility/checkFormat";
+import { signUp } from "@/services/auth";
 
 export default function useSignup() {
-  const [insPass, setInsPass] = useState<boolean>(false);
-  const [form, setForm] = useState<Partial<Auth>>({});
+  const [form, setForm] = useState<Partial<User>>({});
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
+  const { mutate: signUpMutate } = signUp();
   const navigate = useNavigate();
 
   const updateForm = (label: string, value: string) => {
@@ -22,91 +23,34 @@ export default function useSignup() {
     navigate("/");
   };
 
-  const handleBack = () => {
-    setInsPass(false);
-    setForm({});
-  };
-
-  const hasInput = (key: keyof Auth) => {
-    if (!form[key] || form[key] === "") return false;
-    return true;
-  };
-
-  const correctFormat = (key: keyof Auth) => {
-    if (!form[key]) return false;
-    if (key === "email")
-      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form[key]);
-    if (key === "pass") return !(form[key].length < 8);
-  };
-
-  const { mutateAsync: signupMutate } = service.auth.signUp();
-  const { mutateAsync: verifyValueMutate } = service.auth.verifyValue();
-
-  const hasUser = async (key: keyof Auth) => {
-    try {
-      await verifyValueMutate({ key, value: form[key] || "", label: "signup" });
-    } catch (err: any) {
-      return err.message;
-    }
-  };
-
-  const signUp = async (form: Auth) => {
-    try {
-      await signupMutate(form);
-    } catch (err: any) {
-      return err.message;
-    }
-  };
-
-  const handleNext = async () => {
-    let err;
-    setErrForm({});
-    if (!hasInput("email")) {
-      updateErrForm("email", "No Input");
-      return;
-    }
-
-    if (!correctFormat("email")) {
-      updateErrForm("email", "Incorrect Email Format");
-      return;
-    }
-
-    err = await hasUser("email");
-    if (err) {
-      updateErrForm("email", err);
-      return;
-    }
-    setInsPass(true);
-  };
-
   const handleSignup = async () => {
-    let err;
     setErrForm({});
-    if (!hasInput("pass")) {
-      updateErrForm("pass", "No Input");
+    if (!hasInput(["username", "name", "email", "pass"], form, updateErrForm)) {
       return;
     }
 
-    if (!correctFormat("pass")) {
-      updateErrForm("pass", "Password must be longer than 8 characters");
-      return;
-    }
-    err = await signUp(form);
-    if (err) {
-      updateErrForm("pass", err);
+    if (!correctFormat(["email", "website", "pass"], form, updateErrForm)) {
       return;
     }
 
-    navigate("/");
+    signUpMutate(form, {
+      onSuccess: () => {
+        navigate("/");
+      },
+      onError: (err: any) => {
+        if (err.errors) {
+          for (const key of Object.keys(err.errors)) {
+            updateErrForm(key as keyof User, err.errors[key]);
+          }
+        }
+      },
+    });
   };
 
   return {
-    insPass,
     errForm,
     handleCancel,
-    handleNext,
     updateForm,
     handleSignup,
-    handleBack,
   };
 }

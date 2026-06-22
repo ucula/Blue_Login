@@ -1,29 +1,18 @@
 import type { User } from "@/types/user";
+import { useFetch } from "@/utility/useFetch";
 import { useMutation } from "@tanstack/react-query";
 
 export function resetHandler() {
   return useMutation({
     mutationFn: async (user: Partial<User>) => {
-      const response = await fetch(
+      return await useFetch(
         "http://localhost:5001/api/user/reset-pass",
+        "PATCH",
         {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: user.email,
-            pass: user.pass,
-          }),
-        },
+          email: user.email,
+          pass: user.pass,
+        }
       );
-
-      if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        throw new Error(error.message);
-      }
-
-      return;
     },
   });
 }

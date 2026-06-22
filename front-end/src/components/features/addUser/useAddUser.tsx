@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User, UserError } from "@/types/user";
 import service from "@/services";
+import { hasInput } from "@/utility/checkInput";
+import { correctFormat } from "@/utility/checkFormat";
 
 export default function useAddUser() {
   const navigate = useNavigate();
@@ -36,44 +38,14 @@ export default function useAddUser() {
     setError((prev) => ({ ...prev, [key]: value.trim() }));
   };
 
-  const hasInput = (form: Partial<User>) => {
-    const err: Partial<UserError> = {};
-    const fieldsToCheck: (keyof User)[] = ["username", "name", "email"];
-
-    for (const key of fieldsToCheck) {
-      if (!form[key] || String(form[key]).trim() === "") {
-        err[key as keyof UserError] = "No input";
-      }
-    }
-
-    if (Object.keys(err).length > 0) return err;
-  };
-
-  const correctFormat = (label: string, value: string) => {
-    if (label === "email") {
-      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
-    }
-    if (label === "website") {
-      if (!value || value.trim() === "") return true;
-      return /^(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(
-        value,
-      );
-    }
-  };
-
   const handleSave = async () => {
     setError({});
-    const validationErrors = hasInput(form) || {};
 
-    if (!correctFormat("email", form.email || "")) {
-      validationErrors.email = "Wrong Email Format";
-    }
-    if (!correctFormat("website", form.website || "")) {
-      validationErrors.website = "Wrong Website Format";
+    if (!hasInput(["username", "name", "email"], form, updateErrForm)) {
+      return;
     }
 
-    if (Object.keys(validationErrors).length > 0) {
-      setError(validationErrors);
+    if (!correctFormat(["email", "website"], form, updateErrForm)) {
       return;
     }
 
