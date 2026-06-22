@@ -1,31 +1,26 @@
 import repo from "@/repositories/user/index";
-import { User } from "@/types/user";
 import bcrypt from "bcryptjs";
 import { SALT_ROUNDS } from "@/config";
 import { AppError } from "@/utils/error";
 import { AppSuccess } from "@/utils/succes";
 import { HttpResponseCode } from "@/types/httpResponseCode";
 
-export async function resetPass(user: User) {
-  try {
-    const data = await repo.findOne(user);
-    if (!data)
-      throw new AppError(HttpResponseCode.NOT_FOUND, "Email does not exist");
+export async function resetPass(email: string, pass: string) {
+  const data = await repo.findOne("email", email);
+  if (!data)
+    throw new AppError(HttpResponseCode.NOT_FOUND, "Email does not exist");
 
-    const isMatch = await bcrypt.compare(user.pass, data.pass);
-    if (isMatch)
-      throw new AppError(
-        HttpResponseCode.BAD_REQUEST,
-        "Cannot change to same password",
-      );
-
-    user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);
-    await repo.updateOne(user);
-    return new AppSuccess(HttpResponseCode.NO_CONTENT);
-  } catch (err: any) {
+  const isMatch = await bcrypt.compare(pass, data.pass);
+  if (isMatch)
     throw new AppError(
-      HttpResponseCode.INTERNAL_SERVER_ERROR,
-      "Database Error",
+      HttpResponseCode.BAD_REQUEST,
+      "Cannot change to same password",
     );
-  }
+
+  pass = await bcrypt.hash(pass, SALT_ROUNDS);
+
+  const filter = { email };
+  const updatedData = { pass };
+  await repo.updateOne(filter, updatedData);
+  return new AppSuccess(HttpResponseCode.NO_CONTENT);
 }

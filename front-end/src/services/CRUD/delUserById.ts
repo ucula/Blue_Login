@@ -1,3 +1,4 @@
+import { redirectLogin } from "@/types/redirectLogin";
 import { useMutation } from "@tanstack/react-query";
 
 export function delUserById(id: string) {
@@ -13,10 +14,11 @@ export function delUserById(id: string) {
 
       if (!response.ok) {
         const error = await response.json().catch(() => ({}));
+        redirectLogin(response.status);
         throw new Error(error.message);
       }
 
-      return response.json();
+      return;
     },
   });
 }

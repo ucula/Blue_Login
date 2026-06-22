@@ -19,12 +19,14 @@ export async function create(user: User) {
   data = await repo.findOne("email", user.email);
   if (data) error.email = "Email already exists";
 
-  if (error)
+  if (Object.keys(error).length > 0) {
+    console.log("error");
     throw new AppError(
       HttpResponseCode.BAD_REQUEST,
       "Validation failed",
       error,
     );
+  }
 
   if (!user.pass) {
     user.pass = "1234567890";

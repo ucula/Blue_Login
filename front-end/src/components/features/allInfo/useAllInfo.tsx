@@ -20,7 +20,7 @@ export default function useAllInfo() {
   };
 
   const handleEdit = () => {
-    navigate(`/edit/${id}`);
+    navigate(`/info/${id}/edit`);
   };
 
   const handleDelete = () => {

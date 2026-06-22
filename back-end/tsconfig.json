@@ -16,7 +16,8 @@
   "include": [
     "server.ts",
     "src/**/*.ts",
-    "src/services/user/auth/verifyValue.ts"
+    "src/services/user/auth/verifyValue.ts",
+    "../front-end/src/types/redirectLogin.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 import express from "express";
 import { connectDB } from "../externals/db";
-import { configureMiddlewares } from "../middleware/index";
+import configureMiddlewares from "../middleware/index";
 import userRouter from "../routers/userRouter";
 
 const app = express();

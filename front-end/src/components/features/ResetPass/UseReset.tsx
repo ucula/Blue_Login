@@ -32,9 +32,8 @@ export default function useReset() {
   };
 
   const hasUser = async (key: keyof Auth) => {
-    if (!form[key]) return "Missing Email";
     try {
-      await service.auth.verifyValue(key, form[key]);
+      await service.auth.verifyValue(key, form[key], "login");
     } catch (err: any) {
       return err.message;
     }
@@ -56,8 +55,14 @@ export default function useReset() {
 
   const handleReset = () => {
     setErrForm({});
-    if (!hasInput("pass")) return;
-    if (!correctFormat("pass")) return;
+    if (!hasInput("pass")) {
+      updateErrForm("pass", "No Input");
+      return;
+    }
+    if (!correctFormat("pass")) {
+      updateErrForm("pass", "Password must be longer than 8 characters");
+      return;
+    }
 
     reset(form, {
       onSuccess: () => {

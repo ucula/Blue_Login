@@ -1,3 +1,4 @@
+import { redirectLogin } from "@/types/redirectLogin";
 import type { User } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 
@@ -14,9 +15,10 @@ export function postUser() {
       });
 
       if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        const err = new Error(data.message);
-        (err as any).errors = data.errors;
+        const error = await response.json().catch(() => ({}));
+        const err = new Error(error.message);
+        redirectLogin(response.status);
+        (err as any).errors = error.errors;
         throw err;
       }
 

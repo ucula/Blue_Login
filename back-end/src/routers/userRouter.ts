@@ -1,6 +1,6 @@
 import express from "express";
 import userControllers from "../controllers/user/index";
-import { requireAuth } from "../middleware/auth";
+import * as middleware from "../middleware/index";
 
 const app = express.Router();
 
@@ -11,10 +11,14 @@ app.post("/user/verify", userControllers.auth.verifyValue);
 app.patch("/user/reset-pass", userControllers.auth.resetPass);
 
 // Protected routes
-app.get("/user", requireAuth, userControllers.CRUD.getUser);
-app.get("/user/:id", requireAuth, userControllers.CRUD.getUserById);
-app.post("/user", requireAuth, userControllers.CRUD.createUser);
-app.patch("/user/:id", requireAuth, userControllers.CRUD.updateUserById);
-app.delete("/user/:id", requireAuth, userControllers.CRUD.deleteuserById);
+app.get("/user", middleware.auth, userControllers.CRUD.getUser);
+app.get("/user/:id", middleware.auth, userControllers.CRUD.getUserById);
+app.post("/user", middleware.auth, userControllers.CRUD.createUser);
+app.patch(
+  "/user/:id/edit",
+  middleware.auth,
+  userControllers.CRUD.updateUserById,
+);
+app.delete("/user/:id", middleware.auth, userControllers.CRUD.deleteuserById);
 
 export default app;

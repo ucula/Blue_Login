@@ -39,10 +39,12 @@ export default function useSignup() {
     if (key === "pass") return !(form[key].length < 8);
   };
 
+  const { mutateAsync: signupMutate } = service.auth.signUp();
+  const { mutateAsync: verifyValueMutate } = service.auth.verifyValue();
+
   const hasUser = async (key: keyof Auth) => {
-    if (!form[key]) return "Missing Email";
     try {
-      await service.auth.verifyValue(key, form[key]);
+      await verifyValueMutate({ key, value: form[key] || "", label: "signup" });
     } catch (err: any) {
       return err.message;
     }
@@ -50,7 +52,7 @@ export default function useSignup() {
 
   const signUp = async (form: Auth) => {
     try {
-      await service.auth.signUp(form);
+      await signupMutate(form);
     } catch (err: any) {
       return err.message;
     }

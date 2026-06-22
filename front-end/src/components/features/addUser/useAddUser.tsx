@@ -46,47 +46,45 @@ export default function useAddUser() {
       }
     }
 
-    if (err) return;
+    if (Object.keys(err).length > 0) return err;
   };
 
-  const correctFormat = (label: string) => {
+  const correctFormat = (label: string, value: string) => {
     if (label === "email") {
-      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        form.email.trim(),
-      );
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
     }
     if (label === "website") {
-      if (form.website.trim() === "" || !form.website) return true;
+      if (!value || value.trim() === "") return true;
       return /^(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(
-        form.website,
+        value,
       );
     }
   };
 
   const handleSave = async () => {
-    let err: any;
     setError({});
+    const validationErrors = hasInput(form) || {};
 
-    err = hasInput(form);
-    if (err) {
-      setError(err);
+    if (!correctFormat("email", form.email || "")) {
+      validationErrors.email = "Wrong Email Format";
     }
-    if (!correctFormat("email")) {
-      updateErrForm("email", "Wrong Email Format");
+    if (!correctFormat("website", form.website || "")) {
+      validationErrors.website = "Wrong Website Format";
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setError(validationErrors);
       return;
     }
-    if (!correctFormat("website")) {
-      updateErrForm("email", "Wrong Website Format");
-      return;
-    }
+
     add(form, {
       onSuccess: () => {
         navigate("/brief");
       },
       onError: (err: any) => {
-        if (err.payload) {
-          for (const key of err.data) {
-            updateErrForm(key, err.data[key]);
+        if (err.errors) {
+          for (const key of Object.keys(err.errors)) {
+            updateErrForm(key as keyof User, err.errors[key]);
           }
         }
       },

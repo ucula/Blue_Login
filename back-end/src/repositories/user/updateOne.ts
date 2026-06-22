@@ -1,9 +1,6 @@
 import myData from "@/externals/userModel";
-import { User } from "@/types/user";
+import { Auth } from "../../../../front-end/src/types/auth";
 
-export async function updateOne(user: User) {
-  return await myData.findOneAndUpdate(
-    { email: user.email },
-    { $set: { pass: user.pass } },
-  );
+export async function updateOne(filter: Auth, data: any) {
+  return await myData.findOneAndUpdate(filter, { $set: data }, { new: true });
 }

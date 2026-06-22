@@ -14,7 +14,7 @@ export default function useLogin() {
   };
 
   const updateErrForm = (label: string, value: string) => {
-    setErrForm((prev) => ({ ...prev, [label]: value.trim() }));
+    setErrForm((prev) => ({ ...prev, [label]: value }));
   };
 
   const hasInput = (key: keyof Auth) => {
@@ -27,19 +27,20 @@ export default function useLogin() {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form[key]);
   };
 
+  const { mutateAsync: loginMutate } = service.auth.logIn();
+  const { mutateAsync: verifyValueMutate } = service.auth.verifyValue();
+
   const hasUser = async (key: keyof Auth) => {
-    if (!form[key]) return "Missing Email";
     try {
-      await service.auth.verifyValue(key, form[key]);
+      await verifyValueMutate({ key, value: form[key] || "", label: "login" });
     } catch (err: any) {
       return err.message;
     }
   };
 
   const logIn = async (form: Auth) => {
-    if (!form) return "";
     try {
-      await service.auth.logIn(form);
+      await loginMutate(form);
     } catch (err: any) {
       return err.message;
     }
@@ -66,12 +67,16 @@ export default function useLogin() {
       return;
     }
 
-    if (!hasInput("pass")) return;
-    err = await logIn(form);
-    if (err) {
-      updateErrForm("pass", err.message);
+    if (!hasInput("pass")) {
+      updateErrForm("pass", "No Input");
       return;
     }
+    err = await logIn(form);
+    if (err) {
+      updateErrForm("pass", err);
+      return;
+    }
+    navigate("/brief");
   };
 
   const handleforgot = () => {

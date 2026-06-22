@@ -1,3 +1,4 @@
+import { redirectLogin } from "@/types/redirectLogin";
 import { useQuery } from "@tanstack/react-query";
 
 export function fetchUsers() {
@@ -11,10 +12,10 @@ export function fetchUsers() {
       });
       if (!response.ok) {
         const error = await response.json().catch(() => ({}));
+        redirectLogin(response.status);
         throw new Error(error.message);
       }
       return response.json();
     },
   });
 }
-
