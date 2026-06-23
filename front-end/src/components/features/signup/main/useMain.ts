@@ -6,9 +6,14 @@ import { correctFormat } from "@/utility/checkFormat";
 import { signUp } from "@/services/auth";
 
 export default function useSignup() {
-  const [form, setForm] = useState<Partial<User>>({});
+  const [form, setForm] = useState<Partial<User>>({
+    username: "cherio",
+    name: "cherio",
+    email: "chiriew123@gmail.com",
+    pass: "1234567890",
+  });
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
-  const { mutate: signUpMutate } = signUp();
+  const { isPending, mutate: signUpMutate } = signUp();
   const navigate = useNavigate();
 
   const updateForm = (label: string, value: string) => {
@@ -49,7 +54,7 @@ export default function useSignup() {
 
     signUpMutate(form, {
       onSuccess: () => {
-        navigate("/signup/verify");
+        navigate("/signup/email-sent", { state: form });
       },
       onError: (err: any) => {
         if (err.errors) {
@@ -62,6 +67,7 @@ export default function useSignup() {
   };
 
   return {
+    isPending,
     errForm,
     handleCancel,
     updateForm,

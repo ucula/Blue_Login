@@ -4,7 +4,8 @@ import AllInfo from "@/pages/user/allInfo";
 import EditUser from "@/pages/user/editUser";
 import Login from "@/pages/auth/login";
 import Signup from "@/pages/auth/signup/main";
-import SignupVerify from "@/pages/auth/signup/main";
+import EmailSent from "@/pages/auth/signup/emailSent";
+import SignupVerify from "@/pages/auth/signup/verify";
 import ResetPass from "@/pages/auth/resetPass";
 import Home from "@/pages/user/home";
 import AddUser from "@/pages/user/addUser";
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/reset-pass" element={<ResetPass />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signup/email-sent" element={<EmailSent />} />
         <Route path="/signup/verify" element={<SignupVerify />} />
 
         <Route element={<ProtectedRoute />}>

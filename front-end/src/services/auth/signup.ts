@@ -4,8 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 
 export function signUp() {
   return useMutation({
-    mutationFn: async (user: Partial<User>) => {
-      return useFetch("http://localhost:5001/api/user/signup", "POST", user);
+    mutationFn: async (form: Partial<User>) => {
+      return useFetch("http://localhost:5001/api/user/signup", "POST", form);
     },
   });
 }

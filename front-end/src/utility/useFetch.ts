@@ -4,7 +4,7 @@ export async function useFetch<T = any>(
   address: string,
   method: string = "GET",
   body?: any,
-  headers?: Record<string, string>
+  headers?: Record<string, string>,
 ): Promise<T> {
   const token = localStorage.getItem("token");
   const requestHeaders: Record<string, string> = {

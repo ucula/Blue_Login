@@ -5,6 +5,9 @@ import bcrypt from "bcryptjs";
 import { AppError } from "@/utils/error";
 import { AppSuccess } from "@/utils/succes";
 import { HttpResponseCode } from "@/types/httpResponseCode";
+import authModel from "@/externals/authModel";
+import crypto from "crypto";
+import { sendVerificationEmail } from "@/utils/sendEmail";
 
 export async function signup(user: User) {
   let error: Record<string, string> = {};
@@ -25,9 +28,19 @@ export async function signup(user: User) {
 
   user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);
   try {
-    await repo.create(user);
-    return new AppSuccess(HttpResponseCode.CREATED);
+    const createdUser = await repo.create(user);
+
+    const token = crypto.randomBytes(32).toString("hex");
+    await authModel.create({
+      userId: createdUser._id,
+      token: token,
+    });
+
+    await sendVerificationEmail(user.email, token);
+
+    return new AppSuccess(HttpResponseCode.ACCEPTED);
   } catch (err: any) {
+    console.error("Signup error:", err);
     throw new AppError(
       HttpResponseCode.INTERNAL_SERVER_ERROR,
       "Database Error",

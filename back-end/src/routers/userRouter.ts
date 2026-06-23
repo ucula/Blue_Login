@@ -1,13 +1,14 @@
 import express from "express";
 import userControllers from "../controllers/user/index";
 import * as middleware from "../middleware/index";
+import controllers from "../controllers/user/index";
 
 const app = express.Router();
 
 // Public auth routes
 app.post("/user/signup", userControllers.auth.signup);
+app.post("/user/signup/verify", controllers.auth.signupVerify);
 app.post("/user/login", userControllers.auth.login);
-app.post("/user/verify", userControllers.auth.verifyValue);
 app.patch("/user/reset-pass", userControllers.auth.resetPass);
 
 // Protected routes

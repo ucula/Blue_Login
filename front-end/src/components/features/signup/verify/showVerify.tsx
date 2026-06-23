@@ -1,5 +1,63 @@
-import { Box } from "@mui/material";
+import { Box, Typography, Button, CircularProgress } from "@mui/material";
+import { useVerify } from "./useVerify";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
 
-export default function showVerify() {
-  return <Box>Hello</Box>;
+export default function ShowVerify() {
+  const { token, verify, isPending, isSuccess, isError, handleLogin } =
+    useVerify();
+  verify(token);
+  return (
+    <Box
+      sx={{ alignContent: "center", justifyItems: "center", height: "700px" }}
+    >
+      <Box
+        sx={{
+          padding: "80px 90px",
+          bgcolor: "white",
+          width: "30%",
+        }}
+      >
+        {isPending && (
+          <Box sx={{ justifyItems: "center" }}>
+            <CircularProgress sx={{ mb: 2 }} />
+            <Typography variant="h5" gutterBottom>
+              Verifying Account...
+            </Typography>
+            <Typography color="textSecondary">
+              Please wait while we verify your email token.
+            </Typography>
+          </Box>
+        )}
+
+        {isSuccess && (
+          <Box sx={{ justifyItems: "center" }}>
+            <CheckCircleIcon color="success" sx={{ fontSize: 60, mb: 2 }} />
+            <Typography variant="h5" gutterBottom>
+              Account Verified!
+            </Typography>
+            <Typography color="textSecondary" sx={{ mb: 3 }}>
+              Your email has been successfully verified. You can now log in.
+            </Typography>
+            <Button variant="contained" fullWidth onClick={handleLogin}>
+              Go to Login
+            </Button>
+          </Box>
+        )}
+
+        {isError && (
+          <Box sx={{ justifyItems: "center" }}>
+            <ErrorIcon color="error" sx={{ fontSize: 60, mb: 2 }} />
+            <Typography variant="h5" gutterBottom>
+              Verification Failed
+            </Typography>
+            <Typography color="textSecondary" sx={{ mb: 3 }}>
+              The verification token is invalid, expired, or has already been
+              used.
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
 }

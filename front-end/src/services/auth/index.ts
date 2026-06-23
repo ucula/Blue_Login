@@ -1,6 +1,6 @@
 import { logIn } from "./login";
 import { signUp } from "./signup";
 import { resetHandler } from "./resetPass";
-import { verifyValue } from "./verifyValue";
+import { signupVerify } from "./signupVerify";
 
-export { logIn, signUp, resetHandler, verifyValue };
+export { logIn, signUp, resetHandler, signupVerify };

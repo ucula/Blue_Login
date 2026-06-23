@@ -4,4 +4,3 @@ export function redirectLogin(status: number) {
     window.location.href = "/";
   }
 }
-

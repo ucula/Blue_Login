@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const dataSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: { type: String, trim: true, default: "" },
   pass: { type: String, trim: true, default: "1234567890" },
   username: { type: String, trim: true, default: "" },
@@ -22,6 +22,7 @@ const dataSchema = new mongoose.Schema({
     catchPhrase: { type: String, trim: true, default: "" },
     bs: { type: String, trim: true, default: "" },
   },
+  confirmed: { type: Boolean, default: false },
 });
 
-export default dataSchema;
+export default userSchema;
