@@ -1,50 +1,44 @@
-import service from "@/services";
-import { useEffect } from "react";
+import { useFetch } from "@/utility/useFetch";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-// Track tokens currently verifying to prevent duplicate requests in React 18 StrictMode
-const startedVerifications = new Set<string>();
+type VerifyStatus = "pending" | "success" | "error";
 
-export function useVerify() {
+export default function useVerify() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+
+  const [status, setStatus] = useState<VerifyStatus>("pending");
+  const hasStarted = useRef(false);
 
   const handleLogin = () => {
     navigate("/");
   };
 
-  const {
-    mutateAsync: verifyMutate,
-    isPending,
-    isSuccess,
-    isError,
-  } = service.auth.signupVerify();
+  useEffect(() => {
+    if (!token || hasStarted.current) return;
+    hasStarted.current = true;
 
-  const verify = async (token: string) => {
-    if (token && !startedVerifications.has(token)) {
-      startedVerifications.add(token);
-      const data = verifyMutate(token);
-      console.log(data);
-    }
-  };
+    const verify = async () => {
+      try {
+        await useFetch("http://localhost:5001/api/user/signup/verify", "POST", {
+          token,
+        });
+        setStatus("success");
+      } catch {
+        setStatus("error");
+      }
+    };
 
-  console.log(
-    "RENDER - isPending:",
-    isPending,
-    "isSuccess:",
-    isSuccess,
-    "isError:",
-    isError,
-  );
+    verify();
+  }, [token]);
 
   return {
     token,
-    verify,
-
-    isPending,
-    isSuccess,
-    isError,
+    isPending: status === "pending",
+    isSuccess: status === "success",
+    isError: status === "error",
     handleLogin,
   };
 }

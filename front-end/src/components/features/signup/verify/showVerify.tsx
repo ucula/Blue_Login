@@ -1,12 +1,10 @@
 import { Box, Typography, Button, CircularProgress } from "@mui/material";
-import { useVerify } from "./useVerify";
+import useVerify from "./useVerify";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 
 export default function ShowVerify() {
-  const { token, verify, isPending, isSuccess, isError, handleLogin } =
-    useVerify();
-  verify(token);
+  const { isPending, isSuccess, isError, handleLogin } = useVerify();
   return (
     <Box
       sx={{ alignContent: "center", justifyItems: "center", height: "700px" }}
