@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { JWT_SECRET } from "../config/index";
 import jwt from "jsonwebtoken";
-import { HttpResponseCode } from "@/types/httpResponseCode";
+import { HttpResponseCode } from "@/types/auth/httpResponseCode";
 
 export default function requireAuth(
   req: Request,

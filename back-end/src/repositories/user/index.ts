@@ -1,9 +1,7 @@
-import { create } from "./create";
-import { del } from "./deletebyId";
-import { get } from "./findbyId";
-import { list } from "./find";
-import { updateById } from "./updatebyId";
-import { updateOne } from "./updateOne";
-import { findOne } from "./findOne";
+import * as update from "./update/index";
+import * as list from "./list/index";
+import * as get from "./get/index";
+import * as post from "./post/index";
+import * as del from "./del/index";
 
-export default { findOne, create, del, get, list, updateById, updateOne };
+export default { update, list, get, post, del };

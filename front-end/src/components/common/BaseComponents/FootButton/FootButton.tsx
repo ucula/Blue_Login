@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 
-export default function FootButton({
+export default function footButton({
   color = "primary",
   top = 9,
   label,

@@ -1,25 +1,25 @@
 import type { RouteObject } from "react-router-dom";
-import { ProtectedRoute, Home, AllInfo, AddUser, EditUser } from "@/pages";
+import pages from "@/pages";
 
 export const protectedRoutes: RouteObject[] = [
   {
-    element: <ProtectedRoute />,
+    element: <pages.ProtectedRoute />,
     children: [
       {
         path: "/brief",
-        element: <Home />,
+        element: <pages.user.Home />,
       },
       {
         path: "/info/:id",
-        element: <AllInfo />,
+        element: <pages.user.AllInfo />,
       },
       {
         path: "/add",
-        element: <AddUser />,
+        element: <pages.user.AddUser />,
       },
       {
         path: "/info/:id/edit",
-        element: <EditUser />,
+        element: <pages.user.EditUser />,
       },
     ],
   },

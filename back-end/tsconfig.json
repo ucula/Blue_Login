@@ -14,11 +14,6 @@
     },
     "types": ["bun"]
   },
-  "include": [
-    "server.ts",
-    "src/**/*.ts",
-    "src/services/user/auth/verifyValue.ts",
-    "../front-end/src/types/redirectLogin.ts"
-  ],
+  "include": ["server.ts", "src/**/*.ts"],
   "exclude": ["node_modules"]
 }

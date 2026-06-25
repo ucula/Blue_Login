@@ -1,9 +1,7 @@
-import * as auth from "./auth/index";
-import * as CRUD from "./CRUD/index";
+import list from "./list";
+import get from "./get";
+import del from "./del";
+import update from "./update";
+import post from "./post";
 
-const controllers = {
-  auth,
-  CRUD,
-};
-
-export default controllers;
+export { list, get, del, update, post };

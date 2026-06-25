@@ -1,9 +1,7 @@
-import * as auth from "./auth/index";
-import * as CRUD from "./CRUD/index";
+import { create } from "./create";
+import { del } from "./deletebyId";
+import { get } from "./getbyId";
+import { list } from "./list";
+import { update } from "./update";
 
-const service = {
-  auth,
-  CRUD,
-};
-
-export default service;
+export { create, del, get, list, update };

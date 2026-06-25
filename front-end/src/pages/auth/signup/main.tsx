@@ -1,4 +1,4 @@
-import Page from "@/components/features/signup/main/showMain";
+import Page from "@/components/features/auth/signup/main/showMain";
 
 export default function Main() {
   return <Page />;

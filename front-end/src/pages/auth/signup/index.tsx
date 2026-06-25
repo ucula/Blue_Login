@@ -1,5 +1,5 @@
-import EmailSent from "./emailSent";
+import Send from "./send";
 import Main from "./main";
 import Verify from "./verify";
 
-export { EmailSent, Main, Verify };
+export default { Send, Main, Verify };

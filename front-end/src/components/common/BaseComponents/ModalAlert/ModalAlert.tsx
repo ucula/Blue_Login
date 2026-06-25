@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function ModalAlert({
+export default function modalAlert({
   del,
   l_button,
   r_button,

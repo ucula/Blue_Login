@@ -1,46 +1,37 @@
 import type { RouteObject } from "react-router-dom";
-import {
-  Login,
-  ResetEmail,
-  ResetPass,
-  Signup,
-  EmailSent,
-  SignupVerify,
-  ResetSend,
-  ResetVerify,
-} from "@/pages";
+import pages from "@/pages";
 
 export const publicRoutes: RouteObject[] = [
   {
     path: "/",
-    element: <Login />,
+    element: <pages.auth.login.Main />,
   },
   {
     path: "/reset/email",
-    element: <ResetEmail />,
+    element: <pages.auth.reset.Main />,
   },
   {
     path: "/reset/email-sent",
-    element: <ResetSend />,
+    element: <pages.auth.reset.Send />,
   },
   {
     path: "/reset/verify",
-    element: <ResetVerify />,
+    element: <pages.auth.reset.Verify />,
   },
   {
     path: "/reset/pass",
-    element: <ResetPass />,
+    element: <pages.auth.reset.Pass />,
   },
   {
     path: "/signup",
-    element: <Signup />,
+    element: <pages.auth.signup.Main />,
   },
   {
     path: "/signup/email-sent",
-    element: <EmailSent />,
+    element: <pages.auth.signup.Send />,
   },
   {
     path: "/signup/verify",
-    element: <SignupVerify />,
+    element: <pages.auth.signup.Verify />,
   },
 ];

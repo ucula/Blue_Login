@@ -1,7 +1,7 @@
 import { Box, Typography, Button, Divider } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
-export default function Header({
+export default function header({
   label,
   handlenavigate,
 }: {
