@@ -45,7 +45,7 @@ export default function usePass() {
           navigate("/");
         },
         onError: (err: any) => {
-          setErrForm({ pass: err.message });
+          updateErrForm("pass", err.message);
         },
       },
     );

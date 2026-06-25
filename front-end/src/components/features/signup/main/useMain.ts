@@ -12,7 +12,9 @@ export default function useSignup() {
     name: "chiriew",
     email: "cheriew02@gmail.com",
     pass: "1234567890",
+    confirm: "1234567890",
   });
+
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
   const { isPending, mutate: signUpMutate } = service.auth.signup.signUp();
   const navigate = useNavigate();
@@ -74,6 +76,7 @@ export default function useSignup() {
   };
 
   return {
+    form,
     isPending,
     errForm,
     handleCancel,

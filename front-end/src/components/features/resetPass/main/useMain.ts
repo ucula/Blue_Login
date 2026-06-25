@@ -32,6 +32,7 @@ export default function useMain() {
       onError: (err: any) => {
         updateErrForm("email", err.message);
         console.log(err.message);
+        console.log(form);
       },
     });
   };
@@ -41,6 +42,7 @@ export default function useMain() {
   };
 
   return {
+    form,
     isPending,
     errForm,
     handleCancel,

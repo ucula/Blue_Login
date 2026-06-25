@@ -9,6 +9,7 @@ import {
 import useSignup from "./useMain";
 export default function showMain() {
   const {
+    form,
     isPending,
     errForm,
     handleCancel,
@@ -57,6 +58,7 @@ export default function showMain() {
                 id="filled-basic"
                 label="Username"
                 variant="standard"
+                value={form.username}
                 sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("username", e.target.value)}
               />
@@ -67,6 +69,7 @@ export default function showMain() {
                 id="filled-basic"
                 label="Name"
                 variant="standard"
+                value={form.name}
                 sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("name", e.target.value)}
               />
@@ -77,6 +80,7 @@ export default function showMain() {
                 id="filled-basic"
                 label="Email"
                 variant="standard"
+                value={form.email}
                 sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("email", e.target.value)}
               />
@@ -143,6 +147,7 @@ export default function showMain() {
                 id="filled-basic"
                 label="Password"
                 variant="standard"
+                value={form.pass}
                 sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("pass", e.target.value)}
               />
@@ -153,6 +158,7 @@ export default function showMain() {
                 id="filled-basic"
                 label="Confirm Password"
                 variant="standard"
+                value={form.confirm}
                 sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("confirm", e.target.value)}
               />

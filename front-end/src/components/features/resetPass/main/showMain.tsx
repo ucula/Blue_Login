@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import useMain from "./useMain";
 export default function showMain() {
-  const { isPending, errForm, handleCancel, updateForm, handleNext } =
+  const { form, isPending, errForm, handleCancel, updateForm, handleNext } =
     useMain();
   return (
     <Box
@@ -21,7 +21,7 @@ export default function showMain() {
           width: "30%",
         }}
       >
-        {isPending && (
+        {isPending ? (
           <Box sx={{ justifyItems: "center" }}>
             <CircularProgress sx={{ mb: 2 }} />
             <Typography variant="h5" gutterBottom>
@@ -31,8 +31,7 @@ export default function showMain() {
               Please wait while we are sending your link.
             </Typography>
           </Box>
-        )}
-        {!isPending && (
+        ) : (
           <>
             <Box
               sx={{
@@ -51,6 +50,7 @@ export default function showMain() {
                 label="Input your email"
                 variant="standard"
                 sx={{ marginBottom: 3 }}
+                value={form.email ?? ""}
                 onChange={(e) => updateForm("email", e.target.value)}
               />
               <Button
