@@ -54,9 +54,9 @@ export default function useAddUser() {
         navigate("/brief");
       },
       onError: (err: any) => {
-        if (err.errors) {
-          for (const key of Object.keys(err.errors)) {
-            updateErrForm(key as keyof User, err.errors[key]);
+        if (err.data) {
+          for (const key of Object.keys(err.data)) {
+            updateErrForm(key as keyof User, err.data[key]);
           }
         }
       },

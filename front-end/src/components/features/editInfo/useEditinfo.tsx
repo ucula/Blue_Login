@@ -57,9 +57,9 @@ export default function useEditInfo() {
         navigate(`/info/${id}`);
       },
       onError: (err: any) => {
-        if (err.errors) {
-          for (const key of Object.keys(err.errors)) {
-            updateErrForm(key as keyof UserError, err.errors[key]);
+        if (err.data) {
+          for (const key of Object.keys(err.data)) {
+            updateErrForm(key as keyof UserError, err.data[key]);
           }
         }
       },

@@ -32,10 +32,10 @@ export default function showMain() {
           <Box sx={{ justifyItems: "center" }}>
             <CircularProgress sx={{ mb: 2 }} />
             <Typography variant="h5" gutterBottom>
-              Verifying Account...
+              Sending Email
             </Typography>
             <Typography color="textSecondary">
-              Please wait while we verify your email token.
+              Please wait while we are sending your link.
             </Typography>
           </Box>
         )}
@@ -145,6 +145,16 @@ export default function showMain() {
                 variant="standard"
                 sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("pass", e.target.value)}
+              />
+
+              <TextField
+                helperText={errForm.pass}
+                error={!!errForm.pass}
+                id="filled-basic"
+                label="Confirm Password"
+                variant="standard"
+                sx={{ marginBottom: 3 }}
+                onChange={(e) => updateForm("confirm", e.target.value)}
               />
               <Button
                 sx={{ bgcolor: "rgba(255, 158, 133, 1)" }}

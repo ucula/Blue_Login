@@ -1,6 +1,10 @@
-import { SMTP_PASS, SMTP_USER } from "@/config";
+import { CLIENT_URL, SMTP_PASS, SMTP_USER } from "@/config";
 
-export async function sendVerificationEmail(email: string, token: string) {
+export async function sendVerificationEmail(
+  email: string,
+  token: string,
+  path: string,
+) {
   const nodemailer = require("nodemailer");
 
   // Create a transporter using SMTP
@@ -14,11 +18,11 @@ export async function sendVerificationEmail(email: string, token: string) {
     },
   });
 
-  const verificationUrl = `http://localhost:5173/signup/verify?token=${token}`;
+  const verificationUrl = `${CLIENT_URL}${path}?token=${token}`;
 
   try {
     const info = await transporter.sendMail({
-      from: "cheriew02@gmail.com",
+      from: SMTP_USER,
       to: email,
       subject: "Verification Link - Blue Login",
       html: `<h1>Verify your email</h1>

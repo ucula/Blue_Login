@@ -1,6 +1,5 @@
+import * as reset from "./reset/index";
+import * as signup from "./signup/index";
 import { logIn } from "./login";
-import { signUp } from "./signup";
-import { resetHandler } from "./resetPass";
-import { signupVerify } from "./signupVerify";
 
-export { logIn, signUp, resetHandler, signupVerify };
+export { reset, signup, logIn };

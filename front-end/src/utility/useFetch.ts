@@ -1,8 +1,9 @@
-import { redirectLogin } from "@/types/redirectLogin";
+import redirectLogin from "./redirectLogin";
+import { Payload } from "./response/response";
 
 export async function useFetch<T = any>(
   address: string,
-  method: string = "GET",
+  method: string,
   body?: any,
   headers?: Record<string, string>,
 ): Promise<T> {
@@ -22,19 +23,15 @@ export async function useFetch<T = any>(
     body: body ? JSON.stringify(body) : undefined,
   });
 
+  redirectLogin(response.status);
   if (!response.ok) {
-    const data = await response.json().catch(() => ({}));
-    redirectLogin(response.status);
-    const err = new Error(data.message || "Request failed");
-    (err as any).errors = data.errors;
-    (err as any).status = response.status;
-    throw err;
+    const err = await response.json();
+    throw new Payload(err);
   }
 
-  // Handle empty bodies safely (e.g. 204 or 201 with no body)
   if (response.status === 204) {
     return {} as T;
   }
 
-  return response.json().catch(() => ({}));
+  return response.json();
 }

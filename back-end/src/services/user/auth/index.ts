@@ -1,6 +1,5 @@
-import { login } from "./login";
-import { signup } from "./signup";
-import { resetPass } from "./resetPass";
-import { signupVerify } from "./signupVerify";
+import * as login from "./login";
+import * as signup from "./signup";
+import * as reset from "./reset";
 
-export { login, signup, resetPass, signupVerify };
+export { login, signup, reset };

@@ -1,9 +1,11 @@
 export class AppSuccess<T = any> {
   public code: number;
-  public data?: T;
+  public message: string;
+  public data: any;
 
-  constructor(statusCode: number, data?: T) {
-    this.code = statusCode;
+  constructor(code: number, message: string, data?: any) {
+    this.code = code;
+    this.message = message;
     this.data = data;
   }
 }

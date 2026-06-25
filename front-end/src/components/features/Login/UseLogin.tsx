@@ -25,19 +25,22 @@ export default function useLogin() {
 
   const handleLogin = async () => {
     setErrForm({});
-
-    hasInput(["username", "name", "email", "pass"], form, updateErrForm);
-    correctFormat(["email", "website", "pass"], form, updateErrForm);
+    if (!hasInput(["email", "pass"], form, updateErrForm)) return;
+    if (!correctFormat(["email", "pass"], form, updateErrForm)) return;
 
     loginMutate(form, {
       onSuccess: () => {
         navigate("/brief");
       },
+      onError: (err: any) => {
+        console.log(err);
+        updateErrForm(err.data, err.message);
+      },
     });
   };
 
   const handleforgot = () => {
-    navigate("/reset-pass");
+    navigate("/reset/email");
   };
   return { form, errForm, handleLogin, handleSignup, handleforgot, updateForm };
 }

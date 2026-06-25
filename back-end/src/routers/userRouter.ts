@@ -6,10 +6,14 @@ import controllers from "../controllers/user/index";
 const app = express.Router();
 
 // Public auth routes
-app.post("/user/signup", userControllers.auth.signup);
-app.post("/user/signup/verify", controllers.auth.signupVerify);
-app.post("/user/login", userControllers.auth.login);
-app.patch("/user/reset-pass", userControllers.auth.resetPass);
+app.get("/user/signup/verify", controllers.auth.signup.verify);
+app.post("/user/signup", userControllers.auth.signup.signup);
+
+app.post("/user/login", userControllers.auth.login.login);
+
+app.post("/user/reset/email", userControllers.auth.reset.sendEmail);
+app.get("/user/reset/verify", userControllers.auth.reset.verify);
+app.patch("/user/reset-pass", userControllers.auth.reset.resetPass);
 
 // Protected routes
 app.get("/user", middleware.auth, userControllers.CRUD.getUser);

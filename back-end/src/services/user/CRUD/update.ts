@@ -1,15 +1,11 @@
 import repo from "@/repositories/user/index";
 import { HttpResponseCode } from "@/types/httpResponseCode";
-import { AppError } from "@/utils/error";
+import { AppError } from "@/utils/response/error";
 import { AppSuccess } from "@/utils/succes";
 
-type error = {
-  username?: string;
-  email?: string;
-};
 export async function update(id: string, updatedData: any) {
   let data;
-  let error: Partial<error> = {};
+  let error: Partial<userError> = {};
   data = await repo.findOne("username", updatedData.username);
   if (data && String(data._id) !== String(id))
     error.username = "Username already exists";
@@ -27,8 +23,8 @@ export async function update(id: string, updatedData: any) {
     );
   }
   try {
-    const data = await repo.updateById(id, updatedData);
-    return new AppSuccess(HttpResponseCode.OK, data);
+    const db = await repo.updateById(id, updatedData);
+    return new AppSuccess(HttpResponseCode.OK, "Success", db);
   } catch (err: any) {
     throw new AppError(
       HttpResponseCode.INTERNAL_SERVER_ERROR,

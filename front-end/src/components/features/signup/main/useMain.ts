@@ -1,19 +1,20 @@
-import type { User, UserError } from "@/types/user";
+import type { UserError } from "@/types/user";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { hasInput } from "@/utility/checkInput";
 import { correctFormat } from "@/utility/checkFormat";
-import { signUp } from "@/services/auth";
+import service from "@/services";
+import type { Form } from "@/types/form";
 
 export default function useSignup() {
-  const [form, setForm] = useState<Partial<User>>({
+  const [form, setForm] = useState<Partial<Form>>({
     username: "cherio",
-    name: "cherio",
-    email: "chiriew123@gmail.com",
+    name: "chiriew",
+    email: "cheriew02@gmail.com",
     pass: "1234567890",
   });
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
-  const { isPending, mutate: signUpMutate } = signUp();
+  const { isPending, mutate: signUpMutate } = service.auth.signup.signUp();
   const navigate = useNavigate();
 
   const updateForm = (label: string, value: string) => {
@@ -24,14 +25,14 @@ export default function useSignup() {
     setErrForm((prev) => ({ ...prev, [label]: value }));
   };
 
-  const updateAddressField = (key: keyof User["address"], value: string) => {
+  const updateAddressField = (key: keyof Form["address"], value: string) => {
     setForm((prev) => ({
       ...prev,
       address: { ...prev.address, [key]: value.trim() },
     }));
   };
 
-  const updateCompanyField = (key: keyof User["company"], value: string) => {
+  const updateCompanyField = (key: keyof Form["company"], value: string) => {
     setForm((prev) => ({
       ...prev,
       company: { ...prev.company, [key]: value.trim() },
@@ -52,14 +53,20 @@ export default function useSignup() {
       return;
     }
 
+    if (form.pass !== form.confirm) {
+      updateErrForm("pass", "Password and Confirm needs to be the same");
+      return;
+    }
+
     signUpMutate(form, {
       onSuccess: () => {
         navigate("/signup/email-sent", { state: form });
       },
       onError: (err: any) => {
-        if (err.errors) {
-          for (const key of Object.keys(err.errors)) {
-            updateErrForm(key as keyof User, err.errors[key]);
+        console.log(err);
+        if (err.data) {
+          for (const key of Object.keys(err.data)) {
+            updateErrForm(key as keyof Form, err.data[key]);
           }
         }
       },

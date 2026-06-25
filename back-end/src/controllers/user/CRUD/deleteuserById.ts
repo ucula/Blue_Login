@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
 import service from "@/services/user/index";
+import { Payload } from "@/utils/response/response";
 
 export async function deleteuserById(req: Request, res: Response) {
   try {
     const { id } = req.params;
     const response = await service.CRUD.del(String(id));
-    res.status(response.code).send();
-  } catch (error: any) {
-    res.status(error.code).json({ message: error.message });
+    console.log(response);
+    res.status(response.code).json(response);
+  } catch (err: any) {
+    console.log(err);
+    res.status(err.code).json(new Payload(err));
   }
 }
