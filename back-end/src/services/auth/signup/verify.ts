@@ -1,32 +1,47 @@
-import authModel from "@/externals/authModel";
-import myData from "@/externals/userModel";
+import repo from "@/repositories";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
 import { AppError } from "@/utils/express/error";
 import { AppSuccess } from "@/utils/express/succes";
 
 export default async function verify(token: string) {
   if (token) {
-    const record = await authModel.findOne({ token });
-    if (!record) {
+    try {
+      // Verify the input token (Expired?, is used?)
+      const record = await repo.auth.get.getOne(token);
+      if (!record || record.isUsed) {
+        console.log("signupVerify: ", token);
+        throw new AppError(
+          HttpResponseCode.BAD_REQUEST,
+          "Invalid or expired token",
+        );
+      }
+
+      // Find user that has the same email as the provided token package
+      const user = await repo.user.get.getOne({ email: record.email });
+      if (!user) {
+        console.log("signupVerify: ", record.email);
+        throw new AppError(HttpResponseCode.NOT_FOUND, "User does not exist");
+      }
+
+      // Confirm user
+      await repo.user.update.updateById(String(user._id), { confirmed: true });
+      // Disable the token and log it
+      const response = await repo.auth.update.updateById(String(record._id), {
+        isUsed: true,
+      });
+      return new AppSuccess(HttpResponseCode.OK, "Verify Success", response);
+    } catch (err) {
+      console.error("signupVerify: ", err);
+      if (err instanceof AppError) {
+        throw err;
+      }
+
       throw new AppError(
-        HttpResponseCode.BAD_REQUEST,
-        "Invalid or expired token",
+        HttpResponseCode.INTERNAL_SERVER_ERROR,
+        "Database Error",
       );
     }
-
-    const user = await myData.findById(record.userId);
-    if (!user) {
-      throw new AppError(HttpResponseCode.NOT_FOUND, "User not found");
-    }
-
-    user.confirmed = true;
-    await user.save();
-
-    const db = await authModel.deleteOne({ _id: record._id });
-
-    return new AppSuccess(HttpResponseCode.OK, "Success", db);
   }
-
   throw new AppError(
     HttpResponseCode.BAD_REQUEST,
     "Email or token is required",

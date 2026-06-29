@@ -1,19 +1,21 @@
-import type { UserError } from "@/types/user";
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import type { Form } from "@/types/form";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import service from "@/services";
-import { hasInput } from "@/utility/checkInput";
-import { correctFormat } from "@/utility/checkFormat";
+import type { Auth } from "@/types/auth/auth";
+import type { AuthError } from "@/types/auth/error";
+import { hasInput } from "@/utility/form/checkInput";
+import { correctFormat } from "@/utility/form/checkFormat";
 
 export default function usePass() {
-  const [form, setForm] = useState<Partial<Form>>({});
-  const [errForm, setErrForm] = useState<Partial<UserError>>({});
-  const { mutate: resetMutate, isPending } = service.auth.reset.resetPass();
+  const [form, setForm] = useState<Partial<Auth>>({});
+  const [errForm, setErrForm] = useState<Partial<AuthError>>({});
+  const [searchParams] = useSearchParams();
+  const { mutate: resetMutate, isPending } = service.auth.reset.useReset();
 
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email as string;
+  const token = searchParams.get("token");
 
   const updateForm = (label: string, value: string) => {
     setForm((prev) => ({ ...prev, [label]: value }));
@@ -39,7 +41,7 @@ export default function usePass() {
     }
 
     resetMutate(
-      { email, pass: form.pass },
+      { email, pass: form.pass, token },
       {
         onSuccess: () => {
           navigate("/");

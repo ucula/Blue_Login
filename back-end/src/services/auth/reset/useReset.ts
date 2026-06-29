@@ -1,27 +1,56 @@
 import repo from "@/repositories/index";
 import bcrypt from "bcryptjs";
 import { SALT_ROUNDS } from "@/config";
-import { AppError } from "@/utils/express/error";
 import { AppSuccess } from "@/utils/express/succes";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
+import { AppError } from "@/utils/express/error";
 
-export default async function useReset(email: string, pass: string) {
-  const data = await repo.user.get.getOne("email", email);
-  if (!data)
-    throw new AppError(HttpResponseCode.NOT_FOUND, "Email does not exist");
+export default async function useReset(
+  email: string,
+  pass: string,
+  token: string,
+) {
+  try {
+    // Look for user
+    const user = await repo.user.get.getOne({ email: email });
+    if (!user) {
+      console.log(email);
+      throw new AppError(
+        HttpResponseCode.BAD_REQUEST,
+        "User does not exist",
+        email,
+      );
+    }
 
-  const isMatch = await bcrypt.compare(pass, data.pass);
-  if (isMatch)
+    // If user found
+    // Hash password and save to database
+    pass = await bcrypt.hash(pass, SALT_ROUNDS);
+    const filter = { email };
+    const updatedData = { pass };
+    const response = await repo.user.update.updateOne(filter, updatedData);
+
+    // Find the auth record
+    const authRecord = await repo.auth.get.getOne(token);
+    if (!authRecord) {
+      console.log(token);
+      throw new AppError(
+        HttpResponseCode.BAD_REQUEST,
+        "Token does not exist in database",
+        token,
+      );
+    }
+    return new AppSuccess(HttpResponseCode.NO_CONTENT, "Success", {
+      response,
+    });
+  } catch (err: any) {
+    console.log("Service:", err);
+    if (err instanceof AppError) {
+      throw err;
+    }
+
     throw new AppError(
-      HttpResponseCode.BAD_REQUEST,
-      "Cannot change to same password",
+      HttpResponseCode.INTERNAL_SERVER_ERROR,
+      "Database Error",
     );
-
-  pass = await bcrypt.hash(pass, SALT_ROUNDS);
-
-  const filter = { email };
-  const updatedData = { pass };
-
-  const db = await repo.user.update.updateOne(filter, updatedData);
-  return new AppSuccess(HttpResponseCode.NO_CONTENT, "Success", db);
+  }
 }

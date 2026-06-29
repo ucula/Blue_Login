@@ -5,12 +5,18 @@ import {
   TextField,
   Typography,
   CircularProgress,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import useSignup from "./useMain";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import AuthTextField from "../../componenents/AuthTextFieldProps/authTextField";
 export default function showMain() {
   const {
-    form,
+    hidePass,
+    handleClickShowPassword,
     isPending,
+    form,
     errForm,
     handleCancel,
     updateForm,
@@ -29,7 +35,7 @@ export default function showMain() {
           width: "30%",
         }}
       >
-        {isPending && (
+        {isPending ? (
           <Box sx={{ justifyItems: "center" }}>
             <CircularProgress sx={{ mb: 2 }} />
             <Typography variant="h5" gutterBottom>
@@ -39,8 +45,7 @@ export default function showMain() {
               Please wait while we are sending your link.
             </Typography>
           </Box>
-        )}
-        {!isPending && (
+        ) : (
           <>
             <Box
               sx={{
@@ -52,116 +57,86 @@ export default function showMain() {
               <Typography variant="h5">Sign Up</Typography>
             </Box>
             <Stack>
-              <TextField
-                helperText={errForm.username}
-                error={!!errForm.username}
-                id="filled-basic"
+              <AuthTextField
+                error={errForm.username}
+                value={form.username ?? ""}
                 label="Username"
-                variant="standard"
-                value={form.username}
-                sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("username", e.target.value)}
               />
 
-              <TextField
-                helperText={errForm.name}
-                error={!!errForm.name}
-                id="filled-basic"
+              <AuthTextField
+                error={errForm.name}
+                value={form.name ?? ""}
                 label="Name"
-                variant="standard"
-                value={form.name}
-                sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("name", e.target.value)}
               />
 
-              <TextField
-                helperText={errForm.email}
-                error={!!errForm.email}
-                id="filled-basic"
+              <AuthTextField
+                error={errForm.email}
+                value={form.email ?? ""}
                 label="Email"
-                variant="standard"
-                value={form.email}
-                sx={{ marginBottom: 3 }}
                 onChange={(e) => updateForm("email", e.target.value)}
               />
 
-              <TextField
-                id="filled-basic"
+              <AuthTextField
                 label="Street"
-                variant="standard"
-                sx={{ marginBottom: 3 }}
-                onChange={(e) => updateForm("street", e.target.value)}
+                value={form.address?.street ?? ""}
+                onChange={(e) => updateAddressField("street", e.target.value)}
               />
 
-              <TextField
-                id="filled-basic"
+              <AuthTextField
                 label="Suite"
-                variant="standard"
-                sx={{ marginBottom: 3 }}
+                value={form.address?.suite ?? ""}
                 onChange={(e) => updateAddressField("suite", e.target.value)}
               />
 
-              <TextField
-                id="filled-basic"
+              <AuthTextField
                 label="City"
-                variant="standard"
-                sx={{ marginBottom: 3 }}
+                value={form.address?.city ?? ""}
                 onChange={(e) => updateAddressField("city", e.target.value)}
               />
 
-              <TextField
-                id="filled-basic"
+              <AuthTextField
                 label="Zipcode"
-                variant="standard"
-                sx={{ marginBottom: 3 }}
+                value={form.address?.zipcode ?? ""}
                 onChange={(e) => updateAddressField("zipcode", e.target.value)}
               />
 
-              <TextField
-                id="filled-basic"
+              <AuthTextField
                 label="Phone"
-                variant="standard"
-                sx={{ marginBottom: 3 }}
+                value={form.phone ?? ""}
                 onChange={(e) => updateForm("phone", e.target.value)}
               />
 
-              <TextField
-                id="filled-basic"
+              <AuthTextField
+                error={errForm.website}
                 label="Website"
-                variant="standard"
-                sx={{ marginBottom: 3 }}
+                value={form.website ?? ""}
                 onChange={(e) => updateForm("website", e.target.value)}
               />
 
-              <TextField
-                id="filled-basic"
+              <AuthTextField
                 label="Company"
-                variant="standard"
-                sx={{ marginBottom: 3 }}
+                value={form.company?.name ?? ""}
                 onChange={(e) => updateCompanyField("name", e.target.value)}
               />
 
-              <TextField
-                helperText={errForm.pass}
-                error={!!errForm.pass}
-                id="filled-basic"
+              <AuthTextField
+                error={errForm.pass}
                 label="Password"
-                variant="standard"
-                value={form.pass}
-                sx={{ marginBottom: 3 }}
+                value={form.pass ?? ""}
                 onChange={(e) => updateForm("pass", e.target.value)}
+                isPass={true}
               />
 
-              <TextField
-                helperText={errForm.pass}
-                error={!!errForm.pass}
-                id="filled-basic"
+              <AuthTextField
+                error={errForm.pass}
                 label="Confirm Password"
-                variant="standard"
-                value={form.confirm}
-                sx={{ marginBottom: 3 }}
+                value={form.confirm ?? ""}
                 onChange={(e) => updateForm("confirm", e.target.value)}
+                isPass={true}
               />
+
               <Button
                 sx={{ bgcolor: "rgba(255, 158, 133, 1)" }}
                 onClick={handleSignup}

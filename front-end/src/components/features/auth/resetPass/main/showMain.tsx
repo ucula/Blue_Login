@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import useMain from "./useMain";
 export default function showMain() {
-  const { form, isPending, errForm, handleCancel, updateForm, handleNext } =
+  const { form, errForm, isPending, handleCancel, updateForm, handleNext } =
     useMain();
   return (
     <Box
@@ -44,8 +44,8 @@ export default function showMain() {
             </Box>
             <Stack>
               <TextField
-                helperText={errForm.email}
                 error={!!errForm.email}
+                helperText={errForm.email}
                 id="filled-basic"
                 label="Input your email"
                 variant="standard"

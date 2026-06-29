@@ -1,5 +1,5 @@
-import { newPassVerify } from "./verify";
-import { sendEmail } from "./sendEmail";
-import { resetPass } from "./resetPass";
+import verify from "./verify";
+import sendEmail from "./sendEmail";
+import useReset from "./useReset";
 
-export { newPassVerify, sendEmail, resetPass };
+export { verify, sendEmail, useReset };

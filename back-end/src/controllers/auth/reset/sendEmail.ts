@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Payload } from "@/utils/express/response";
 import service from "@/services/index";
+import { Payload } from "@/utils/express/response";
 
 export default async function sendEmail(req: Request, res: Response) {
   try {

@@ -1,25 +1,37 @@
-import authModel from "@/externals/authModel";
+import repo from "@/repositories";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
 import { AppError } from "@/utils/express/error";
 import { AppSuccess } from "@/utils/express/succes";
 
 export default async function verify(token: string) {
+  // Needs token to be able to continue
   if (token) {
-    const record = await authModel
-      .findOne({ token })
-      .populate("userId", "email");
-    if (!record) {
+    try {
+      const record = await repo.auth.get.getOne(token);
+      if (!record || record.isUsed) {
+        console.error("Error:", token);
+        throw new AppError(
+          HttpResponseCode.BAD_REQUEST,
+          "Invalid or expired token",
+        );
+      }
+
+      const user = await repo.user.get.getOne({
+        email: String(record.email),
+      });
+      const email = user?.email;
+      return new AppSuccess(HttpResponseCode.OK, "Success", { email });
+    } catch (err) {
+      console.error("Service: ", err);
+      if (err instanceof AppError) {
+        throw err;
+      }
+
       throw new AppError(
-        HttpResponseCode.BAD_REQUEST,
-        "Invalid or expired token",
+        HttpResponseCode.INTERNAL_SERVER_ERROR,
+        "Database Error",
       );
     }
-
-    const email = (record.userId as any).email;
-    await authModel.deleteOne({ _id: record._id });
-
-    return new AppSuccess(HttpResponseCode.OK, "Success", { email });
   }
-
   throw new AppError(HttpResponseCode.BAD_REQUEST, "Token is required");
 }

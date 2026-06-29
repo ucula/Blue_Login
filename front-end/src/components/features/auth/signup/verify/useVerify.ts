@@ -1,5 +1,5 @@
-import service from "@/services";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import service from "@/services";
 
 export default function useVerify() {
   const navigate = useNavigate();
@@ -10,8 +10,7 @@ export default function useVerify() {
     navigate("/");
   };
 
-  const { isPending, isSuccess, isError } =
-    service.auth.signup.signupVerify(token);
+  const { isPending, isSuccess, isError } = service.auth.signup.verify(token);
 
   return {
     token,

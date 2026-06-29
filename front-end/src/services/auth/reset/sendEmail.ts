@@ -1,7 +1,7 @@
 import { useFetch } from "@/utility/useFetch";
 import { useMutation } from "@tanstack/react-query";
 
-export function sendEmail() {
+export default function sendEmail() {
   return useMutation({
     mutationFn: async (email: string) => {
       return await useFetch(

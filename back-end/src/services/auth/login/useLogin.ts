@@ -1,35 +1,45 @@
-import repo from "@/repositories/index";
+import { AUTH_EXPIRES, JWT_SECRET } from "@/config";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { AppError } from "@/utils/express/error";
+import repo from "@/repositories/index";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
-import { AUTH_EXPIRES, JWT_SECRET } from "@/config";
 import { AppSuccess } from "@/utils/express/succes";
+import { AppError } from "@/utils/express/error";
 
 export default async function useLogin(email: string, pass: string) {
-  const data = await repo.user.get.getOne("email", email);
-  if (!data)
-    throw new AppError(
-      HttpResponseCode.NOT_FOUND,
-      "Email does not exist",
-      "email",
-    );
+  // Check Validation
+  try {
+    const data = await repo.user.get.getOne({ email: email });
+    if (!data || !data.confirmed) {
+      console.log("useLogin: ", email);
+      throw new AppError(
+        HttpResponseCode.BAD_REQUEST,
+        "Wrong Username or Password",
+      );
+    }
 
-  if (!data.confirmed)
-    throw new AppError(
-      HttpResponseCode.FORBIDDEN,
-      "Unverified account",
-      "email",
-    );
+    const isMatch = await bcrypt.compare(pass, data.pass);
+    if (!isMatch) {
+      console.log("useLogin: ", pass);
+      throw new AppError(
+        HttpResponseCode.BAD_REQUEST,
+        "Wrong Username or Password",
+      );
+    }
 
-  const isMatch = await bcrypt.compare(pass, data.pass);
-  if (!isMatch) {
-    throw new AppError(HttpResponseCode.BAD_REQUEST, "Wrong Password", "pass");
+    // Generate token and return back
+    const token = jwt.sign({ id: data._id }, JWT_SECRET, {
+      expiresIn: AUTH_EXPIRES,
+    });
+    return new AppSuccess(HttpResponseCode.OK, "Success", { token });
+  } catch (err) {
+    if (err instanceof AppError) {
+      throw err;
+    }
+
+    throw new AppError(
+      HttpResponseCode.INTERNAL_SERVER_ERROR,
+      "Database Error",
+    );
   }
-
-  const token = jwt.sign({ id: data._id }, JWT_SECRET, {
-    expiresIn: AUTH_EXPIRES,
-  });
-
-  return new AppSuccess(HttpResponseCode.OK, "Success", { token });
 }

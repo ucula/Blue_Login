@@ -1,5 +1,5 @@
+import type { User } from "@/types/user/user";
 import { Box, Grid } from "@mui/material";
-import { type User } from "@/types/user";
 
 export default function BriefInfoBox({
   user: { _id, username, name, email },

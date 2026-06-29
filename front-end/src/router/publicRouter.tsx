@@ -11,7 +11,7 @@ export const publicRoutes: RouteObject[] = [
     element: <pages.auth.reset.Main />,
   },
   {
-    path: "/reset/email-sent",
+    path: "/reset/email/send",
     element: <pages.auth.reset.Send />,
   },
   {
@@ -27,7 +27,7 @@ export const publicRoutes: RouteObject[] = [
     element: <pages.auth.signup.Main />,
   },
   {
-    path: "/signup/email-sent",
+    path: "/signup/email/send",
     element: <pages.auth.signup.Send />,
   },
   {

@@ -1,5 +1,5 @@
+import type { User } from "@/types/user/user";
 import { useFetch } from "@/utility/useFetch";
-import type { User } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 
 export function postUser() {
@@ -8,7 +8,7 @@ export function postUser() {
       return await useFetch<void>(
         "http://localhost:5001/api/user",
         "POST",
-        user
+        user,
       );
     },
   });

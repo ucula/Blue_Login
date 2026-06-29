@@ -9,6 +9,10 @@ export async function del(id: string) {
     return new AppSuccess(HttpResponseCode.NO_CONTENT, "Success", db);
   } catch (err: any) {
     console.error(err);
+    if (err instanceof AppError) {
+      throw err;
+    }
+
     throw new AppError(
       HttpResponseCode.INTERNAL_SERVER_ERROR,
       "Database Error",

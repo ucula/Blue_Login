@@ -8,24 +8,19 @@ export default function requireAuth(
   res: Response,
   next: NextFunction,
 ) {
-  if (!JWT_SECRET) {
-    throw new Error("JWT_SECRET is not defined in env");
-  }
-
-  const { authorization } = req.headers;
-  if (!authorization || !authorization.startsWith("Bearer ")) {
-    return res
-      .status(HttpResponseCode.UNAUTHORIZED)
-      .json({ message: "Access denied. No token provided." });
-  }
-
-  const token = authorization.split(" ")[1];
   try {
+    const { authorization } = req.headers;
+    if (!authorization || !authorization.startsWith("Bearer ")) {
+      return res
+        .status(HttpResponseCode.UNAUTHORIZED)
+        .json({ message: "No token in headers" });
+    }
+    const token = authorization.split(" ")[1];
     jwt.verify(token, JWT_SECRET);
     next();
-  } catch (error) {
+  } catch {
     return res
       .status(HttpResponseCode.UNAUTHORIZED)
-      .json({ message: "Invalid or expired token." });
+      .json({ message: "Token not match" });
   }
 }

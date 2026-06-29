@@ -9,7 +9,7 @@ export default async function useLogin(req: Request, res: Response) {
     console.log(response);
     res.status(response.code).json(new Payload(response));
   } catch (err: any) {
-    console.log(err);
+    console.log("Controller: ", err);
     res.status(err.code).json(new Payload(err));
   }
 }

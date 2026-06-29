@@ -13,29 +13,37 @@ type error = {
 export async function create(user: User) {
   let data;
   let error: Partial<error> = {};
-  data = await repo.user.get.getOne("username", user.username);
-  if (data && data.confirmed) error.username = "Username already exists";
 
-  data = await repo.user.get.getOne("email", user.email);
-  if (data && data.confirmed) error.email = "Email already exists";
-
-  if (Object.keys(error).length > 0) {
-    console.log("error");
-    throw new AppError(
-      HttpResponseCode.BAD_REQUEST,
-      "Validation failed",
-      error,
-    );
-  }
-
-  if (!user.pass) {
-    user.pass = "1234567890";
-  }
-  user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);
   try {
+    // Check for duplicated username and email
+    data = await repo.user.get.getOne({ username: user.username });
+    if (data && data.confirmed) error.username = "Username already exists";
+
+    data = await repo.user.get.getOne({ email: user.email });
+    if (data && data.confirmed) error.email = "Email already exists";
+
+    if (Object.keys(error).length > 0) {
+      console.log("error");
+      throw new AppError(
+        HttpResponseCode.BAD_REQUEST,
+        "Validation failed",
+        error,
+      );
+    }
+
+    // Will be removed in the future
+    if (!user.pass) {
+      user.pass = "1234567890";
+    }
+    user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);
+
     const db = await repo.user.post.post(user);
     return new AppSuccess(HttpResponseCode.CREATED, "Success", db);
   } catch (err: any) {
+    if (err instanceof AppError) {
+      throw err;
+    }
+
     throw new AppError(
       HttpResponseCode.INTERNAL_SERVER_ERROR,
       "Database Error",

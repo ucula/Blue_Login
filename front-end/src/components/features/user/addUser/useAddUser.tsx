@@ -1,51 +1,54 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { User, UserError } from "@/types/user";
 import service from "@/services";
-import { hasInput } from "@/utility/checkInput";
-import { correctFormat } from "@/utility/checkFormat";
+import { hasInput } from "@/utility/form/checkInput";
+import type { UserError } from "@/types/user/error";
+import type { UserForm } from "@/types/user/form";
+import { correctFormat } from "@/utility/form/checkFormat";
 
 export default function useAddUser() {
   const navigate = useNavigate();
   const { mutate: add } = service.CRUD.postUser();
 
   const [error, setError] = useState<Partial<UserError>>({});
-  const [form, setForm] = useState<Partial<User>>({});
+  const [form, setForm] = useState<Partial<UserForm>>({ confirmed: true });
 
   const handleHome = () => {
     navigate("/brief");
   };
 
-  const updateField = (key: keyof User, value: string) => {
+  const updateForm = (key: keyof UserForm, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value.trim() }));
   };
 
-  const updateAddressField = (key: keyof User["address"], value: string) => {
+  const updateAddressField = (
+    key: keyof UserForm["address"],
+    value: string,
+  ) => {
     setForm((prev) => ({
       ...prev,
       address: { ...prev.address, [key]: value.trim() },
     }));
   };
 
-  const updateCompanyField = (key: keyof User["company"], value: string) => {
+  const updateCompanyField = (
+    key: keyof UserForm["company"],
+    value: string,
+  ) => {
     setForm((prev) => ({
       ...prev,
       company: { ...prev.company, [key]: value.trim() },
     }));
   };
 
-  const updateErrForm = (key: keyof User, value: string) => {
-    setError((prev) => ({ ...prev, [key]: value.trim() }));
-  };
-
   const handleSave = async () => {
     setError({});
 
-    if (!hasInput(["username", "name", "email"], form, updateErrForm)) {
+    if (!hasInput(["username", "name", "email"], form, updateForm)) {
       return;
     }
 
-    if (!correctFormat(["email", "website"], form, updateErrForm)) {
+    if (!correctFormat(["email", "website"], form, updateForm)) {
       return;
     }
 
@@ -56,7 +59,7 @@ export default function useAddUser() {
       onError: (err: any) => {
         if (err.data) {
           for (const key of Object.keys(err.data)) {
-            updateErrForm(key as keyof User, err.data[key]);
+            updateForm(key as keyof UserForm, err.data[key]);
           }
         }
       },
@@ -66,7 +69,7 @@ export default function useAddUser() {
   return {
     error,
     form,
-    updateField,
+    updateForm,
     updateAddressField,
     updateCompanyField,
     handleSave,

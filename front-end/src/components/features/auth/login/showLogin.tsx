@@ -2,7 +2,7 @@ import { Box, Stack, Button, TextField, Typography, Link } from "@mui/material";
 import useLogin from "./useLogin";
 
 export default function showLogin() {
-  const { errForm, handleLogin, handleSignup, handleforgot, updateForm } =
+  const { errForm, handleLogin, handleSignup, handleForget, updateForm } =
     useLogin();
   return (
     <Box
@@ -47,7 +47,7 @@ export default function showLogin() {
             component="button"
             underline="hover"
             sx={{ marginBottom: 5 }}
-            onClick={handleforgot}
+            onClick={handleForget}
           >
             <Typography sx={{ justifySelf: "end", fontSize: "20px" }}>
               Forgot password?

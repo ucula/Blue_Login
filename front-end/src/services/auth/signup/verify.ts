@@ -1,7 +1,7 @@
-import { useFetch } from "@/utility/useFetch";
 import { useQuery } from "@tanstack/react-query";
+import { useFetch } from "@/utility/useFetch";
 
-export function signupVerify(token: string) {
+export function verify(token: string) {
   return useQuery({
     queryKey: ["signupVerify", token],
     queryFn: async () => {

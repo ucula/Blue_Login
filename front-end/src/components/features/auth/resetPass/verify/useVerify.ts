@@ -1,5 +1,6 @@
-import service from "@/services";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import service from "@/services";
 
 export default function useVerify() {
   const navigate = useNavigate();
@@ -7,18 +8,20 @@ export default function useVerify() {
   const token = searchParams.get("token");
 
   const { isPending, isSuccess, isError, data } =
-    service.auth.reset.newPassVerify(token);
+    service.auth.reset.verify(token);
 
-  const redirectReset = () => {
-    const email = data?.data?.email;
-    navigate("/reset/pass", { state: { email } });
-  };
+  useEffect(() => {
+    if (isSuccess) {
+      const email = data?.data?.email;
+      console.log(email);
+      navigate(`/reset/pass?token=${token}`, { state: { email } });
+    }
+  }, [isSuccess]);
 
   return {
     token,
     isPending,
     isSuccess,
     isError,
-    redirectReset,
   };
 }

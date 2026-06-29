@@ -1,26 +1,31 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { UserError } from "@/types/user";
 import service from "@/services";
-import type { Auth } from "@/types/auth";
-import { hasInput } from "@/utility/checkInput";
-import { correctFormat } from "@/utility/checkFormat";
+import type { Auth } from "@/types/auth/auth";
+import type { AuthError } from "@/types/auth/error";
+import { hasInput } from "@/utility/form/checkInput";
+import { correctFormat } from "@/utility/form/checkFormat";
 
 export default function useLogin() {
   const navigate = useNavigate();
   const [form, setForm] = useState<Partial<Auth>>({});
-  const [errForm, setErrForm] = useState<Partial<UserError>>({});
-  const { mutate: loginMutate } = service.auth.logIn();
+  const [errForm, setErrForm] = useState<Partial<AuthError>>({});
+  const { mutate: loginMutate } = service.auth.login.useLogin();
 
   const updateForm = (label: string, value: string) => {
     setForm((prev) => ({ ...prev, [label]: value.trim() }));
   };
 
   const updateErrForm = (label: string, value: string) => {
-    setErrForm((prev) => ({ ...prev, [label]: value }));
+    setErrForm((prev) => ({ ...prev, [label]: value.trim() }));
   };
+
   const handleSignup = () => {
     navigate("/signup");
+  };
+
+  const handleForget = () => {
+    navigate("/reset/email");
   };
 
   const handleLogin = async () => {
@@ -33,14 +38,10 @@ export default function useLogin() {
         navigate("/brief");
       },
       onError: (err: any) => {
-        console.log(err);
-        updateErrForm(err.data, err.message);
+        console.log("Front: ", err);
+        setErrForm({ email: err.message, pass: err.message });
       },
     });
   };
-
-  const handleforgot = () => {
-    navigate("/reset/email");
-  };
-  return { form, errForm, handleLogin, handleSignup, handleforgot, updateForm };
+  return { form, errForm, handleLogin, handleSignup, handleForget, updateForm };
 }

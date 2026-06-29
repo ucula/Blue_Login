@@ -1,7 +1,7 @@
 import { Box, Typography, Button, CircularProgress } from "@mui/material";
-import useVerify from "./useVerify";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
+import useVerify from "./useVerify";
 
 export default function showVerify() {
   const { isPending, isSuccess, isError, handleLogin } = useVerify();

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import type { User, UserError } from "@/types/user";
 import service from "@/services";
-import { hasInput } from "@/utility/checkInput";
-import { correctFormat } from "@/utility/checkFormat";
+import { hasInput } from "@/utility/form/checkInput";
+import type { UserError } from "@/types/user/error";
+import type { User } from "@/types/user/user";
+import { correctFormat } from "@/utility/form/checkFormat";
 
 export default function useEditInfo() {
   const navigate = useNavigate();

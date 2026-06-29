@@ -1,7 +1,7 @@
 import { useFetch } from "@/utility/useFetch";
 import { useQuery } from "@tanstack/react-query";
 
-export function newPassVerify(token: string) {
+export default function verify(token: string) {
   return useQuery({
     queryKey: ["newPassVerify", token],
     queryFn: async () => {

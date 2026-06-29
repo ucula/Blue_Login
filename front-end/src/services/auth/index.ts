@@ -1,5 +1,5 @@
 import * as reset from "./reset/index";
 import * as signup from "./signup/index";
-import { logIn } from "./login";
+import * as login from "./login/index";
 
-export { reset, signup, logIn };
+export { reset, signup, login };

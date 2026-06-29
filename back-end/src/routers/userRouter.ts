@@ -12,7 +12,7 @@ app.post("/user/login", controllers.auth.login.useLogin);
 
 app.post("/user/reset/email", controllers.auth.reset.sendEmail);
 app.get("/user/reset/verify", controllers.auth.reset.verify);
-app.patch("/user/reset-pass", controllers.auth.reset.useReset);
+app.patch("/user/reset/pass", controllers.auth.reset.useReset);
 
 // Protected routes
 app.get("/user", middleware.auth, controllers.user.list);

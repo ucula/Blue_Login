@@ -8,7 +8,7 @@ export default function showAddUser() {
   const {
     error,
     form,
-    updateField,
+    updateForm,
     updateAddressField,
     updateCompanyField,
     handleSave,
@@ -37,7 +37,7 @@ export default function showAddUser() {
                 error={error.username}
                 label="Username: "
                 value={form.username}
-                onChange={(e) => updateField("username", e.target.value)}
+                onChange={(e) => updateForm("username", e.target.value)}
               />
             </Grid>
             <Grid size={size}></Grid>
@@ -47,7 +47,7 @@ export default function showAddUser() {
                 error={error.name}
                 label="Name: "
                 value={form.name}
-                onChange={(e) => updateField("name", e.target.value)}
+                onChange={(e) => updateForm("name", e.target.value)}
               />
             </Grid>
             <Grid size={size}>
@@ -55,7 +55,7 @@ export default function showAddUser() {
                 error={error.email}
                 label="Email: "
                 value={form.email}
-                onChange={(e) => updateField("email", e.target.value)}
+                onChange={(e) => updateForm("email", e.target.value)}
               />
             </Grid>
 
@@ -96,7 +96,7 @@ export default function showAddUser() {
               <FormUserBox
                 label="Phone: "
                 value={form.phone}
-                onChange={(e) => updateField("phone", e.target.value)}
+                onChange={(e) => updateForm("phone", e.target.value)}
               />
             </Grid>
             <Grid size={size}>
@@ -104,7 +104,7 @@ export default function showAddUser() {
                 error={error.website}
                 label="Website: "
                 value={form.website}
-                onChange={(e) => updateField("website", e.target.value)}
+                onChange={(e) => updateForm("website", e.target.value)}
               />
             </Grid>
 

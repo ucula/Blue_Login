@@ -1,3 +1,3 @@
-import { signUp } from "./signup";
-import { signupVerify } from "./signupVerify";
-export { signUp, signupVerify };
+import { useSignup } from "./useSignup";
+import { verify } from "./verify";
+export { useSignup, verify };

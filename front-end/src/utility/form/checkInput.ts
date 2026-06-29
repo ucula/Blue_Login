@@ -1,8 +1,9 @@
-import type { User, UserError } from "@/types/user";
+import type { UserError } from "@/types/user/error";
+import type { UserForm } from "@/types/user/form";
 
 export function hasInput(
-  fields: (keyof User)[],
-  form: Partial<User>,
+  fields: (keyof UserForm)[],
+  form: Partial<UserForm>,
   setEvent: (key: keyof UserError, value: string) => void,
 ): boolean {
   let isValid = true;

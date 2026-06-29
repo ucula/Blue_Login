@@ -1,40 +1,42 @@
-import type { UserError } from "@/types/user";
+import service from "@/services";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { hasInput } from "@/utility/checkInput";
-import { correctFormat } from "@/utility/checkFormat";
-import service from "@/services";
-import type { Form } from "@/types/form";
+import type { UserForm } from "@/types/user/form";
+import type { UserError } from "@/types/user/error";
+import { hasInput } from "@/utility/form/checkInput";
+import { correctFormat } from "@/utility/form/checkFormat";
 
 export default function useSignup() {
-  const [form, setForm] = useState<Partial<Form>>({
-    username: "cherio",
-    name: "chiriew",
-    email: "cheriew02@gmail.com",
-    pass: "1234567890",
-    confirm: "1234567890",
-  });
-
+  const [form, setForm] = useState<Partial<UserForm>>({});
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
-  const { isPending, mutate: signUpMutate } = service.auth.signup.signUp();
+  const { isPending, mutate: signupMutate } = service.auth.signup.useSignup();
+  const [hidePass, setHidePass] = useState(true);
+
+  const handleClickShowPassword = () => setHidePass((show) => !show);
   const navigate = useNavigate();
 
-  const updateForm = (label: string, value: string) => {
-    setForm((prev) => ({ ...prev, [label]: value }));
+  const updateForm = (key: keyof UserForm, value: string) => {
+    setForm((prev) => ({ ...prev, [key]: value.trim() }));
   };
 
   const updateErrForm = (label: string, value: string) => {
-    setErrForm((prev) => ({ ...prev, [label]: value }));
+    setErrForm((prev) => ({ ...prev, [label]: value.trim() }));
   };
 
-  const updateAddressField = (key: keyof Form["address"], value: string) => {
+  const updateAddressField = (
+    key: keyof UserForm["address"],
+    value: string,
+  ) => {
     setForm((prev) => ({
       ...prev,
       address: { ...prev.address, [key]: value.trim() },
     }));
   };
 
-  const updateCompanyField = (key: keyof Form["company"], value: string) => {
+  const updateCompanyField = (
+    key: keyof UserForm["company"],
+    value: string,
+  ) => {
     setForm((prev) => ({
       ...prev,
       company: { ...prev.company, [key]: value.trim() },
@@ -56,28 +58,26 @@ export default function useSignup() {
     }
 
     if (form.pass !== form.confirm) {
-      updateErrForm("pass", "Password and Confirm needs to be the same");
+      setErrForm({ pass: "Passwords need to be the same" });
       return;
     }
 
-    signUpMutate(form, {
+    signupMutate(form, {
       onSuccess: () => {
-        navigate("/signup/email-sent", { state: form });
+        navigate("/signup/email/send", { state: form });
       },
       onError: (err: any) => {
-        console.log(err);
-        if (err.data) {
-          for (const key of Object.keys(err.data)) {
-            updateErrForm(key as keyof Form, err.data[key]);
-          }
-        }
+        console.log("Front: ", err);
+        setErrForm({ username: err.message, email: err.message });
       },
     });
   };
 
   return {
-    form,
+    hidePass,
+    handleClickShowPassword,
     isPending,
+    form,
     errForm,
     handleCancel,
     updateForm,
