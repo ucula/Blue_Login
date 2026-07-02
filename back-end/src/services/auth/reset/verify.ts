@@ -7,7 +7,7 @@ export default async function verify(token: string) {
   // Needs token to be able to continue
   if (token) {
     try {
-      const record = await repo.auth.get.getOne(token);
+      const record = await repo.auth.getOne({ token });
       if (!record || record.isUsed) {
         console.error("Error:", token);
         throw new AppError(
@@ -16,7 +16,7 @@ export default async function verify(token: string) {
         );
       }
 
-      const user = await repo.user.get.getOne({
+      const user = await repo.user.getOne({
         email: String(record.email),
       });
       const email = user?.email;

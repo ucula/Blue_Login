@@ -1,10 +1,12 @@
 import { SALT_ROUNDS } from "@/config";
 import repo from "@/repositories/index";
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { AppError } from "@/utils/express/error";
 import { AppSuccess } from "@/utils/express/succes";
 import { User } from "@/types/user/user";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
+import { sendVerificationEmail } from "@/utils/auth/sendEmail";
 
 type error = {
   username?: string;
@@ -16,10 +18,10 @@ export async function create(user: User) {
 
   try {
     // Check for duplicated username and email
-    data = await repo.user.get.getOne({ username: user.username });
+    data = await repo.user.getOne({ username: user.username });
     if (data && data.confirmed) error.username = "Username already exists";
 
-    data = await repo.user.get.getOne({ email: user.email });
+    data = await repo.user.getOne({ email: user.email });
     if (data && data.confirmed) error.email = "Email already exists";
 
     if (Object.keys(error).length > 0) {
@@ -31,14 +33,21 @@ export async function create(user: User) {
       );
     }
 
-    // Will be removed in the future
     if (!user.pass) {
-      user.pass = "1234567890";
+      user.pass = crypto.randomBytes(32).toString("hex");
     }
     user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);
 
-    const db = await repo.user.post.post(user);
-    return new AppSuccess(HttpResponseCode.CREATED, "Success", db);
+    try {
+      const token = crypto.randomBytes(32).toString("hex");
+      await repo.user.post(user);
+      await repo.auth.post({ email: user.email, token: token });
+      await sendVerificationEmail(user.email ?? "", token, "/admin/add/verify");
+    } catch (err) {
+      console.log(err);
+    }
+
+    return new AppSuccess(HttpResponseCode.CREATED, "Success");
   } catch (err: any) {
     if (err instanceof AppError) {
       throw err;

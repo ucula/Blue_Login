@@ -1,4 +1,4 @@
-import Page from "@/components/features/auth/resetPass/main/showMain";
+import Page from "@/components/features/auth/resetPass/ResetEmailForm";
 
 export default function Main() {
   return <Page />;

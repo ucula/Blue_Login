@@ -1,4 +1,23 @@
-export interface User {
+interface Address {
+  street: string;
+  suite: string;
+  city: string;
+  zipcode: string;
+  geo: GeoLocation;
+}
+
+interface GeoLocation {
+  lat: string;
+  lng: string;
+}
+
+interface Company {
+  name: string;
+  catchPhrase: string;
+  bs: string;
+}
+
+interface User {
   _id: string;
   name: string;
   pass: string;
@@ -11,21 +30,6 @@ export interface User {
   confirmed?: boolean;
 }
 
-export interface Address {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-  geo: GeoLocation;
-}
+type UserError = Partial<Record<keyof User, string>>;
 
-export interface GeoLocation {
-  lat: string;
-  lng: string;
-}
-
-export interface Company {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-}
+export type { User, Address, GeoLocation, Company, UserError };

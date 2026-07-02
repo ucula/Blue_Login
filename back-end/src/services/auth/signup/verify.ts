@@ -7,7 +7,7 @@ export default async function verify(token: string) {
   if (token) {
     try {
       // Verify the input token (Expired?, is used?)
-      const record = await repo.auth.get.getOne(token);
+      const record = await repo.auth.getOne({ token });
       if (!record || record.isUsed) {
         console.log("signupVerify: ", token);
         throw new AppError(
@@ -17,16 +17,16 @@ export default async function verify(token: string) {
       }
 
       // Find user that has the same email as the provided token package
-      const user = await repo.user.get.getOne({ email: record.email });
+      const user = await repo.user.getOne({ email: record.email });
       if (!user) {
         console.log("signupVerify: ", record.email);
         throw new AppError(HttpResponseCode.NOT_FOUND, "User does not exist");
       }
 
       // Confirm user
-      await repo.user.update.updateById(String(user._id), { confirmed: true });
+      await repo.user.updateById(String(user._id), { confirmed: true });
       // Disable the token and log it
-      const response = await repo.auth.update.updateById(String(record._id), {
+      const response = await repo.auth.updateById(String(record._id), {
         isUsed: true,
       });
       return new AppSuccess(HttpResponseCode.OK, "Verify Success", response);

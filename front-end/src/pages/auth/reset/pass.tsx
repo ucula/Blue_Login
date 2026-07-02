@@ -1,4 +1,4 @@
-import Page from "@/components/features/auth/resetPass/pass/showPass";
+import Page from "@/components/features/auth/resetPass/ResetPasswordForm";
 
 export default function Pass() {
   return <Page />;

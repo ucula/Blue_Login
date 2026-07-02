@@ -10,24 +10,23 @@ import FaceIcon from "@mui/icons-material/Face";
 import ShowHeader from "@/components/common/baseComponents/header/header";
 import FootButton from "@/components/common/baseComponents/footButton/footButton";
 import ModalAlert from "@/components/common/baseComponents/modalAlert/modalAlert";
-import GridBox from "./components/gridBlock";
-import useAllInfo from "./useAllInfo";
+import GridBox from "@/components/features/user/components/GridBlock";
+import useAllInfo from "@/components/features/user/allInfo/useAllInfo";
 
 export default function showAllInfo() {
   const {
+    isLoading,
     user,
     del,
     handledialogue,
     handleHome,
     handleEdit,
     handleDelete,
-    showAddress,
-    showCompanyName,
   } = useAllInfo();
   const { username, name, email, address, phone, website, company } =
     user || {};
 
-  return !user ? (
+  return isLoading ? (
     <LoadingTemp label="Loading user profile..." />
   ) : (
     <Box>
@@ -57,7 +56,12 @@ export default function showAllInfo() {
           <GridBox
             icon={[<HomeIcon />]}
             size={12}
-            text={[<>Address: {showAddress(address)}</>]}
+            text={[
+              <>
+                Address:{" "}
+                <span>{`${address.street}, ${address.suite}, ${address.city}, ${address.zipcode}`}</span>
+              </>,
+            ]}
           />
 
           <GridBox
@@ -69,7 +73,11 @@ export default function showAllInfo() {
           <GridBox
             icon={[<BusinessIcon />]}
             size={12}
-            text={[<>Company: {showCompanyName(company)}</>]}
+            text={[
+              <>
+                Company: <span>{`${company.name}`}</span>
+              </>,
+            ]}
           />
         </Grid>
       </Box>

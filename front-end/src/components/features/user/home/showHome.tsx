@@ -1,11 +1,11 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import BriefInfoBox from "./components/infoBox";
+import BriefInfoBox from "@/components/features/user/components/InfoBox";
 import LoadingTemp from "@/components/common/skeleton/loadingTemp";
-import type { User } from "@/types/user";
+import type { User } from "@/types/user/user";
 import { Box, Grid, Stack } from "@mui/material";
 import Header from "@/components/common/baseComponents/header/header";
-import useHome from "./useHome";
+import useHome from "@/components/features/user/home/useHome";
 
 export default function showHome() {
   const {

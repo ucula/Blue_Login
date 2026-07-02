@@ -1,4 +1,5 @@
-import user from "./user";
-import auth from "./auth";
+import user from "./userRepository";
+import auth from "./authRepository";
+import base from "./baseRepository";
 
-export default { user, auth };
+export default { user, auth, base };

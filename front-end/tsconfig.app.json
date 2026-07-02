@@ -26,5 +26,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/components/.tsx"]
+  "include": ["src", "src/components/.tsx", "src/router/protectedRoutes/.tsx"]
 }

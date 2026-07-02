@@ -1,5 +1,6 @@
 import { useFetch } from "@/utility/useFetch";
 import { useMutation } from "@tanstack/react-query";
+import { API } from "@/config/path";
 
 export default function useReset() {
   return useMutation({
@@ -13,7 +14,7 @@ export default function useReset() {
       token: string;
     }) => {
       return await useFetch(
-        `http://localhost:5001/api/user/reset/pass?token=${token}`,
+        API.AUTH_RESET_WITH_TOKEN(token),
         "PATCH",
         {
           email: email,

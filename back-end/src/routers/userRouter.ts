@@ -1,24 +1,19 @@
+// authRoutes.ts
 import express from "express";
 import controllers from "../controllers/index";
-import * as middleware from "../middleware/index";
-
 const app = express.Router();
 
-// Public auth routes
-app.get("/user/signup/verify", controllers.auth.signup.verify);
-app.post("/user/signup", controllers.auth.signup.useSignup);
+// --- Signup flow ---
+app.post("/auth/signup", controllers.auth.signup.signup);
+app.get("/auth/signup/verify", controllers.auth.signup.verify);
+app.post("/auth/signup/resend", controllers.base.sendEmail); // resend verification email
 
-app.post("/user/login", controllers.auth.login.useLogin);
+// --- Login ---
+app.post("/auth/login", controllers.auth.login.login);
 
-app.post("/user/reset/email", controllers.auth.reset.sendEmail);
-app.get("/user/reset/verify", controllers.auth.reset.verify);
-app.patch("/user/reset/pass", controllers.auth.reset.useReset);
-
-// Protected routes
-app.get("/user", middleware.auth, controllers.user.list);
-app.get("/user/:id", middleware.auth, controllers.user.get);
-app.post("/user", middleware.auth, controllers.user.post);
-app.patch("/user/:id/edit", middleware.auth, controllers.user.update);
-app.delete("/user/:id", middleware.auth, controllers.user.del);
+// --- Password reset flow ---
+app.post("/auth/reset-password", controllers.auth.reset.sendEmail); // step 1: send reset email
+app.get("/auth/reset-password/verify", controllers.auth.reset.verify); // step 2: verify token
+app.patch("/auth/reset-password", controllers.auth.reset.reset); // step 3: actually reset
 
 export default app;

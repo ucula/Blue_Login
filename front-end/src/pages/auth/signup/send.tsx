@@ -1,4 +1,4 @@
-import Page from "@/components/features/auth/signup/send/showSend";
+import Page from "@/components/features/auth/signup/signupEmailSent";
 
 export default function EmailSent() {
   return <Page />;

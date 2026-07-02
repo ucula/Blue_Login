@@ -1,5 +1,5 @@
 import verify from "./verify";
 import sendEmail from "./sendEmail";
-import useReset from "./useReset";
+import reset from "./reset";
 
-export { sendEmail, verify, useReset };
+export { sendEmail, verify, reset };

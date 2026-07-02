@@ -20,9 +20,9 @@ export async function sendVerificationEmail(email: string) {
     const info = await transporter.sendMail({
       from: "cheriew02@gmail.com",
       to: email,
-      subject: "ปริศนาฟ้าเเว๊บๆ",
-      html: `<h1>คำถาม</h1>
-      <p>ถ้าอินชอบฮันนี่เเล้วเจิ้นชอบอินเเล้วฮันนี่ชอบเบิ้ลเเล้วเบิ้ลชอบสั่งข้าวเเละเจิ้นชอบเบิ้ล สรุปใครชอบเจิ้น</p>`,
+      subject: "",
+      html: `<h1></h1>
+      <p>กินข้าวได้เเล้วอิน พักบ้าง เล่นติ๊กต่อก</p>`,
     });
 
     console.log(`Message sent: ${info.messageId}`);
@@ -31,4 +31,4 @@ export async function sendVerificationEmail(email: string) {
   }
 }
 
-for (let i = 0; i < 5; i++) sendVerificationEmail("anuth.indy@gmail.com");
+sendVerificationEmail("anuth.indy@gmail.com");

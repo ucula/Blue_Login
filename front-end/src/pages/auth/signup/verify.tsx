@@ -1,4 +1,4 @@
-import Page from "@/components/features/auth/signup/verify/showVerify";
+import Page from "@/components/features/auth/signup/signupVerify";
 
 export default function Verify() {
   return <Page />;

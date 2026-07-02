@@ -2,6 +2,7 @@ import express from "express";
 import { connectDB } from "../externals/db";
 import configureMiddlewares from "../middleware/index";
 import userRouter from "../routers/userRouter";
+import authRouter from "../routers/authRouter";
 
 const app = express();
 
@@ -12,6 +13,7 @@ configureMiddlewares(app);
 connectDB();
 
 // Routes
-app.use("/api", userRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/auth", authRouter);
 
 export default app;

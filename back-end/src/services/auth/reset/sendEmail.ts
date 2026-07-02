@@ -8,7 +8,7 @@ import { AppSuccess } from "@/utils/express/succes";
 export default async function sendEmail(email: string) {
   // Check for existing email. If user does not exist, set time out to fake sending.
   try {
-    const data = await repo.user.get.getOne({ email: email });
+    const data = await repo.user.getOne({ email: email });
     if (!data || !data.confirmed) {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       return new AppSuccess(HttpResponseCode.OK, "Success");
@@ -17,7 +17,7 @@ export default async function sendEmail(email: string) {
     // If user exists, send actual email
     // Create auth document
     const token = crypto.randomBytes(32).toString("hex");
-    await repo.auth.post.post({ email: email, token: token });
+    await repo.auth.post({ email: email, token: token });
 
     // Send email verification
     const response = await sendVerificationEmail(email, token, "/reset/verify");

@@ -1,12 +1,13 @@
-import type { Auth } from "@/types/auth/auth";
+import type { LoginForm } from "@/types/auth/auth";
 import { useFetch } from "@/utility/useFetch";
 import { useMutation } from "@tanstack/react-query";
+import { API } from "@/config/path";
 
 export default function useLogin() {
   return useMutation({
-    mutationFn: async (form: Partial<Auth>) => {
+    mutationFn: async (form: Partial<LoginForm>) => {
       const response = await useFetch(
-        "http://localhost:5001/api/user/login",
+        API.AUTH_LOGIN,
         "POST",
         {
           email: form.email,
@@ -15,7 +16,7 @@ export default function useLogin() {
       );
 
       // Save token to localstorage
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("_session_state_id", response.data.token);
     },
   });
 }

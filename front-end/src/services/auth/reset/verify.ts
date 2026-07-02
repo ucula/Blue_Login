@@ -1,12 +1,13 @@
 import { useFetch } from "@/utility/useFetch";
 import { useQuery } from "@tanstack/react-query";
+import { API } from "@/config/path";
 
 export default function verify(token: string) {
   return useQuery({
     queryKey: ["newPassVerify", token],
     queryFn: async () => {
       return await useFetch(
-        `http://localhost:5001/api/user/reset/verify?token=${token}`,
+        API.AUTH_RESET_VERIFY(token),
         "GET",
       );
     },

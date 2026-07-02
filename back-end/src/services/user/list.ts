@@ -5,7 +5,7 @@ import { AppSuccess } from "@/utils/express/succes";
 
 export async function list() {
   try {
-    const db = await repo.user.list.list();
+    const db = await repo.user.list();
     return new AppSuccess(HttpResponseCode.OK, "Success", db);
   } catch (err: any) {
     console.error(err);

@@ -1,4 +1,4 @@
-import useSignup from "./useSignup";
+import signup from "./signup";
 import verify from "./verify";
 
-export { useSignup, verify };
+export { signup, verify };

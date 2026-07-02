@@ -1,11 +1,9 @@
-import type { UserForm } from "@/types/user/form";
 import { EMAIL_REGEX, WEBSITE_REGEX } from "..";
-import type { UserError } from "@/types/user/error";
 
 export function correctFormat(
-  fields: (keyof UserForm)[],
-  form: Partial<UserForm>,
-  setEvent: (key: keyof UserError, value: string) => void,
+  fields: (keyof any)[],
+  form: any,
+  setEvent: (key: keyof any, value: any) => void,
 ): boolean {
   let isValid = true;
   for (const key of fields) {

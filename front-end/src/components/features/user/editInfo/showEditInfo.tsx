@@ -1,23 +1,15 @@
 import { Box, Grid, Stack, CircularProgress, Typography } from "@mui/material";
 import Header from "@/components/common/baseComponents/header/header";
-import FormUserBox from "@/components/features/user/addUser/components/formBox";
+import FormUserBox from "@/components/features/user/components/FormBox";
 import FootButton from "@/components/common/baseComponents/footButton/footButton";
-import useEditInfo from "./useEditinfo";
+import useEditInfo from "./useEditInfo";
 
 export default function showEditInfo() {
-  const {
-    loading,
-    error,
-    form,
-    updateField,
-    updateAddressField,
-    updateCompanyField,
-    handleSave,
-    handleCancel,
-  } = useEditInfo();
+  const { isLoading, errForm, form, setForm, handleSave, handleCancel } =
+    useEditInfo();
 
   const size = 5;
-  return loading ? (
+  return isLoading ? (
     <Box
       sx={{
         display: "flex",
@@ -48,10 +40,10 @@ export default function showEditInfo() {
             {/* Row1 */}
             <Grid size={size}>
               <FormUserBox
-                error={error.username}
+                error={errForm.username}
                 label="Username: "
                 value={form.username}
-                onChange={(e) => updateField("username", e.target.value)}
+                onChange={(e) => setForm({ ...form, username: e.target.value })}
               />
             </Grid>
             <Grid size={size}></Grid>
@@ -59,18 +51,18 @@ export default function showEditInfo() {
             {/* Row2 */}
             <Grid size={size}>
               <FormUserBox
-                error={error.name}
+                error={errForm.name}
                 label="Name: "
                 value={form.name}
-                onChange={(e) => updateField("name", e.target.value)}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
             </Grid>
             <Grid size={size}>
               <FormUserBox
-                error={error.email}
+                error={errForm.email}
                 label="Email: "
                 value={form.email}
-                onChange={(e) => updateField("email", e.target.value)}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
               />
             </Grid>
 
@@ -79,14 +71,24 @@ export default function showEditInfo() {
               <FormUserBox
                 label="Street: "
                 value={form.address?.street || ""}
-                onChange={(e) => updateAddressField("street", e.target.value)}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    address: { ...form.address, street: e.target.value },
+                  })
+                }
               />
             </Grid>
             <Grid size={size}>
               <FormUserBox
                 label="Suite: "
                 value={form.address?.suite || ""}
-                onChange={(e) => updateAddressField("suite", e.target.value)}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    address: { ...form.address, suite: e.target.value },
+                  })
+                }
               />
             </Grid>
 
@@ -95,14 +97,24 @@ export default function showEditInfo() {
               <FormUserBox
                 label="City: "
                 value={form.address?.city || ""}
-                onChange={(e) => updateAddressField("city", e.target.value)}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    address: { ...form.address, city: e.target.value },
+                  })
+                }
               />
             </Grid>
             <Grid size={size}>
               <FormUserBox
                 label="Zip code: "
                 value={form.address?.zipcode || ""}
-                onChange={(e) => updateAddressField("zipcode", e.target.value)}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    address: { ...form.address, zipcode: e.target.value },
+                  })
+                }
               />
             </Grid>
 
@@ -111,15 +123,15 @@ export default function showEditInfo() {
               <FormUserBox
                 label="Phone: "
                 value={form.phone}
-                onChange={(e) => updateField("phone", e.target.value)}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
               />
             </Grid>
             <Grid size={size}>
               <FormUserBox
-                error={error.website}
+                error={errForm.website}
                 label="Website: "
                 value={form.website}
-                onChange={(e) => updateField("website", e.target.value)}
+                onChange={(e) => setForm({ ...form, website: e.target.value })}
               />
             </Grid>
 
@@ -128,7 +140,12 @@ export default function showEditInfo() {
               <FormUserBox
                 label="Company: "
                 value={form.company?.name || ""}
-                onChange={(e) => updateCompanyField("name", e.target.value)}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    company: { ...form.company, name: e.target.value },
+                  })
+                }
               />
             </Grid>
           </Grid>
