@@ -12,7 +12,7 @@ import SendingTemp from "@/components/common/skeleton/sendingTemp";
 import { PageContainer } from "@/components/common/baseComponents/layout";
 import { BaseCard } from "@/components/common/baseComponents/card";
 import { AuthInput } from "@/components/common/baseComponents/input";
-import { SubmitButton } from "@/components/common/baseComponents/button";
+import { BaseButton } from "@/components/common/baseComponents/button";
 import useMain from "./useResetEmail";
 
 export default function ResetEmailForm() {
@@ -70,7 +70,15 @@ export default function ResetEmailForm() {
             }}
           />
 
-          <SubmitButton onClick={handleNext}>Send Reset Link</SubmitButton>
+          <BaseButton
+            fullWidth
+            onClick={handleNext}
+            fontSize="26px"
+            weight={600}
+            sx={{ borderRadius: "12px", py: "12px" }}
+          >
+            Send Reset Link
+          </BaseButton>
 
           <Divider sx={{ borderColor: "#e2e8f0" }} />
 

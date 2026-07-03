@@ -3,19 +3,15 @@ import { InputAdornment } from "@mui/material";
 import MailOutlineIcon from "@mui/icons-material/MailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import useLogin from "./useLogin";
-import { PageContainer } from "../../../common/baseComponents/layout";
-import { HeaderLogo } from "../../../common/baseComponents/header";
-import { BaseCard } from "../../../common/baseComponents/card";
-import { AuthTitle } from "../../../common/baseComponents/typography";
-import {
-  AuthInput,
-  PasswordVisibilityToggle,
-} from "../../../common/baseComponents/input";
-import {
-  ForgotPassword,
-  SubmitButton,
-} from "../../../common/baseComponents/button";
-import { AuthFooter } from "../../../common/baseComponents/footer";
+import { PageContainer } from "@/components/common/baseComponents/layout";
+import { HeaderLogo } from "@/components/common/baseComponents/header";
+import { BaseCard } from "@/components/common/baseComponents/card";
+import { AuthTitle } from "@/components/common/baseComponents/typography";
+import { Box } from "@mui/material";
+import { AuthInput } from "@/components/common/baseComponents/input";
+import { PasswordVisibilityToggle } from "@/components/common/baseComponents/tool";
+import { BaseButton } from "@/components/common/baseComponents/button";
+import { AuthFooter } from "@/components/common/baseComponents/footer";
 
 export default function showLogin() {
   const { form, errForm, handleLogin, handleSignup, handleForget, setForm } =
@@ -84,10 +80,22 @@ export default function showLogin() {
         />
 
         {/* Forgot Password Link */}
-        <ForgotPassword onClick={handleForget} label="Forgot password?" />
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1.5 }}>
+          <BaseButton variant="text" onClick={handleForget}>
+            Forgot password?
+          </BaseButton>
+        </Box>
 
         {/* Submit Button */}
-        <SubmitButton onClick={handleLogin}>Sign in</SubmitButton>
+        <BaseButton
+          fullWidth
+          onClick={handleLogin}
+          fontSize="26px"
+          weight={600}
+          sx={{ borderRadius: "12px", py: "12px" }}
+        >
+          Sign in
+        </BaseButton>
       </BaseCard>
 
       {/* Footer Registration Link */}

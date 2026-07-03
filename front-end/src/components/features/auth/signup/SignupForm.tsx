@@ -14,8 +14,9 @@ import { checkPasswordStrength } from "@/utility/password/checkStrength";
 import { PageContainer } from "@/components/common/baseComponents/layout";
 import { BaseCard } from "@/components/common/baseComponents/card";
 import { AuthTitle } from "@/components/common/baseComponents/typography";
-import { AuthInput, PasswordVisibilityToggle } from "@/components/common/baseComponents/input";
-import { SubmitButton } from "@/components/common/baseComponents/button";
+import { AuthInput } from "@/components/common/baseComponents/input";
+import { PasswordVisibilityToggle } from "@/components/common/baseComponents/tool";
+import { BaseButton } from "@/components/common/baseComponents/button";
 import { AuthFooter } from "@/components/common/baseComponents/footer";
 
 export default function SignupForm() {
@@ -170,9 +171,16 @@ export default function SignupForm() {
         </Box>
 
         {/* Submit Button */}
-        <SubmitButton onClick={handleSignup} endIcon={<ArrowForwardIcon />}>
+        <BaseButton
+          fullWidth
+          onClick={handleSignup}
+          endIcon={<ArrowForwardIcon />}
+          fontSize="26px"
+          weight={600}
+          sx={{ borderRadius: "12px", py: "12px" }}
+        >
           Create Account
-        </SubmitButton>
+        </BaseButton>
       </BaseCard>
 
       {/* Footer Sign in Link */}
