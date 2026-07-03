@@ -8,8 +8,8 @@ export default function useAllInfo() {
   const navigate = useNavigate();
   const [del, setDel] = useState<boolean>(false);
 
-  const { data: user, isLoading } = service.CRUD.fetchUserById(String(id));
-  const { mutate: deleteUser } = service.CRUD.delUserById(String(id));
+  const { data: user, isLoading } = service.user.fetchUserById(String(id));
+  const { mutate: deleteUser } = service.user.delUserById(String(id));
 
   const handledialogue = () => {
     setDel(!del);

@@ -1,4 +1,4 @@
-import useSend from "@/components/features/user/addUser/send/useSend";
+import useSend from "./useSend";
 import SendTemp from "@/components/common/baseComponents/sendTemp/sendTemp";
 
 export default function showSend() {

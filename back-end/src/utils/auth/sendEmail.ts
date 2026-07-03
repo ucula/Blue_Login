@@ -1,4 +1,7 @@
 import { CLIENT_URL, SMTP_PASS, SMTP_USER } from "@/config";
+import React from "react";
+import { render } from "@react-email/render";
+import VerifyEmailTemplate from "./templates/VerifyEmailTemplate";
 
 export async function sendVerificationEmail(
   email: string,
@@ -21,13 +24,15 @@ export async function sendVerificationEmail(
   const verificationUrl = `${CLIENT_URL}${path}?token=${token}`;
 
   try {
+    const htmlContent = await render(
+      React.createElement(VerifyEmailTemplate, { verificationUrl })
+    );
+
     const info = await transporter.sendMail({
       from: SMTP_USER,
       to: email,
       subject: "Verification Link - Blue Login",
-      html: `<h1>Verify your email</h1>
-      <p>Please verify your email by clicking the link below:</p>
-      <a href="${verificationUrl}">${verificationUrl}</a>`,
+      html: htmlContent,
     });
 
     console.log(`Message sent: ${info.messageId}`);

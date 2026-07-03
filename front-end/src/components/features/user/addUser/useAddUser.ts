@@ -8,7 +8,7 @@ import { correctFormat } from "@/utility/form/checkFormat";
 
 export default function useAddUser() {
   const navigate = useNavigate();
-  const { mutate: add, isPending } = service.CRUD.postUser();
+  const { mutate: add, isPending } = service.user.postUser();
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
   const [form, setForm] = useState<Partial<User>>({ confirmed: true });
 

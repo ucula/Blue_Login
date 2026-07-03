@@ -1,4 +1,4 @@
-import Page from "@/components/features/user/addUser/pass/ShowPass";
+import Page from "@/components/features/user/addUser/ShowPass";
 
 export default function Pass() {
   return <Page />;

@@ -7,6 +7,12 @@ import { AppError } from "@/utils/express/error";
 
 export default async function sendEmail(email: string, path: string) {
   try {
+    const data = await repo.user.getOne({ email: email });
+    if (!data || !data.confirmed) {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      return new AppSuccess(HttpResponseCode.NO_CONTENT, "Successfully sent");
+    }
+
     const token = crypto.randomBytes(32).toString("hex");
     await repo.base.updateMany({ email: email }, { isUsed: true });
     await repo.auth.post({ email: email, token: token }); // post token

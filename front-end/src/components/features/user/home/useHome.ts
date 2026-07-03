@@ -6,7 +6,7 @@ import type { User } from "@/types/user/user";
 
 export default function useHome() {
   const navigate = useNavigate();
-  const { data: users, isLoading } = service.CRUD.fetchUsers();
+  const { data: users, isLoading } = service.user.fetchUsers();
   const [filterText, setFilterText] = useState("");
 
   const handleBack = () => {

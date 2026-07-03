@@ -1,136 +1,186 @@
-import { Stack, Button } from "@mui/material";
-import useSignup from "./useSignup";
-import AuthTextField from "../components/AuthTextField/AuthTextField";
-import SendingTemp from "@/components/common/skeleton/sendingTemp";
-import MainTemp from "@/components/common/baseComponents/mainTemp";
+import { useState, useEffect } from "react";
+import { Box, InputAdornment } from "@mui/material";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import MailOutlineIcon from "@mui/icons-material/MailOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-export default function showMain() {
+import useSignup from "./useSignup";
+import SendingTemp from "@/components/common/skeleton/sendingTemp";
+import PasswordGauge from "@/components/common/baseComponents/passwordGauge/PasswordGauge";
+import { checkPasswordStrength } from "@/utility/password/checkStrength";
+import { PageContainer } from "@/components/common/baseComponents/layout";
+import { BaseCard } from "@/components/common/baseComponents/card";
+import { AuthTitle } from "@/components/common/baseComponents/typography";
+import { AuthInput, PasswordVisibilityToggle } from "@/components/common/baseComponents/input";
+import { SubmitButton } from "@/components/common/baseComponents/button";
+import { AuthFooter } from "@/components/common/baseComponents/footer";
+
+export default function SignupForm() {
   const { isPending, form, errForm, handleCancel, setForm, handleSignup } =
     useSignup();
+
+  const [strength, setStrength] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    setStrength(checkPasswordStrength(form.pass || ""));
+  }, [form.pass]);
 
   return isPending ? (
     <SendingTemp />
   ) : (
-    <MainTemp
-      header="Signup"
-      content={
-        <Stack>
-          <AuthTextField
-            error={errForm.username}
-            value={form.username ?? ""}
-            label="Username"
-            onChange={(e) => setForm({ ...form, username: e.target.value })}
-          />
+    <PageContainer>
+      {/* Signup Card */}
+      <BaseCard>
+        {/* Title */}
+        <AuthTitle
+          title="Create Account"
+          subtitle="Join our platform to start managing your resources."
+        />
 
-          <AuthTextField
-            error={errForm.name}
-            value={form.name ?? ""}
-            label="Name"
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-          />
+        {/* Full Name field */}
+        <AuthInput
+          fullWidth
+          label="Name"
+          placeholder="John Doe"
+          error={!!errForm.name}
+          helperText={errForm.name}
+          value={form.name ?? ""}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonOutlineIcon sx={{ color: "#adb5bd" }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
 
-          <AuthTextField
-            error={errForm.email}
-            value={form.email ?? ""}
-            label="Email"
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-          />
+        {/* Username field */}
+        <AuthInput
+          fullWidth
+          label="Username"
+          placeholder="johndoe_admin"
+          error={!!errForm.username}
+          helperText={errForm.username}
+          value={form.username ?? ""}
+          onChange={(e) => setForm({ ...form, username: e.target.value })}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircleOutlinedIcon sx={{ color: "#adb5bd" }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
 
-          <AuthTextField
-            label="Street"
-            value={form.address?.street ?? ""}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                address: { ...form.address, street: e.target.value },
-              })
-            }
-          />
+        {/* Email Address field */}
+        <AuthInput
+          fullWidth
+          label="Email"
+          placeholder="name@company.com"
+          error={!!errForm.email}
+          helperText={errForm.email}
+          value={form.email ?? ""}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MailOutlineIcon sx={{ color: "#adb5bd" }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
 
-          <AuthTextField
-            label="Suite"
-            value={form.address?.suite ?? ""}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                address: { ...form.address, suite: e.target.value },
-              })
-            }
-          />
-
-          <AuthTextField
-            label="City"
-            value={form.address?.city ?? ""}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                address: { ...form.address, city: e.target.value },
-              })
-            }
-          />
-
-          <AuthTextField
-            label="Zipcode"
-            value={form.address?.zipcode ?? ""}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                address: { ...form.address, zipcode: e.target.value },
-              })
-            }
-          />
-
-          <AuthTextField
-            label="Phone"
-            value={form.phone ?? ""}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          />
-
-          <AuthTextField
-            error={errForm.website}
-            label="Website"
-            value={form.website ?? ""}
-            onChange={(e) => setForm({ ...form, website: e.target.value })}
-          />
-
-          <AuthTextField
-            label="Company"
-            value={form.company?.name ?? ""}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                company: { ...form.company, name: e.target.value },
-              })
-            }
-          />
-
-          <AuthTextField
-            error={errForm.pass}
+        {/* Side-by-side Password fields */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gap: 2,
+          }}
+        >
+          <AuthInput
+            fullWidth
+            type={showPassword ? "text" : "password"}
             label="Password"
+            placeholder="••••••••"
+            error={!!errForm.pass}
+            helperText={errForm.pass}
             value={form.pass ?? ""}
             onChange={(e) => setForm({ ...form, pass: e.target.value })}
-            isPass={true}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockOutlinedIcon sx={{ color: "#adb5bd" }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <PasswordVisibilityToggle
+                    show={showPassword}
+                    onToggle={() => setShowPassword(!showPassword)}
+                  />
+                ),
+              },
+            }}
           />
 
-          <AuthTextField
-            error={errForm.pass}
+          <AuthInput
+            fullWidth
+            type={showPassword ? "text" : "password"}
             label="Confirm Password"
+            placeholder="••••••••"
+            error={!!errForm.confirmPass}
+            helperText={errForm.confirmPass}
             value={form.confirmPass ?? ""}
             onChange={(e) => setForm({ ...form, confirmPass: e.target.value })}
-            isPass={true}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockResetIcon sx={{ color: "#adb5bd" }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <PasswordVisibilityToggle
+                    show={showPassword}
+                    onToggle={() => setShowPassword(!showPassword)}
+                  />
+                ),
+              },
+            }}
           />
+        </Box>
 
-          <Button
-            sx={{ bgcolor: "rgba(255, 158, 133, 1)" }}
-            onClick={handleSignup}
-          >
-            Signup
-          </Button>
-          <Button sx={{ bgcolor: "#abdcffff" }} onClick={handleCancel}>
-            Cancel
-          </Button>
-        </Stack>
-      }
-    />
+        {/* Password Strength Gauge */}
+        <Box>
+          {(form.pass || "").length >= 8 && (
+            <PasswordGauge strength={strength} />
+          )}
+        </Box>
+
+        {/* Submit Button */}
+        <SubmitButton onClick={handleSignup} endIcon={<ArrowForwardIcon />}>
+          Create Account
+        </SubmitButton>
+      </BaseCard>
+
+      {/* Footer Sign in Link */}
+      <AuthFooter
+        text="Already have an account?"
+        linkText="Sign in"
+        onClick={handleCancel}
+      />
+    </PageContainer>
   );
 }

@@ -18,6 +18,7 @@ interface SignupFormError {
   name: string;
   email: string;
   pass: string;
+  confirmPass: string;
   website?: string;
 }
 

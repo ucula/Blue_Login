@@ -24,7 +24,9 @@ export default async function verify(token: string) {
       }
 
       // Confirm user
-      await repo.user.updateById(String(user._id), { confirmed: true });
+      await repo.user.updateById(String(user._id), {
+        confirmed: true,
+      });
       // Disable the token and log it
       const response = await repo.auth.updateById(String(record._id), {
         isUsed: true,

@@ -22,7 +22,13 @@ export default function useSignup() {
 
   const handleSignup = async () => {
     setErrForm({});
-    if (!hasInput(["username", "name", "email", "pass"], form, updateErrForm)) {
+    if (
+      !hasInput(
+        ["username", "name", "email", "pass", "confirmPass"],
+        form,
+        updateErrForm,
+      )
+    ) {
       return;
     }
 
@@ -32,6 +38,7 @@ export default function useSignup() {
 
     if (form.pass !== form.confirmPass) {
       setErrForm({ pass: "Passwords need to be the same" });
+      setErrForm({ confirmPass: "Passwords need to be the same" });
       return;
     }
 

@@ -1,9 +1,9 @@
 import * as auth from "./auth/index";
-import * as CRUD from "./CRUD/index";
+import * as user from "./user/index";
 
 const service = {
   auth,
-  CRUD,
+  user,
 };
 
 export default service;

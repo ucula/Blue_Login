@@ -1,7 +1,7 @@
 import { Box, Grid, Stack } from "@mui/material";
 import Header from "@/components/common/baseComponents/header/header";
 import FootButton from "@/components/common/baseComponents/footButton/footButton";
-import useAddUser from "@/components/features/user/addUser/main/useAddUser";
+import useAddUser from "./useAddUser";
 import FormUserBox from "@/components/features/user/components/FormBox";
 import SendingTemp from "@/components/common/skeleton/sendingTemp";
 import RectangleBox from "@/components/common/baseComponents/rectBorder/rectangleBox";

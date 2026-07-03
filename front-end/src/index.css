@@ -1,6 +1,6 @@
 :root {
-  /* background-color: rgb(253, 245, 255); */
   color: rgb(0, 0, 0);
   font-size: 27px;
+  font-family: "Inter", sans-serif;
   box-sizing: border-box;
 }

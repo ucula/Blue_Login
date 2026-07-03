@@ -8,7 +8,13 @@ import { AppError } from "@/utils/express/error";
 import { AppSuccess } from "@/utils/express/succes";
 import { sendVerificationEmail } from "@/utils/auth/sendEmail";
 
+type error = {
+  username?: string;
+  email?: string;
+};
+
 export default async function signup(user: User) {
+  let error: Partial<error> = {};
   // Undefined prevent case
   if (!user.pass || !user.email || !user.username) {
     console.log("useSignup: ", user);
@@ -18,27 +24,42 @@ export default async function signup(user: User) {
     );
   }
 
-  // Username, Email Duplicate check
-  const existingUsername = await repo.user.getOne({
+  const userByUsername = await repo.user.getOne({
     username: user.username,
   });
-  const existingEmail = await repo.user.getOne({ email: user.email });
-  if (existingUsername || existingEmail) {
-    console.log("useSignup: ", user.email);
+
+  // Check Dupe with confirmed account
+  const userByEmail = await repo.user.getOne({ email: user.email });
+  if (userByUsername && userByUsername.confirmed)
+    error.username = "Username already exists";
+
+  if (userByEmail && userByEmail.confirmed)
+    error.email = "Email already exists";
+
+  if (Object.keys(error).length > 0) {
     throw new AppError(
       HttpResponseCode.BAD_REQUEST,
-      "Username or Email already exists",
+      "Validation failed",
+      error,
     );
+  }
+
+  // Delete existing unconfirmed accounts with the same username or email to avoid duplicates
+  if (userByUsername && !userByUsername.confirmed) {
+    await repo.user.delById(String(userByUsername._id));
+  }
+  const userByEmailAgain = await repo.user.getOne({ email: user.email });
+  if (userByEmailAgain && !userByEmailAgain.confirmed) {
+    await repo.user.delById(String(userByEmailAgain._id));
   }
 
   // Hash password
   user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);
-
-  // Create a User(Unverified) and send email
   try {
-    const token = crypto.randomBytes(32).toString("hex");
     await repo.user.post(user); // post user
-    await repo.auth.post({ email: user.email, token: token }); // post token
+    const token = crypto.randomBytes(32).toString("hex");
+    await repo.base.updateMany({ email: user.email }, { isUsed: true });
+    await repo.auth.post({ email: user.email, token: token });
     await sendVerificationEmail(user.email, token, "/signup/verify"); // send email
 
     return new AppSuccess(

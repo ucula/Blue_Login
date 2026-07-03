@@ -9,8 +9,8 @@ import { correctFormat } from "@/utility/form/checkFormat";
 export default function useEditInfo() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { data: userbyid, isLoading } = service.CRUD.fetchUserById(String(id));
-  const { mutate: editUser } = service.CRUD.patchUserById(String(id));
+  const { data: userbyid, isLoading } = service.user.fetchUserById(String(id));
+  const { mutate: editUser } = service.user.patchUserById(String(id));
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
   const [form, setForm] = useState<Partial<User>>({});
 

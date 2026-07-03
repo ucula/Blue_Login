@@ -1,39 +1,38 @@
-import { Box, Typography, CircularProgress } from "@mui/material";
-import ErrorIcon from "@mui/icons-material/Error";
-import MainTemp from "@/components/common/baseComponents/mainTemp";
 import useVerify from "./useResetVerify";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/config/path";
+import { PageContainer } from "@/components/common/baseComponents/layout";
+import { BaseCard, StatusCard } from "@/components/common/baseComponents/card";
 
-export default function showVerify() {
+export default function ResetVerify() {
   const { isPending, isError } = useVerify();
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate(PATHS.LOGIN);
+  };
+
   return (
-    <MainTemp
-      content={
-        <>
-          {isPending && (
-            <Box sx={{ justifyItems: "center" }}>
-              <CircularProgress sx={{ mb: 2 }} />
-              <Typography variant="h5" gutterBottom>
-                Verifying Account...
-              </Typography>
-              <Typography color="textSecondary">
-                Please wait while we verify your email token.
-              </Typography>
-            </Box>
-          )}
-          {isError && (
-            <Box sx={{ justifyItems: "center" }}>
-              <ErrorIcon color="error" sx={{ fontSize: 60, mb: 2 }} />
-              <Typography variant="h5" gutterBottom>
-                Verification Failed
-              </Typography>
-              <Typography color="textSecondary" sx={{ mb: 3 }}>
-                The verification token is invalid, expired, or has already been
-                used.
-              </Typography>
-            </Box>
-          )}
-        </>
-      }
-    />
+    <PageContainer>
+      <BaseCard>
+        {isPending && (
+          <StatusCard
+            type="pending"
+            title="Verifying Account..."
+            description="Please wait while we verify your email token."
+          />
+        )}
+
+        {isError && (
+          <StatusCard
+            type="error"
+            title="Verification Failed"
+            description="The verification token is invalid, expired, or has already been used."
+            buttonText="Back to Login"
+            onButtonClick={handleLogin}
+          />
+        )}
+      </BaseCard>
+    </PageContainer>
   );
 }

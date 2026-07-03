@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
     catchPhrase: { type: String, trim: true, default: "" },
     bs: { type: String, trim: true, default: "" },
   },
+
   confirmed: { type: Boolean, default: false },
 });
 
