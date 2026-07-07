@@ -6,7 +6,7 @@ const getById = async (id: string) => await userModel.findById(id);
 const getOne = async (filter: any) => await userModel.findOne(filter);
 
 const list = async () =>
-  await userModel.find({}, { name: 1, username: 1, email: 1, _id: 1 });
+  await userModel.find({}, { name: 1, username: 1, email: 1, confirmed: 1, _id: 1 });
 
 const post = async (data: User) => await userModel.create(data);
 

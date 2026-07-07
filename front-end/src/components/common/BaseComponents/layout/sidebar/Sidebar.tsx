@@ -1,13 +1,18 @@
 import { Box, Stack, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/config/path";
 import { SidebarItem } from "./SidebarItem";
 
 export function Sidebar({ activeTab }: { activeTab?: string }) {
+  const navigate = useNavigate();
+
   return (
     <Stack
       spacing={4}
       sx={{
         width: 280,
+        flexShrink: 0,
         bgcolor: "#f8fafc",
         borderRight: "1px solid #e2e8f0",
         p: 3,
@@ -20,7 +25,7 @@ export function Sidebar({ activeTab }: { activeTab?: string }) {
           sx={{
             fontWeight: 800,
             color: "#0f172a",
-            fontSize: "24px",
+            fontSize: "35px",
             letterSpacing: "-0.5px",
           }}
         >
@@ -28,7 +33,7 @@ export function Sidebar({ activeTab }: { activeTab?: string }) {
         </Typography>
         <Typography
           sx={{
-            fontSize: "13px",
+            fontSize: "17px",
             color: "#64748b",
             fontWeight: 500,
           }}
@@ -37,13 +42,13 @@ export function Sidebar({ activeTab }: { activeTab?: string }) {
         </Typography>
       </Stack>
 
-      {/* Add in new sidebaritem here */}
       {/* Sidebar Menu */}
       <Box sx={{ mt: 2 }}>
         <SidebarItem
           label="Home"
           icon={<HomeIcon />}
           active={activeTab === "Home"}
+          onClick={() => navigate(PATHS.ADMIN_HOME)}
         />
       </Box>
     </Stack>

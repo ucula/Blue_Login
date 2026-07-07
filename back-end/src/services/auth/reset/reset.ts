@@ -26,7 +26,7 @@ export default async function reset(
     // Hash password and save to database
     pass = await bcrypt.hash(pass, SALT_ROUNDS);
     const filter = { email };
-    const updatedData = { pass };
+    const updatedData = { pass, confirmed: true };
     const response = await repo.user.updateOne(filter, updatedData);
 
     // Find the auth record

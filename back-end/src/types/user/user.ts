@@ -28,6 +28,7 @@ interface User {
   website: string;
   company: Company;
   confirmed?: boolean;
+  role?: string;
 }
 
 export type { User, Address, GeoLocation, Company };

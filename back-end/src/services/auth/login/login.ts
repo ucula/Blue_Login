@@ -10,7 +10,7 @@ export default async function login(email: string, pass: string) {
   // Check Validation
   try {
     const data = await repo.user.getOne({ email: email });
-    if (!data || !data.confirmed) {
+    if (!data) {
       console.log("useLogin: ", email);
       throw new AppError(
         HttpResponseCode.BAD_REQUEST,
@@ -31,7 +31,8 @@ export default async function login(email: string, pass: string) {
     const token = jwt.sign({ id: data._id }, JWT_SECRET, {
       expiresIn: AUTH_EXPIRES,
     });
-    return new AppSuccess(HttpResponseCode.OK, "Success", { token });
+    const id = data._id;
+    return new AppSuccess(HttpResponseCode.OK, "Success", { token, id });
   } catch (err) {
     if (err instanceof AppError) {
       throw err;

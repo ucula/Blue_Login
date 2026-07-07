@@ -1,4 +1,8 @@
-export { default as Header } from "./header";
+export { default as Header } from "./Header";
+export * from "./ContainerHeader";
 export * from "./HeaderLogo";
-export * from "./BriefHeader";
+export * from "./HomeHeader";
+export * from "./AddUserHeader";
+export * from "./UserProfileHeader";
+
 

@@ -9,13 +9,12 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import useSignup from "./useSignup";
 import SendingTemp from "@/components/common/skeleton/sendingTemp";
-import PasswordGauge from "@/components/common/baseComponents/passwordGauge/PasswordGauge";
 import { checkPasswordStrength } from "@/utility/password/checkStrength";
 import { PageContainer } from "@/components/common/baseComponents/layout";
 import { BaseCard } from "@/components/common/baseComponents/card";
 import { AuthTitle } from "@/components/common/baseComponents/typography";
 import { AuthInput } from "@/components/common/baseComponents/input";
-import { PasswordVisibilityToggle } from "@/components/common/baseComponents/tool";
+import { PasswordVisibilityToggle, PasswordGauge } from "@/components/common/baseComponents/tool";
 import { BaseButton } from "@/components/common/baseComponents/button";
 import { AuthFooter } from "@/components/common/baseComponents/footer";
 

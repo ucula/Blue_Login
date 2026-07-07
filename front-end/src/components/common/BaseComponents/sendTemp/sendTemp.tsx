@@ -11,9 +11,11 @@ import { useNavigate } from "react-router-dom";
 export default function sendTemp({
   email,
   path,
+  hasSendAgain = false,
 }: {
   email: string;
   path?: string;
+  hasSendAgain?: boolean;
 }) {
   const { isPending, handleSendEmail } = useSendTemp(email, path);
   const navigate = useNavigate();
@@ -113,32 +115,34 @@ export default function sendTemp({
           </Button>
 
           {/* Resend Link */}
-          <Typography
-            variant="body2"
-            sx={{
-              textAlign: "center",
-              color: "#475569",
-              fontWeight: 500,
-              fontSize: "17px",
-            }}
-          >
-            Didn't receive the email?{" "}
-            <Link
-              component="button"
-              onClick={handleSendEmail}
+          {hasSendAgain && (
+            <Typography
+              variant="body2"
               sx={{
-                color: "#0c66e4",
-                fontWeight: 700,
-                textDecoration: "none",
-                fontSize: "15px",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
+                textAlign: "center",
+                color: "#475569",
+                fontWeight: 500,
+                fontSize: "17px",
               }}
             >
-              Resend Email
-            </Link>
-          </Typography>
+              Didn't receive the email?{" "}
+              <Link
+                component="button"
+                onClick={handleSendEmail}
+                sx={{
+                  color: "#0c66e4",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                  fontSize: "15px",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+              >
+                Resend Email
+              </Link>
+            </Typography>
+          )}
 
           <Divider sx={{ borderColor: "#f1f5f9", my: 1 }} />
 

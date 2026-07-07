@@ -21,12 +21,14 @@ export function SidebarItem({
       startIcon={icon}
       onClick={onClick}
       sx={{
+        mb: 1,
         bgcolor: active ? "#1d4ed8" : "transparent",
-        color: active ? "#ffffff" : "#475569",
-        borderRadius: "12px",
+        color: active ? "#ffffff" : "#000000ff",
+        borderRadius: "10px",
         py: 1.5,
         px: 3,
         fontWeight: 700,
+        fontSize: "20px",
         justifyContent: "flex-start",
         textTransform: "none",
         boxShadow: "none",

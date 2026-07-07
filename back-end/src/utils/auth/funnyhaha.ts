@@ -22,7 +22,7 @@ export async function sendVerificationEmail(email: string) {
       to: email,
       subject: "",
       html: `<h1></h1>
-      <p>กินข้าวได้เเล้วอิน พักบ้าง เล่นติ๊กต่อก</p>`,
+      <p></p>`,
     });
 
     console.log(`Message sent: ${info.messageId}`);

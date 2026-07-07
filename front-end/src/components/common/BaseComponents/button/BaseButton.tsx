@@ -34,11 +34,7 @@ export function BaseButton({
 }: BaseButtonProps) {
   const finalBgColor = variant === "text" ? "transparent" : bgcolor;
   const finalColor =
-    variant === "text"
-      ? color === "#ffffff"
-        ? "#0a58ca"
-        : color
-      : color;
+    variant === "text" ? (color === "#ffffff" ? "#0a58ca" : color) : color;
   const finalWeight = variant === "text" ? 600 : weight;
   const finalFontSize = variant === "text" ? "18px" : fontSize;
 

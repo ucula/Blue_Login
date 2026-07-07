@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import repo from "@/repositories";
 import bcrypt from "bcryptjs";
 import { SALT_ROUNDS } from "@/config";
@@ -7,6 +6,7 @@ import { HttpResponseCode } from "@/types/auth/httpResponseCode";
 import { AppError } from "@/utils/express/error";
 import { AppSuccess } from "@/utils/express/succes";
 import { sendVerificationEmail } from "@/utils/auth/sendEmail";
+import { createVerifyToken } from "@/utils/auth/createVerifyToken";
 
 type error = {
   username?: string;
@@ -57,10 +57,8 @@ export default async function signup(user: User) {
   user.pass = await bcrypt.hash(user.pass, SALT_ROUNDS);
   try {
     await repo.user.post(user); // post user
-    const token = crypto.randomBytes(32).toString("hex");
-    await repo.base.updateMany({ email: user.email }, { isUsed: true });
-    await repo.auth.post({ email: user.email, token: token });
-    await sendVerificationEmail(user.email, token, "/signup/verify"); // send email
+    const token = await createVerifyToken(user.email ?? "");
+    await sendVerificationEmail(user.email ?? "", token, "/signup/verify"); // send email
 
     return new AppSuccess(
       HttpResponseCode.NO_CONTENT,

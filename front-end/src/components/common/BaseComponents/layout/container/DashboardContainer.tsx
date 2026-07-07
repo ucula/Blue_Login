@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 import { type ReactNode } from "react";
 import { Sidebar } from "@/components/common/baseComponents/layout/sidebar/Sidebar";
 import { Nav } from "@/components/common/baseComponents/layout/nav/Nav";
@@ -13,9 +13,9 @@ export function DashboardContainer({
   activeTab = "Home",
 }: DashboardContainerProps) {
   return (
-    <Box
+    <Stack
+      direction="row"
       sx={{
-        display: "flex",
         minHeight: "100vh",
         width: "100vw",
         bgcolor: "#ffffff",
@@ -27,6 +27,6 @@ export function DashboardContainer({
 
       {/* Main Content Area */}
       <Nav activeTab={activeTab}>{children}</Nav>
-    </Box>
+    </Stack>
   );
 }

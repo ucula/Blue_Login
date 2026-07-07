@@ -47,7 +47,8 @@ export default function useSignup() {
         navigate(PATHS.SIGNUP_EMAIL_SENT, { state: form });
       },
       onError: (err: any) => {
-        setErrForm({ username: err.message, email: err.message });
+        const { data } = err;
+        setErrForm({ username: data.username, email: data.email });
       },
     });
   };

@@ -1,5 +1,5 @@
 import auth from "./auth";
+import admin from "./admin";
 import user from "./user";
-import { ProtectedRoute } from "./ProtectedRoute";
 
-export default { auth, user, ProtectedRoute };
+export default { auth, admin, user };

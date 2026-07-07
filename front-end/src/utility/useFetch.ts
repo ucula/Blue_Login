@@ -7,7 +7,7 @@ export async function useFetch<T = any>(
   body?: any,
   headers?: Record<string, string>,
 ): Promise<T> {
-  const token = localStorage.getItem("_session_state_id");
+  const token = localStorage.getItem("bazooka");
   const requestHeaders: Record<string, string> = {
     "Content-Type": "application/json",
     ...headers,

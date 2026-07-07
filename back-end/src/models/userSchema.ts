@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
   },
 
   confirmed: { type: Boolean, default: false },
+  role: { type: String, trim: true, default: "user" },
 });
 
 export default userSchema;
