@@ -1,24 +1,21 @@
-import { useState, useEffect } from "react";
-import { Stack, TextField } from "@mui/material";
+import { useState } from "react";
+import { InputAdornment, Stack } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockResetIcon from "@mui/icons-material/LockReset";
 import { SaveButton, CancelButton } from "@/components/common/baseComponents/button";
 import usePass from "./useResetPassword";
-import { PasswordGauge, PasswordVisibilityToggle } from "@/components/common/baseComponents/tool";
-import { checkPasswordStrength } from "@/utility/password/checkStrength";
+import { PasswordPolicy, PasswordVisibilityToggle } from "@/components/common/baseComponents/tool";
 import { PageContainer } from "@/components/common/baseComponents/layout";
 import { BaseCard } from "@/components/common/baseComponents/card";
 import { AuthTitle } from "@/components/common/baseComponents/typography";
+import { AuthInput } from "@/components/common/baseComponents/input";
 
 export default function ResetPasswordForm() {
   const { isPending, errForm, form, setForm, handleReset, handleCancel } =
     usePass();
 
-  const [strength, setStrength] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  useEffect(() => {
-    setStrength(checkPasswordStrength(form.pass || ""));
-  }, [form.pass]);
 
   return (
     <PageContainer>
@@ -28,16 +25,22 @@ export default function ResetPasswordForm() {
           subtitle="Please set a new secure password."
         />
         <Stack spacing={3}>
-          <TextField
-            helperText={errForm.pass}
-            error={!!errForm.pass}
-            id="filled-basic"
-            label="Input your new password"
-            variant="standard"
+          <AuthInput
+            fullWidth
+            label="New Password"
+            placeholder="Min. 8 characters"
             type={showPassword ? "text" : "password"}
+            error={!!errForm.pass}
+            helperText={errForm.pass}
+            value={form.pass ?? ""}
             onChange={(e) => setForm({ ...form, pass: e.target.value })}
             slotProps={{
               input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockOutlinedIcon sx={{ color: "#adb5bd" }} />
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <PasswordVisibilityToggle
                     show={showPassword}
@@ -47,19 +50,22 @@ export default function ResetPasswordForm() {
               },
             }}
           />
-          {(form.pass || "").length >= 8 && (
-            <PasswordGauge strength={strength} />
-          )}
-          <TextField
-            helperText={errForm.pass}
-            error={!!errForm.pass}
-            id="filled-basic-confirm"
-            label="Input your new password again"
-            variant="standard"
+          <AuthInput
+            fullWidth
+            label="Confirm New Password"
+            placeholder="Repeat password"
             type={showConfirmPassword ? "text" : "password"}
+            error={!!errForm.pass}
+            helperText={errForm.pass}
+            value={form.confirmPass ?? ""}
             onChange={(e) => setForm({ ...form, confirmPass: e.target.value })}
             slotProps={{
               input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockResetIcon sx={{ color: "#adb5bd" }} />
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <PasswordVisibilityToggle
                     show={showConfirmPassword}
@@ -68,6 +74,9 @@ export default function ResetPasswordForm() {
                 ),
               },
             }}
+          />
+          <PasswordPolicy
+            password={form.pass ?? ""}
           />
           <SaveButton
             onClick={handleReset}
@@ -79,4 +88,3 @@ export default function ResetPasswordForm() {
     </PageContainer>
   );
 }
-

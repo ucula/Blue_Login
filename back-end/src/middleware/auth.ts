@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { JWT_SECRET } from "../config/index";
-import jwt from "jsonwebtoken";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
+import { verifyToken } from "@/utils/auth/verifyToken";
 
 export default function requireAuth(
   req: Request,
@@ -15,8 +14,7 @@ export default function requireAuth(
         .status(HttpResponseCode.UNAUTHORIZED)
         .json({ message: "No token in headers" });
     }
-    const token = authorization.split(" ")[1];
-    jwt.verify(token, JWT_SECRET);
+    verifyToken(authorization);
     next();
   } catch {
     return res
@@ -24,3 +22,4 @@ export default function requireAuth(
       .json({ message: "Token not match" });
   }
 }
+

@@ -2,6 +2,7 @@ import type { LoginForm } from "@/types/auth/auth";
 import { useFetch } from "@/utility/useFetch";
 import { useMutation } from "@tanstack/react-query";
 import { API } from "@/config/path";
+import { TOKEN_NAME } from "@/config";
 
 export default function useLogin() {
   return useMutation({
@@ -12,8 +13,7 @@ export default function useLogin() {
       });
 
       // Save token to localstorage
-      localStorage.setItem("bazooka", response.data.token);
-      localStorage.setItem("hotdog", response.data.id);
+      localStorage.setItem(TOKEN_NAME, response.data.token);
     },
   });
 }

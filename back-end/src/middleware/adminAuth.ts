@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { JWT_SECRET } from "../config/index";
-import jwt from "jsonwebtoken";
 import repo from "../repositories/index";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
 import requireAuth from "./auth";
+import { verifyToken } from "@/utils/auth/verifyToken";
 
 export default function adminAuth(
   req: Request,
@@ -13,8 +12,7 @@ export default function adminAuth(
   requireAuth(req, res, async () => {
     try {
       const { authorization } = req.headers;
-      const token = authorization!.split(" ")[1];
-      const decoded = jwt.verify(token, JWT_SECRET) as { id: string };
+      const decoded = verifyToken(authorization!) as { id: string };
 
       const user = await repo.user.getById(decoded.id);
       if (!user) {
@@ -37,3 +35,4 @@ export default function adminAuth(
     }
   });
 }
+

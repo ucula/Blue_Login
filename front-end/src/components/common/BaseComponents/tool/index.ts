@@ -1,4 +1,4 @@
 export * from "./SearchBar";
 export * from "./PasswordVisibilityToggle";
-export * from "./PasswordGauge";
+export * from "./PasswordPolicy";
 

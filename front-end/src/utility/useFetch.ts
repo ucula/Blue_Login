@@ -1,5 +1,6 @@
 import redirectLogin from "./redirectLogin";
 import { Payload } from "./response/response";
+import { TOKEN_NAME } from "@/config";
 
 export async function useFetch<T = any>(
   address: string,
@@ -7,7 +8,7 @@ export async function useFetch<T = any>(
   body?: any,
   headers?: Record<string, string>,
 ): Promise<T> {
-  const token = localStorage.getItem("bazooka");
+  const token = localStorage.getItem(TOKEN_NAME);
   const requestHeaders: Record<string, string> = {
     "Content-Type": "application/json",
     ...headers,

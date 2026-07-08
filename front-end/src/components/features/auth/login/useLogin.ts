@@ -1,5 +1,5 @@
 import { PATHS } from "@/config/path";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import service from "@/services";
 import type { LoginForm, LoginFormError } from "@/types/auth/auth";
@@ -39,5 +39,6 @@ export default function useLogin() {
       },
     });
   };
+
   return { form, errForm, handleLogin, handleSignup, handleForget, setForm };
 }

@@ -1,27 +1,27 @@
-import { useState, useEffect } from "react";
-import { Stack, TextField } from "@mui/material";
-import { SaveButton, CancelButton } from "@/components/common/baseComponents/button";
+import { useState } from "react";
+import { InputAdornment, Stack } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import {
+  SaveButton,
+  CancelButton,
+} from "@/components/common/baseComponents/button";
 import usePass from "./usePass";
 import {
-  PasswordGauge,
+  PasswordPolicy,
   PasswordVisibilityToggle,
 } from "@/components/common/baseComponents/tool";
-import { checkPasswordStrength } from "@/utility/password/checkStrength";
 import { PageContainer } from "@/components/common/baseComponents/layout";
 import { BaseCard } from "@/components/common/baseComponents/card";
 import { AuthTitle } from "@/components/common/baseComponents/typography";
+import { AuthInput } from "@/components/common/baseComponents/input";
 
-export default function showPass() {
+export default function ShowPass() {
   const { isPending, errForm, form, setForm, handleReset, handleCancel } =
     usePass();
 
-  const [strength, setStrength] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  useEffect(() => {
-    setStrength(checkPasswordStrength(form.pass || ""));
-  }, [form.pass]);
 
   return (
     <PageContainer>
@@ -31,16 +31,22 @@ export default function showPass() {
           subtitle="Please set a secure password for the user."
         />
         <Stack spacing={3}>
-          <TextField
-            helperText={errForm.pass}
-            error={!!errForm.pass}
-            id="filled-basic"
-            label="Input your password"
-            variant="standard"
+          <AuthInput
+            fullWidth
+            label="New Password"
+            placeholder="Min. 8 characters"
             type={showPassword ? "text" : "password"}
+            error={!!errForm.pass}
+            helperText={errForm.pass}
+            value={form.pass ?? ""}
             onChange={(e) => setForm({ ...form, pass: e.target.value })}
             slotProps={{
               input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockOutlinedIcon sx={{ color: "#adb5bd" }} />
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <PasswordVisibilityToggle
                     show={showPassword}
@@ -50,32 +56,35 @@ export default function showPass() {
               },
             }}
           />
-          {(form.pass || "").length >= 8 && (
-            <PasswordGauge strength={strength} />
-          )}
-          <TextField
-            helperText={errForm.pass}
-            error={!!errForm.pass}
-            id="filled-basic-confirm"
-            label="Input your password again"
-            variant="standard"
+          <AuthInput
+            fullWidth
+            label="Confirm New Password"
+            placeholder="Repeat password"
             type={showConfirmPassword ? "text" : "password"}
+            error={!!errForm.pass}
+            helperText={errForm.pass}
+            value={form.confirmPass ?? ""}
             onChange={(e) => setForm({ ...form, confirmPass: e.target.value })}
             slotProps={{
               input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockResetIcon sx={{ color: "#adb5bd" }} />
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <PasswordVisibilityToggle
                     show={showConfirmPassword}
-                    onToggle={() => setShowConfirmPassword(!showConfirmPassword)}
+                    onToggle={() =>
+                      setShowConfirmPassword(!showConfirmPassword)
+                    }
                   />
                 ),
               },
             }}
           />
-          <SaveButton
-            onClick={handleReset}
-            disabled={isPending}
-          />
+          <PasswordPolicy password={form.pass ?? ""} />
+          <SaveButton onClick={handleReset} disabled={isPending} />
           <CancelButton onClick={handleCancel} />
         </Stack>
       </BaseCard>

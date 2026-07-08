@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Box, InputAdornment } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -9,12 +9,12 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import useSignup from "./useSignup";
 import SendingTemp from "@/components/common/skeleton/sendingTemp";
-import { checkPasswordStrength } from "@/utility/password/checkStrength";
+
 import { PageContainer } from "@/components/common/baseComponents/layout";
 import { BaseCard } from "@/components/common/baseComponents/card";
 import { AuthTitle } from "@/components/common/baseComponents/typography";
 import { AuthInput } from "@/components/common/baseComponents/input";
-import { PasswordVisibilityToggle, PasswordGauge } from "@/components/common/baseComponents/tool";
+import { PasswordVisibilityToggle, PasswordPolicy } from "@/components/common/baseComponents/tool";
 import { BaseButton } from "@/components/common/baseComponents/button";
 import { AuthFooter } from "@/components/common/baseComponents/footer";
 
@@ -22,12 +22,7 @@ export default function SignupForm() {
   const { isPending, form, errForm, handleCancel, setForm, handleSignup } =
     useSignup();
 
-  const [strength, setStrength] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    setStrength(checkPasswordStrength(form.pass || ""));
-  }, [form.pass]);
 
   return isPending ? (
     <SendingTemp />
@@ -162,12 +157,10 @@ export default function SignupForm() {
           />
         </Box>
 
-        {/* Password Strength Gauge */}
-        <Box>
-          {(form.pass || "").length >= 8 && (
-            <PasswordGauge strength={strength} />
-          )}
-        </Box>
+        {/* Password Policy */}
+        <PasswordPolicy
+          password={form.pass ?? ""}
+        />
 
         {/* Submit Button */}
         <BaseButton
