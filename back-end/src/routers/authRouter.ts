@@ -1,13 +1,23 @@
+// authRoutes.ts
 import express from "express";
 import controllers from "../controllers/index";
-import * as middleware from "../middleware/index";
-
 const app = express.Router();
 
-app.get("/users", middleware.auth, controllers.user.list);
-app.get("/users/:id", middleware.auth, controllers.user.get);
-app.post("/users", middleware.auth, controllers.user.post);
-app.patch("/users/:id", middleware.auth, controllers.user.update);
-app.delete("/users/:id", middleware.auth, controllers.user.del);
+// --- Signup flow ---
+// GET
+app.get("/signup/verify", controllers.auth.signupVerify);
+
+// POST
+app.post("/signup", controllers.auth.signup);
+
+// --- Login ---
+app.post("/login", controllers.auth.login);
+
+// --- Password reset flow ---
+// GET
+app.get("/reset/verify", controllers.auth.resetVerify);
+
+// PATCH
+app.patch("/reset", controllers.auth.reset);
 
 export default app;

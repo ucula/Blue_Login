@@ -75,7 +75,7 @@ export default function showHome() {
   } = useHome();
 
   return (
-    <DashboardContainer activeTab="Home">
+    <DashboardContainer activeTab="Dashboard">
       <HomeHeader />
 
       {/* Search and Add Bar */}

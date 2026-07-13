@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useFetch } from "@/utility/useFetch";
-import { API } from "@/config/path";
+import { API } from "@/constants";
 import { decodeToken } from "./decodeToken";
 
 export function verifyToken(token: string) {
@@ -11,8 +11,11 @@ export function verifyToken(token: string) {
     queryKey: ["user", id],
     queryFn: async () => {
       if (!id) throw new Error("No token or invalid token");
-      const { data } = await useFetch(API.USER_BY_ID(id), "GET");
-      return data;
+      if (decoded?.role === "admin") {
+        const { data } = await useFetch(API.USER_BY_ID(id), "GET");
+        return data;
+      }
+      return decoded;
     },
     enabled: !!id,
   });

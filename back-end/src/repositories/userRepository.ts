@@ -1,22 +1,25 @@
-import userModel from "@/externals/userModel";
+import adminModel from "@/models/userModel";
 import { User } from "@/types/user/user";
 
-const getById = async (id: string) => await userModel.findById(id);
+const getById = async (id: string) => await adminModel.findById(id);
 
-const getOne = async (filter: any) => await userModel.findOne(filter);
+const getOne = async (filter: any) => await adminModel.findOne(filter);
 
 const list = async () =>
-  await userModel.find({}, { name: 1, username: 1, email: 1, confirmed: 1, _id: 1 });
+  await adminModel.find(
+    {},
+    { name: 1, username: 1, email: 1, confirmed: 1, _id: 1 },
+  );
 
-const post = async (data: User) => await userModel.create(data);
+const post = async (data: User) => await adminModel.create(data);
 
 const updateById = async (id: string, updatedData: any) =>
-  await userModel.findByIdAndUpdate(id, { $set: updatedData }, { new: true });
+  await adminModel.findByIdAndUpdate(id, { $set: updatedData }, { new: true });
 
 const updateOne = async (filter: any, data: any) =>
-  await userModel.findOneAndUpdate(filter, { $set: data }, { new: true });
+  await adminModel.findOneAndUpdate(filter, { $set: data }, { new: true });
 
-const delById = async (id: string) => await userModel.findByIdAndDelete(id);
+const delById = async (id: string) => await adminModel.findByIdAndDelete(id);
 
 export default {
   getById,

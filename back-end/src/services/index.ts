@@ -1,5 +1,5 @@
 import * as auth from "./auth";
-import * as user from "./admin";
-import * as base from "./base";
+import * as admin from "./admin";
+import * as user from "./user";
 
-export default { auth, user, base };
+export default { auth, admin, user };

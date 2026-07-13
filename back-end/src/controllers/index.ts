@@ -1,11 +1,11 @@
-import * as auth from "./auth/index";
-import * as user from "./user/index";
-import * as base from "./base/index";
+import * as auth from "./auth";
+import * as admin from "./admin";
+import * as boxForm from "./boxForm";
 
 const controllers = {
   auth,
-  user,
-  base,
+  admin,
+  boxForm,
 };
 
 export default controllers;

@@ -10,7 +10,7 @@ interface DashboardContainerProps {
 
 export function DashboardContainer({
   children,
-  activeTab = "Home",
+  activeTab,
 }: DashboardContainerProps) {
   return (
     <Stack

@@ -9,7 +9,7 @@ export default function usePass() {
   const [form, setForm] = useState<Partial<ResetPassForm>>({});
   const [errForm, setErrForm] = useState<Partial<ResetPassFormError>>({});
   const [searchParams] = useSearchParams();
-  const { mutate: resetMutate, isPending } = service.auth.reset.useReset();
+  const { mutate: resetMutate, isPending } = service.auth.useReset();
 
   const navigate = useNavigate();
   const location = useLocation();

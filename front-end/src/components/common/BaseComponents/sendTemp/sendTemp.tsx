@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function sendTemp({
   email,
-  path,
+  path = "",
   hasSendAgain = false,
 }: {
   email: string;

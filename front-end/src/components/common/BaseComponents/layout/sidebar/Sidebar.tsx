@@ -1,56 +1,15 @@
-import { Box, Stack, Typography } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import { useNavigate } from "react-router-dom";
-import { PATHS } from "@/config/path";
-import { SidebarItem } from "./SidebarItem";
+import { decodeToken } from "@/utility";
+import { TOKEN_NAME } from "@/config";
+import { AdminSidebar } from "./AdminSidebar";
+import { UserSidebar } from "./UserSidebar";
 
 export function Sidebar({ activeTab }: { activeTab?: string }) {
-  const navigate = useNavigate();
+  const token = localStorage.getItem(TOKEN_NAME);
+  const decoded = token ? decodeToken(token) : null;
+  const isAdmin = decoded?.role === "admin";
 
-  return (
-    <Stack
-      spacing={4}
-      sx={{
-        width: 280,
-        flexShrink: 0,
-        bgcolor: "#f8fafc",
-        borderRight: "1px solid #e2e8f0",
-        p: 3,
-      }}
-    >
-      {/* Logo Section */}
-      <Stack spacing={0.5}>
-        <Typography
-          variant="h5"
-          sx={{
-            fontWeight: 800,
-            color: "#0f172a",
-            fontSize: "35px",
-            letterSpacing: "-0.5px",
-          }}
-        >
-          ExpertAdmin
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "17px",
-            color: "#64748b",
-            fontWeight: 500,
-          }}
-        >
-          System Management
-        </Typography>
-      </Stack>
-
-      {/* Sidebar Menu */}
-      <Box sx={{ mt: 2 }}>
-        <SidebarItem
-          label="Home"
-          icon={<HomeIcon />}
-          active={activeTab === "Home"}
-          onClick={() => navigate(PATHS.ADMIN_HOME)}
-        />
-      </Box>
-    </Stack>
-  );
+  if (isAdmin) {
+    return <AdminSidebar activeTab={activeTab} />;
+  }
+  return <UserSidebar activeTab={activeTab} />;
 }

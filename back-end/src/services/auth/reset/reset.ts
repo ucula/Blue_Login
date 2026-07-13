@@ -1,9 +1,9 @@
 import repo from "@/repositories/index";
 import bcrypt from "bcryptjs";
 import { SALT_ROUNDS } from "@/config";
-import { AppSuccess } from "@/utils/express/succes";
+import { AppSuccess } from "@/utility/express/succes";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
-import { AppError } from "@/utils/express/error";
+import { AppError } from "@/utility/express/error";
 
 export default async function reset(
   email: string,
@@ -12,7 +12,7 @@ export default async function reset(
 ) {
   try {
     // Look for user
-    const user = await repo.user.getOne({ email: email });
+    const user = await repo.admin.getOne({ email: email });
     if (!user) {
       console.log(email);
       throw new AppError(
@@ -27,7 +27,7 @@ export default async function reset(
     pass = await bcrypt.hash(pass, SALT_ROUNDS);
     const filter = { email };
     const updatedData = { pass, confirmed: true };
-    const response = await repo.user.updateOne(filter, updatedData);
+    const response = await repo.admin.updateOne(filter, updatedData);
 
     // Find the auth record
     const authRecord = await repo.auth.getOne({ token });

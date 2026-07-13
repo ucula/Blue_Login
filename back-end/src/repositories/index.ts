@@ -1,5 +1,5 @@
-import user from "./userRepository";
+import admin from "./userRepository";
 import auth from "./authRepository";
-import base from "./baseRepository";
+import boxForm from "./taskRepository";
 
-export default { user, auth, base };
+export default { admin, auth, boxForm };

@@ -1,11 +1,11 @@
 import repo from "@/repositories/index";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
-import { AppError } from "@/utils/express/error";
-import { AppSuccess } from "@/utils/express/succes";
+import { AppError } from "@/utility/express/error";
+import { AppSuccess } from "@/utility/express/succes";
 
 export async function list() {
   try {
-    const db = await repo.user.list();
+    const db = await repo.admin.list();
     return new AppSuccess(HttpResponseCode.OK, "Success", db);
   } catch (err: any) {
     console.error(err);

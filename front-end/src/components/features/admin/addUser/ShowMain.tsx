@@ -8,17 +8,29 @@ import {
   SaveButton,
   BackButton,
 } from "@/components/common/baseComponents/button";
-import useAddUser from "./useAddUser";
 import SendingTemp from "@/components/common/skeleton/sendingTemp";
+import SendTemp from "@/components/common/baseComponents/sendTemp/sendTemp";
 import { UserFormFields } from "@/components/common/baseComponents/form/UserFormFields";
+import useMain from "./useMain";
+import { PATHS } from "@/constants";
 
 export default function showAddUser() {
-  const { isPending, errForm, form, setForm, handleSave, handleHome } =
-    useAddUser();
+  const {
+    isPending,
+    isSuccess,
+    errForm,
+    form,
+    setForm,
+    handleSave,
+    handleHome,
+  } = useMain();
 
-  return isPending ? (
-    <SendingTemp />
-  ) : (
+  if (isPending) return <SendingTemp />;
+  if (isSuccess)
+    return (
+      <SendTemp email={form.email} path={PATHS.ADD_VERIFY} hasSendAgain={true} />
+    );
+  return (
     <DashboardContainer activeTab="Home">
       <Stack spacing={4} sx={{ width: "100%" }}>
         <AddUserHeader />

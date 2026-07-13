@@ -1,8 +1,9 @@
 import express from "express";
 import { connectDB } from "../externals/db";
 import configureMiddlewares from "../middleware/index";
-import userRouter from "../routers/userRouter";
 import authRouter from "../routers/authRouter";
+import adminRouter from "../routers/adminRouter";
+import boxFormRouter from "../routers/boxFormRouter";
 
 const app = express();
 
@@ -13,7 +14,8 @@ configureMiddlewares(app);
 connectDB();
 
 // Routes
-app.use("/api/v1/user", userRouter);
-app.use("/api/v1/auth", authRouter);
+app.use("/api/1/admin", adminRouter);
+app.use("/api/1/auth", authRouter);
+app.use("/api/1/boxForm", boxFormRouter);
 
 export default app;

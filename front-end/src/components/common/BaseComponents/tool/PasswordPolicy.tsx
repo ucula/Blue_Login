@@ -46,9 +46,7 @@ function getStrengthInfo(score: number) {
 
 export function PasswordPolicy({ password }: PasswordPolicyProps) {
   const hasLettersAndNumber =
-    /[A-Z]/.test(password) &&
-    /[a-z]/.test(password) &&
-    /[0-9]/.test(password);
+    /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password);
   const hasSpecialChar = /[?!@#$%^&*(),.?":{}|<>]/.test(password);
   const hasMinLength = password.length >= 8;
 
@@ -111,8 +109,6 @@ export function PasswordPolicy({ password }: PasswordPolicyProps) {
 
       {/* Policy Checklist */}
       <Stack spacing={1}>
-        <PolicyItem met={hasLettersAndNumber} label="Contains uppercase, lowercase & number" />
-        <PolicyItem met={hasSpecialChar} label="Contains special character" />
         <PolicyItem met={hasMinLength} label="At least 8 characters" />
       </Stack>
     </Box>

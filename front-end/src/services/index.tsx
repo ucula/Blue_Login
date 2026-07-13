@@ -1,11 +1,11 @@
-import * as auth from "./auth/index";
-import * as user from "./admin/index";
-import * as base from "./base/sendEmail";
+import * as auth from "./auth";
+import * as admin from "./admin";
+import * as box from "./box";
 
 const service = {
   auth,
-  user,
-  base,
+  admin,
+  box,
 };
 
 export default service;

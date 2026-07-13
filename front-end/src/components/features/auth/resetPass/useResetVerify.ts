@@ -1,4 +1,4 @@
-import { PATHS } from "@/config/path";
+import { PATHS } from "@/constants";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import service from "@/services";
@@ -9,7 +9,7 @@ export default function useVerify() {
   const token = searchParams.get("token");
 
   const { isPending, isSuccess, isError, data } =
-    service.auth.reset.verify(token);
+    service.auth.resetVerify(token);
 
   useEffect(() => {
     if (isSuccess) {

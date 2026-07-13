@@ -1,7 +1,7 @@
 import repo from "@/repositories";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
-import { AppError } from "@/utils/express/error";
-import { AppSuccess } from "@/utils/express/succes";
+import { AppError } from "@/utility/express/error";
+import { AppSuccess } from "@/utility/express/succes";
 
 export default async function verify(token: string) {
   if (token) {
@@ -17,14 +17,14 @@ export default async function verify(token: string) {
       }
 
       // Find user that has the same email as the provided token package
-      const user = await repo.user.getOne({ email: record.email });
+      const user = await repo.admin.getOne({ email: record.email });
       if (!user) {
         console.log("signupVerify: ", record.email);
         throw new AppError(HttpResponseCode.NOT_FOUND, "User does not exist");
       }
 
       // Confirm user
-      await repo.user.updateById(String(user._id), {
+      await repo.admin.updateById(String(user._id), {
         confirmed: true,
       });
       // Disable the token and log it

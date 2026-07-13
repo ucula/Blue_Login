@@ -1,45 +1,70 @@
+import { forwardRef, useImperativeHandle, useState } from "react";
 import {
-  Box,
   Dialog,
+  DialogTitle,
   DialogContent,
-  Alert,
-  AlertTitle,
-  Button,
+  DialogContentText,
   DialogActions,
-  Typography,
+  Button,
 } from "@mui/material";
 
-export default function modalAlert({
-  del,
-  l_button,
-  r_button,
-  l_method,
-  r_method,
-}) {
-  return (
-    <Box>
-      <Dialog open={del}>
-        <DialogContent sx={{ p: 0 }}>
-          <Alert severity="warning">
-            <AlertTitle sx={{ color: "black" }}>Warning</AlertTitle>
-            <Typography variant="subtitle2">
-              This will delete the existing data permanently!
-            </Typography>
-          </Alert>
+export interface ConfirmModalRef {
+  open: () => void;
+  close: () => void;
+}
+
+interface ConfirmModalProps {
+  title: string;
+  description: string;
+  onConfirm: () => void;
+  confirmText?: string;
+  cancelText?: string;
+}
+
+export const ConfirmModal = forwardRef<ConfirmModalRef, ConfirmModalProps>(
+  (
+    {
+      title,
+      description,
+      onConfirm,
+      confirmText = "Confirm",
+      cancelText = "Cancel",
+    },
+    ref,
+  ) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    useImperativeHandle(ref, () => ({
+      open: () => setIsOpen(true),
+      close: () => setIsOpen(false),
+    }));
+
+    return (
+      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{description}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={l_method} color="inherit">
-            {l_button}
+          <Button onClick={() => setIsOpen(false)} color="inherit">
+            {cancelText}
           </Button>
           <Button
-            onClick={r_method}
-            sx={{ backgroundColor: "red" }}
+            onClick={() => {
+              onConfirm();
+              setIsOpen(false);
+            }}
+            color="error"
             variant="contained"
           >
-            {r_button}
+            {confirmText}
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
-  );
-}
+    );
+  },
+);
+
+ConfirmModal.displayName = "ConfirmModal";
+
+export default ConfirmModal;

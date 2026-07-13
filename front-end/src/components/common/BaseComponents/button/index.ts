@@ -6,5 +6,6 @@ export * from "./CancelButton";
 export * from "./BackButton";
 export * from "./AddUserButton";
 export * from "./SendAgainButton";
+export * from "./DiscardButton";
 
 

@@ -1,4 +1,4 @@
-import { PATHS } from "@/config/path";
+import { PATHS } from "@/constants";
 import { useState } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import service from "@/services";
@@ -10,7 +10,8 @@ export default function usePass() {
   const [form, setForm] = useState<Partial<ResetPassForm>>({});
   const [errForm, setErrForm] = useState<Partial<ResetPassFormError>>({});
   const [searchParams] = useSearchParams();
-  const { mutate: resetMutate, isPending } = service.auth.reset.useReset();
+  const [showPassword, setShowPassword] = useState(false);
+  const { mutate: resetMutate, isPending } = service.auth.useReset();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,5 +57,7 @@ export default function usePass() {
     setForm,
     form,
     handleReset,
+    showPassword,
+    setShowPassword,
   };
 }

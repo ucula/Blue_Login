@@ -1,12 +1,12 @@
 export function hasInput(
-  fields: (keyof any)[],
+  fields: string[],
   form: any,
-  setEvent: (key: keyof any, value: any) => void,
+  setEvent: (key: string, value: any) => void,
 ): boolean {
   let isValid = true;
   for (const key of fields) {
     if (!form[key] || String(form[key]).trim() === "") {
-      setEvent(key as keyof any, "required *");
+      setEvent(key as string, "required *");
       isValid = false;
     }
   }

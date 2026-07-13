@@ -1,4 +1,4 @@
-import { PATHS } from "@/config/path";
+import { PATHS } from "@/constants";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import service from "@/services";
@@ -6,7 +6,7 @@ import type { User } from "@/types/user/user";
 
 export default function useHome() {
   const navigate = useNavigate();
-  const { data: users, isPending } = service.user.fetchUsers();
+  const { data: users, isPending } = service.admin.fetchUsers();
   const [filterText, setFilterText] = useState("");
 
   const handleBack = () => {
@@ -18,7 +18,7 @@ export default function useHome() {
   };
 
   const handleInfo = (id: string) => {
-    navigate(PATHS.ADMIN_USER_INFO(id));
+    navigate(PATHS.ADMIN_USER_INFO.build(id));
   };
 
   const filteredUsers = (): User[] => {

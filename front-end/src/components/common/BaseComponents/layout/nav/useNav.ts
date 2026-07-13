@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { TOKEN_NAME } from "@/config";
-import { PATHS } from "@/config/path";
+import { PATHS } from "@/constants";
 
 export default function useNav() {
   const navigate = useNavigate();

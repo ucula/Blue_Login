@@ -14,14 +14,22 @@ import { BaseCard } from "@/components/common/baseComponents/card";
 import { AuthInput } from "@/components/common/baseComponents/input";
 import { BaseButton } from "@/components/common/baseComponents/button";
 import useMain from "./useResetEmail";
+import SendTemp from "@/components/common/baseComponents/sendTemp/sendTemp";
 
 export default function ResetEmailForm() {
-  const { form, errForm, isPending, handleCancel, setForm, handleNext } =
-    useMain();
+  const {
+    form,
+    errForm,
+    isPending,
+    isSuccess,
+    handleCancel,
+    setForm,
+    handleNext,
+  } = useMain();
 
-  return isPending ? (
-    <SendingTemp />
-  ) : (
+  if (isPending) return <SendingTemp />;
+  if (isSuccess) return <SendTemp email={form.email} path="/reset" />;
+  return (
     <PageContainer>
       <BaseCard>
         {/* Header Title & Subtitle */}

@@ -1,4 +1,4 @@
-import { PATHS } from "@/config/path";
+import { PATHS } from "@/constants";
 import service from "@/services";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,12 @@ import type { SignupForm, SignupFormError } from "@/types/auth/auth";
 export default function useSignup() {
   const [form, setForm] = useState<Partial<SignupForm>>({});
   const [errForm, setErrForm] = useState<Partial<SignupFormError>>({});
-  const { isPending, mutate: signupMutate } = service.auth.signup.useSignup();
+  const [showPassword, setShowPassword] = useState(false);
+  const {
+    isPending,
+    isSuccess,
+    mutate: signupMutate,
+  } = service.auth.useSignup();
   const navigate = useNavigate();
 
   const updateErrForm = (key: string, value: string) => {
@@ -43,9 +48,6 @@ export default function useSignup() {
     }
 
     signupMutate(form, {
-      onSuccess: () => {
-        navigate(PATHS.SIGNUP_EMAIL_SENT, { state: form });
-      },
       onError: (err: any) => {
         const { data } = err;
         setErrForm({ username: data.username, email: data.email });
@@ -55,10 +57,13 @@ export default function useSignup() {
 
   return {
     isPending,
+    isSuccess,
     form,
     errForm,
     handleCancel,
     setForm,
     handleSignup,
+    showPassword,
+    setShowPassword,
   };
 }

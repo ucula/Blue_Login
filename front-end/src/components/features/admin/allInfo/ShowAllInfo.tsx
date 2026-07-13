@@ -5,7 +5,8 @@ import {
   DashboardContainer,
   TableContainer,
 } from "@/components/common/baseComponents/layout";
-import ModalAlert from "@/components/common/baseComponents/modalAlert/modalAlert";
+import ConfirmModal from "@/components/common/baseComponents/modalAlert/modalAlert";
+import useConfirmModal from "@/components/common/baseComponents/modalAlert/useConfirmModal";
 import useAllInfo from "./useAllInfo";
 import {
   EditButton,
@@ -28,8 +29,6 @@ export default function showAllInfo() {
     gridSize,
     setForm,
     errForm,
-    del,
-    handledialogue,
     handleHome,
     handleSave,
     handleCancel,
@@ -37,6 +36,8 @@ export default function showAllInfo() {
     handleSendAgain,
     isSendingEmail,
   } = useAllInfo();
+
+  const { modalRef: deleteModalRef, openModal: openDeleteModal } = useConfirmModal();
 
   const { address } = user || {};
 
@@ -92,7 +93,7 @@ export default function showAllInfo() {
                   <EditButton onClick={() => setIsEditing(true)} fullWidth />
                 </Grid>
                 <Grid size={gridSize}>
-                  <DeleteButton onClick={handledialogue} fullWidth />
+                  <DeleteButton onClick={openDeleteModal} fullWidth />
                 </Grid>
               </Grid>
             )}
@@ -100,12 +101,12 @@ export default function showAllInfo() {
         </TableContainer>
       </Stack>
 
-      <ModalAlert
-        del={del}
-        l_button="Cancel"
-        r_button="Delete"
-        l_method={handledialogue}
-        r_method={handleDelete}
+      <ConfirmModal
+        ref={deleteModalRef}
+        title="Warning"
+        description="This will delete the existing data permanently!"
+        onConfirm={handleDelete}
+        confirmText="Delete"
       />
     </DashboardContainer>
   );

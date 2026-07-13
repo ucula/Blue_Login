@@ -1,6 +1,6 @@
 import useVerify from "./useResetVerify";
 import { useNavigate } from "react-router-dom";
-import { PATHS } from "@/config/path";
+import { PATHS } from "@/constants";
 import { PageContainer } from "@/components/common/baseComponents/layout";
 import { BaseCard, StatusCard } from "@/components/common/baseComponents/card";
 

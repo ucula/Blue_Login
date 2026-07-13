@@ -1,4 +1,4 @@
-import { PATHS } from "@/config/path";
+import { PATHS } from "@/constants";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import service from "@/services";
 
@@ -11,7 +11,7 @@ export default function useVerify() {
     navigate(PATHS.LOGIN);
   };
 
-  const { isPending, isSuccess, isError } = service.auth.signup.verify(token);
+  const { isPending, isSuccess, isError } = service.auth.verify(token);
 
   return {
     token,

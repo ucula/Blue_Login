@@ -1,5 +1,5 @@
-import { PATHS } from "@/config/path";
-import service from "@/services";
+import { PATHS } from "@/constants";
+import { sendEmail } from "@/utility/sendEmail";
 import type { LoginForm, LoginFormError } from "@/types/auth/auth";
 import { hasInput } from "@/utility/form/checkInput";
 import { useState } from "react";
@@ -8,7 +8,11 @@ import { useNavigate } from "react-router-dom";
 export default function useMain() {
   const [form, setForm] = useState<Partial<LoginForm>>({});
   const [errForm, setErrForm] = useState<Partial<LoginFormError>>({});
-  const { mutate: sendMutate, isPending } = service.auth.reset.sendEmail();
+  const {
+    mutate: sendMutate,
+    isPending,
+    isSuccess,
+  } = sendEmail();
   const navigate = useNavigate();
 
   const updateErrForm = (label: string, value: string) => {
@@ -20,12 +24,7 @@ export default function useMain() {
     if (!hasInput(["email"], form, updateErrForm)) {
       return;
     }
-
-    sendMutate(form.email, {
-      onSuccess: () => {
-        navigate(PATHS.RESET_EMAIL_SENT, { state: form });
-      },
-    });
+    sendMutate({ email: form.email || "", path: PATHS.RESET_VERIFY });
   };
 
   const handleCancel = () => {
@@ -36,6 +35,7 @@ export default function useMain() {
     form,
     errForm,
     isPending,
+    isSuccess,
     handleCancel,
     handleNext,
     setForm,

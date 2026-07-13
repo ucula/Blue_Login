@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Box, InputAdornment } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -9,24 +8,37 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import useSignup from "./useSignup";
 import SendingTemp from "@/components/common/skeleton/sendingTemp";
+import SendTemp from "@/components/common/baseComponents/sendTemp/sendTemp";
 
 import { PageContainer } from "@/components/common/baseComponents/layout";
 import { BaseCard } from "@/components/common/baseComponents/card";
 import { AuthTitle } from "@/components/common/baseComponents/typography";
 import { AuthInput } from "@/components/common/baseComponents/input";
-import { PasswordVisibilityToggle, PasswordPolicy } from "@/components/common/baseComponents/tool";
+import {
+  PasswordVisibilityToggle,
+  PasswordPolicy,
+} from "@/components/common/baseComponents/tool";
 import { BaseButton } from "@/components/common/baseComponents/button";
 import { AuthFooter } from "@/components/common/baseComponents/footer";
+import { PATHS } from "@/constants";
 
 export default function SignupForm() {
-  const { isPending, form, errForm, handleCancel, setForm, handleSignup } =
-    useSignup();
+  const {
+    isPending,
+    isSuccess,
+    form,
+    errForm,
+    handleCancel,
+    setForm,
+    handleSignup,
+    showPassword,
+    setShowPassword,
+  } = useSignup();
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  return isPending ? (
-    <SendingTemp />
-  ) : (
+  if (isPending) return <SendingTemp />;
+  if (isSuccess)
+    return <SendTemp email={form.email} path={PATHS.SIGNUP_VERIFY} />;
+  return (
     <PageContainer>
       {/* Signup Card */}
       <BaseCard>
@@ -158,9 +170,7 @@ export default function SignupForm() {
         </Box>
 
         {/* Password Policy */}
-        <PasswordPolicy
-          password={form.pass ?? ""}
-        />
+        <PasswordPolicy password={form.pass ?? ""} />
 
         {/* Submit Button */}
         <BaseButton

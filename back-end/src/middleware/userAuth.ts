@@ -1,25 +1,19 @@
 import { Request, Response, NextFunction } from "express";
+import { verifyToken } from "@/utility/auth/verifyToken";
+import { Payload } from "@/utility/express/response";
+import { AppError } from "@/utility/express/error";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
-import { verifyToken } from "@/utils/auth/verifyToken";
 
-export default function requireAuth(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export function userAuth(req: any, res: Response, next: NextFunction) {
   try {
     const { authorization } = req.headers;
-    if (!authorization || !authorization.startsWith("Bearer ")) {
-      return res
-        .status(HttpResponseCode.UNAUTHORIZED)
-        .json({ message: "No token in headers" });
+    const payload: any = verifyToken(authorization);
+    if (!payload || payload instanceof Error) {
+      throw new AppError(HttpResponseCode.UNAUTHORIZED, "Invalid Token");
     }
-    verifyToken(authorization);
+    req.user = payload;
     next();
-  } catch {
-    return res
-      .status(HttpResponseCode.UNAUTHORIZED)
-      .json({ message: "Token not match" });
+  } catch (err: any) {
+    res.status(err.code || 401).json(new Payload(err));
   }
 }
-

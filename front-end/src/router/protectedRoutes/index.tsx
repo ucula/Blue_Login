@@ -6,6 +6,10 @@ import { ProtectedRoute } from "./ProtectedRoute";
 export const protectedRoutes: RouteObject[] = [
   {
     element: <ProtectedRoute />,
-    children: [...adminRouter, ...userRouter],
+    children: adminRouter,
+  },
+  {
+    element: <ProtectedRoute />,
+    children: userRouter,
   },
 ];

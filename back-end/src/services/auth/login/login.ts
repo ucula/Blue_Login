@@ -3,13 +3,13 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import repo from "@/repositories/index";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
-import { AppSuccess } from "@/utils/express/succes";
-import { AppError } from "@/utils/express/error";
+import { AppSuccess } from "@/utility/express/succes";
+import { AppError } from "@/utility/express/error";
 
 export default async function login(email: string, pass: string) {
   // Check Validation
   try {
-    const data = await repo.user.getOne({ email: email });
+    const data = await repo.admin.getOne({ email: email });
     if (!data) {
       console.log("useLogin: ", email);
       throw new AppError(
@@ -28,7 +28,7 @@ export default async function login(email: string, pass: string) {
     }
 
     // Generate token and return back
-    const token = jwt.sign({ id: data._id }, JWT_SECRET, {
+    const token = jwt.sign({ id: data._id, role: data.role }, JWT_SECRET, {
       expiresIn: AUTH_EXPIRES,
     });
     const id = data._id;

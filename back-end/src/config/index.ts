@@ -6,6 +6,7 @@ const SMTP_USER = Bun.env.SMTP_USER;
 const SMTP_PASS = Bun.env.SMTP_PASS;
 const CLIENT_URL = Bun.env.CLIENT_URL;
 const AUTH_EXPIRES = Bun.env.AUTH_EXPIRES as any;
+const ALLOWED_ROLES = Bun.env.ALLOWED_ROLES as any;
 
 export {
   PORT,
@@ -16,4 +17,5 @@ export {
   SMTP_USER,
   CLIENT_URL,
   AUTH_EXPIRES,
+  ALLOWED_ROLES,
 };

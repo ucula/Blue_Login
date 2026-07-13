@@ -1,6 +1,7 @@
-import { PATHS } from "@/config/path";
+import { PATHS } from "@/constants";
 import { useNavigate, useParams } from "react-router-dom";
 import service from "@/services";
+import { sendEmail as sendEmailUtility } from "@/utility/sendEmail";
 import { useState, useEffect } from "react";
 import { hasInput } from "@/utility/form/checkInput";
 import { correctFormat } from "@/utility/form/checkFormat";
@@ -9,17 +10,16 @@ import type { User, UserError } from "@/types/user/user";
 export default function useAllInfo() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [del, setDel] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [form, setForm] = useState<Partial<User>>({});
   const [gridSize, setGridSize] = useState<number>(4);
   const [errForm, setErrForm] = useState<Partial<UserError>>({});
 
-  const { data: user, isLoading } = service.user.fetchUserById(String(id));
-  const { mutate: deleteUser } = service.user.delUserById(String(id));
-  const { mutate: editUser } = service.user.patchUserById(String(id));
+  const { data: user, isLoading } = service.admin.fetchUserById(String(id));
+  const { mutate: deleteUser } = service.admin.delUserById(String(id));
+  const { mutate: editUser } = service.admin.patchUserById(String(id));
   const { mutate: sendEmail, isPending: isSendingEmail } =
-    service.base.sendEmail();
+    sendEmailUtility(String(id));
 
   useEffect(() => {
     if (user) {
@@ -31,10 +31,6 @@ export default function useAllInfo() {
       }
     }
   }, [user]);
-
-  const handledialogue = () => {
-    setDel(!del);
-  };
 
   const handleHome = () => {
     navigate(PATHS.ADMIN_HOME);
@@ -91,7 +87,6 @@ export default function useAllInfo() {
 
   return {
     isLoading,
-    del,
     user,
     isEditing,
     setIsEditing,
@@ -99,7 +94,6 @@ export default function useAllInfo() {
     gridSize,
     setForm,
     errForm,
-    handledialogue,
     handleHome,
     handleSave,
     handleCancel,

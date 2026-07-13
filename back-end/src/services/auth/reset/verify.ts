@@ -1,7 +1,7 @@
 import repo from "@/repositories";
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
-import { AppError } from "@/utils/express/error";
-import { AppSuccess } from "@/utils/express/succes";
+import { AppError } from "@/utility/express/error";
+import { AppSuccess } from "@/utility/express/succes";
 
 export default async function verify(token: string) {
   // Needs token to be able to continue
@@ -16,7 +16,7 @@ export default async function verify(token: string) {
         );
       }
 
-      const user = await repo.user.getOne({
+      const user = await repo.admin.getOne({
         email: String(record.email),
       });
       const email = user?.email;
