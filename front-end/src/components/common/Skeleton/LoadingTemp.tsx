@@ -1,10 +1,12 @@
-import { Box, Typography, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import BaseTemp from "./baseTemp";
 
 export default function LoadingTemp({ label }: { label: string }) {
   return (
-    <Box sx={{ height: "300px", placeItems: "center", alignContent: "center" }}>
-      <CircularProgress sx={{ mb: 2 }} />
-      <Typography variant="h6">{label}</Typography>
-    </Box>
+    <BaseTemp
+      icon={<CircularProgress sx={{ mb: 2 }} />}
+      label={label}
+      labelColor="inherit"
+    />
   );
 }

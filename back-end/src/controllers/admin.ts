@@ -74,3 +74,20 @@ export async function sendEmail(req: Request, res: Response) {
     res.status(err.code || 500).json(new Payload(err));
   }
 }
+
+export async function getUserTasks(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { year, month } = req.query;
+    const response = await service.user.AmazingBox.getMany(
+      String(id),
+      parseInt(String(year)),
+      parseInt(String(month)),
+    );
+    res.status(response.code).json(response);
+  } catch (err: any) {
+    console.error("Get user tasks admin controller error:", err);
+    res.status(err.code || 500).json(new Payload(err));
+  }
+}
+

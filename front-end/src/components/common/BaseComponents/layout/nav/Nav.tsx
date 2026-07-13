@@ -44,7 +44,16 @@ function menuItem(
 }
 
 export function Nav({ children }: { children: ReactNode; activeTab?: string }) {
-  const { open, anchorEl, handleClose, handleClick, handleLogout } = useNav();
+  const {
+    open,
+    icon,
+    anchorEl,
+    username,
+    email,
+    handleClose,
+    handleClick,
+    handleLogout,
+  } = useNav();
 
   return (
     <Stack sx={{ flexGrow: 1, minWidth: 0 }}>
@@ -86,7 +95,7 @@ export function Nav({ children }: { children: ReactNode; activeTab?: string }) {
                 letterSpacing: "0.5px",
               }}
             >
-              A
+              {icon}
             </Avatar>
             <KeyboardArrowDownRoundedIcon
               sx={{
@@ -115,7 +124,7 @@ export function Nav({ children }: { children: ReactNode; activeTab?: string }) {
                     fontWeight: 700,
                   }}
                 >
-                  A
+                  {icon}
                 </Avatar>
                 <Box>
                   <Typography
@@ -126,7 +135,7 @@ export function Nav({ children }: { children: ReactNode; activeTab?: string }) {
                       lineHeight: 1.3,
                     }}
                   >
-                    Admin
+                    {username}
                   </Typography>
                   <Typography
                     sx={{
@@ -135,7 +144,7 @@ export function Nav({ children }: { children: ReactNode; activeTab?: string }) {
                       fontWeight: 500,
                     }}
                   >
-                    admin@expertadmin.com
+                    {email}
                   </Typography>
                 </Box>
               </Stack>

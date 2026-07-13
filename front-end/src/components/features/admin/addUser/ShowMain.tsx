@@ -12,7 +12,7 @@ import SendingTemp from "@/components/common/skeleton/sendingTemp";
 import SendTemp from "@/components/common/baseComponents/sendTemp/sendTemp";
 import { UserFormFields } from "@/components/common/baseComponents/form/UserFormFields";
 import useMain from "./useMain";
-import { PATHS } from "@/constants";
+import { PATHS, TABS } from "@/constants";
 
 export default function showAddUser() {
   const {
@@ -28,10 +28,14 @@ export default function showAddUser() {
   if (isPending) return <SendingTemp />;
   if (isSuccess)
     return (
-      <SendTemp email={form.email} path={PATHS.ADD_VERIFY} hasSendAgain={true} />
+      <SendTemp
+        email={form.email}
+        path={PATHS.ADD_VERIFY}
+        hasSendAgain={true}
+      />
     );
   return (
-    <DashboardContainer activeTab="Home">
+    <DashboardContainer activeTab={TABS.DASHBOARD}>
       <Stack spacing={4} sx={{ width: "100%" }}>
         <AddUserHeader />
 

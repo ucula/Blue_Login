@@ -15,9 +15,11 @@ import {
   CancelButton,
   BackButton,
   SendAgainButton,
+  AnyButton,
 } from "@/components/common/baseComponents/button";
 import { UserFormFields } from "@/components/common/baseComponents/form/UserFormFields";
 import { AllInfoFields } from "./AllInfoFields";
+import { TABS } from "@/constants";
 
 export default function showAllInfo() {
   const {
@@ -35,9 +37,11 @@ export default function showAllInfo() {
     handleDelete,
     handleSendAgain,
     isSendingEmail,
+    handleViewTasks,
   } = useAllInfo();
 
-  const { modalRef: deleteModalRef, openModal: openDeleteModal } = useConfirmModal();
+  const { modalRef: deleteModalRef, openModal: openDeleteModal } =
+    useConfirmModal();
 
   const { address } = user || {};
 
@@ -52,7 +56,7 @@ export default function showAllInfo() {
   return isLoading ? (
     <LoadingTemp label="Loading user profile..." />
   ) : (
-    <DashboardContainer activeTab="Home">
+    <DashboardContainer activeTab={TABS.DASHBOARD}>
       <Stack spacing={4} sx={{ width: "100%", mx: "auto", mt: 2 }}>
         <TableContainer sx={{ p: 5 }}>
           <UserProfileHeader />
@@ -76,26 +80,41 @@ export default function showAllInfo() {
                 <CancelButton onClick={handleCancel} fullWidth />
               </>
             ) : (
-              <Grid container spacing={2}>
-                <Grid size={gridSize}>
-                  <BackButton onClick={handleHome} fullWidth />
-                </Grid>
-                {!user.confirmed && (
+              <>
+                <Grid container spacing={2}>
                   <Grid size={gridSize}>
-                    <SendAgainButton
-                      onClick={handleSendAgain}
-                      disabled={isSendingEmail}
-                      fullWidth
-                    />
+                    <BackButton onClick={handleHome} fullWidth />
                   </Grid>
-                )}
-                <Grid size={gridSize}>
-                  <EditButton onClick={() => setIsEditing(true)} fullWidth />
+                  {!user.confirmed && (
+                    <Grid size={gridSize}>
+                      <SendAgainButton
+                        onClick={handleSendAgain}
+                        disabled={isSendingEmail}
+                        fullWidth
+                      />
+                    </Grid>
+                  )}
+                  <Grid size={gridSize}>
+                    <EditButton onClick={() => setIsEditing(true)} fullWidth />
+                  </Grid>
+                  <Grid size={gridSize}>
+                    <DeleteButton onClick={openDeleteModal} fullWidth />
+                  </Grid>
                 </Grid>
-                <Grid size={gridSize}>
-                  <DeleteButton onClick={openDeleteModal} fullWidth />
-                </Grid>
-              </Grid>
+                <AnyButton
+                  onClick={handleViewTasks}
+                  bgcolor="#2563eb"
+                  color="#ffffff"
+                  fullWidth
+                  sx={{
+                    "&:hover": {
+                      bgcolor: "#1d4ed8",
+                    },
+                  }}
+                >
+                  View user's tasks
+                </AnyButton>
+              </>
             )}
           </Stack>
         </TableContainer>

@@ -1,4 +1,4 @@
-export function decodeToken(token: string): { id: string; role: string } | null {
+export function decodeToken(token: string) {
   try {
     const payload = token.split(".")[1];
     const decoded = atob(payload);

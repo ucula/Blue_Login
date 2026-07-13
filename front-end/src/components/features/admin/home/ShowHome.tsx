@@ -12,7 +12,7 @@ import {
 import { HomeHeader } from "@/components/common/baseComponents/header";
 import { SearchBar } from "@/components/common/baseComponents/tool";
 import { AddUserButton } from "@/components/common/baseComponents/button";
-
+import { TABS } from "@/constants";
 interface TableHeaderCellProps {
   size: number;
   label: string;
@@ -75,7 +75,7 @@ export default function showHome() {
   } = useHome();
 
   return (
-    <DashboardContainer activeTab="Dashboard">
+    <DashboardContainer activeTab={TABS.DASHBOARD}>
       <HomeHeader />
 
       {/* Search and Add Bar */}

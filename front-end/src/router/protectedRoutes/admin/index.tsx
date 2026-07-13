@@ -12,6 +12,10 @@ export const adminRouter: RouteObject[] = [
     element: <pages.admin.AllInfo />,
   },
   {
+    path: PATHS.ADMIN_USER_TASKS.route,
+    element: <pages.admin.UserTasks />,
+  },
+  {
     path: PATHS.ADMIN_ADD,
     element: <pages.admin.addUser.Main />,
   },

@@ -1,5 +1,12 @@
 import { Fragment } from "react";
-import { Grid, TextField, Stack, IconButton } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Stack,
+  IconButton,
+  Typography,
+  Divider,
+} from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { DashboardContainer } from "@/components/common/baseComponents/layout/container/DashboardContainer";
@@ -11,6 +18,7 @@ import {
   DiscardButton,
 } from "@/components/common/baseComponents/button";
 import useHome from "./useHome";
+import { TABS } from "@/constants";
 
 export default function ShowHome() {
   const {
@@ -38,8 +46,20 @@ export default function ShowHome() {
   } = useHome();
 
   return (
-    <DashboardContainer activeTab="Task">
+    <DashboardContainer activeTab={TABS.TASK}>
       <TableContainer sx={{ p: 3 }}>
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: 700, mb: 1, color: "#1e293b" }}
+        >
+          Tasks
+        </Typography>
+        <Typography variant="body1" sx={{ color: "#64748b", mb: 3 }}>
+          Input your task for each day.
+        </Typography>
+
+        <Divider sx={{ mb: 4, borderColor: "#cbd5e1" }} />
+
         {/* Year and month selection */}
         <Stack
           direction="row"

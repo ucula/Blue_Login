@@ -85,6 +85,12 @@ export default function useAllInfo() {
     sendEmail({ email: user.email, path: "/admin/add" });
   };
 
+  const handleViewTasks = () => {
+    if (id) {
+      navigate(PATHS.ADMIN_USER_TASKS.build(id));
+    }
+  };
+
   return {
     isLoading,
     user,
@@ -100,5 +106,7 @@ export default function useAllInfo() {
     handleDelete,
     handleSendAgain,
     isSendingEmail,
+    handleViewTasks,
   };
 }
+

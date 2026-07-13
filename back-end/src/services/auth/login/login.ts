@@ -27,10 +27,18 @@ export default async function login(email: string, pass: string) {
       );
     }
 
-    // Generate token and return back
-    const token = jwt.sign({ id: data._id, role: data.role }, JWT_SECRET, {
-      expiresIn: AUTH_EXPIRES,
-    });
+    const token = jwt.sign(
+      {
+        id: data._id,
+        role: data.role,
+        username: data.username,
+        email: data.email,
+      },
+      JWT_SECRET,
+      {
+        expiresIn: AUTH_EXPIRES,
+      },
+    );
     const id = data._id;
     return new AppSuccess(HttpResponseCode.OK, "Success", { token, id });
   } catch (err) {

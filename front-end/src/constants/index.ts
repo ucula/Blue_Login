@@ -37,6 +37,10 @@ const PATHS = {
     route: "/admin/users/:id/edit",
     build: (id: string | number) => `/admin/users/${id}/edit`,
   },
+  ADMIN_USER_TASKS: {
+    route: "/admin/users/:id/tasks",
+    build: (id: string | number) => `/admin/users/${id}/tasks`,
+  },
   USER_HOME: "/user",
   USER_PASS: "/users/add/pass",
 };
@@ -62,10 +66,16 @@ const API = {
   // ADMIN
   USERS: `${API_ADMIN_BASE}/users`,
   USER_BY_ID: (id: string) => `${API_ADMIN_BASE}/users/${id}`,
+  ADMIN_USER_TASKS: (id: string) => `${API_ADMIN_BASE}/users/${id}/tasks`,
   ADMIN_SEND_EMAIL: (id: string) => `${API_ADMIN_BASE}/users/email/${id}`,
 
   // USER
   USER_BOX: `${API_BOX_BASE}/box`,
 };
 
-export { API, MONTHS, NUM_OF_BOXES_PER_ROW, PATHS };
+const TABS = {
+  DASHBOARD: "Dashboard",
+  TASK: "Task",
+} as const;
+
+export { API, MONTHS, NUM_OF_BOXES_PER_ROW, PATHS, TABS };

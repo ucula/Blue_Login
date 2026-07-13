@@ -8,6 +8,7 @@ const app = express.Router();
 // GET
 app.get("/users", middleware.adminAuth, controllers.admin.list);
 app.get("/users/:id", middleware.adminAuth, controllers.admin.get);
+app.get("/users/:id/tasks", middleware.adminAuth, controllers.admin.getUserTasks);
 
 // POST
 app.post("/users", middleware.adminAuth, controllers.admin.post);

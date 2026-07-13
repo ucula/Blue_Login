@@ -58,3 +58,18 @@ export function postUser() {
     },
   });
 }
+
+export function useGetUserTasks(userId: string, year: number, month: number) {
+  return useQuery({
+    queryKey: ["user-tasks", userId, year, month],
+    queryFn: async () => {
+      const response = await useFetch(
+        `${API.ADMIN_USER_TASKS(userId)}?year=${year}&month=${month}`,
+        "GET",
+      );
+      return response.data;
+    },
+    enabled: !!userId && year > 0 && month >= 0,
+  });
+}
+
