@@ -1,6 +1,6 @@
 import { HttpResponseCode } from "@/types/auth/httpResponseCode";
-import redirectLogin from "./redirectLogin";
-import { Payload } from "./response/response";
+import redirectLogin from "../auth/redirectLogin";
+import { Payload } from "../response/response";
 import { TOKEN_NAME } from "@/config";
 
 export async function useFetch<T = any>(

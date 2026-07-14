@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { verifyToken } from "@/utility/verifyToken";
+import { verifyToken } from "@/utility/auth/verifyToken";
 import { TOKEN_NAME } from "@/config";
 import { PATHS } from "@/constants";
 

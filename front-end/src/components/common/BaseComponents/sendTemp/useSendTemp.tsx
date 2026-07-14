@@ -1,4 +1,4 @@
-import { sendEmail } from "@/utility/sendEmail";
+import { sendEmail } from "@/utility/admin/sendEmail";
 
 export default function useSendTemp(email: string, path: string = "") {
   const { mutate: send, isPending } = sendEmail();

@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { useFetch } from "@/utility/useFetch";
+import { useFetch } from "@/utility/http/useFetch";
 import { API } from "@/constants";
 
 export function useGetBoxes(year: number, month: number) {

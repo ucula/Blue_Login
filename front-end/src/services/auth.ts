@@ -1,4 +1,4 @@
-import { useFetch } from "@/utility/useFetch";
+import { useFetch } from "@/utility/http/useFetch";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { API } from "@/constants";
 import { TOKEN_NAME } from "@/config";

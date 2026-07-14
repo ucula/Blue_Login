@@ -1,5 +1,5 @@
 import { PATHS } from "@/constants";
-import { sendEmail } from "@/utility/sendEmail";
+import { sendEmail } from "@/utility/admin/sendEmail";
 import type { LoginForm, LoginFormError } from "@/types/auth/auth";
 import { hasInput } from "@/utility/form/checkInput";
 import { useState } from "react";

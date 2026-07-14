@@ -1,7 +1,7 @@
 import { PATHS } from "@/constants";
 import { useNavigate, useParams } from "react-router-dom";
 import service from "@/services";
-import { sendEmail as sendEmailUtility } from "@/utility/sendEmail";
+import { sendEmail as sendEmailUtility } from "@/utility/admin/sendEmail";
 import { useState, useEffect } from "react";
 import { hasInput } from "@/utility/form/checkInput";
 import { correctFormat } from "@/utility/form/checkFormat";

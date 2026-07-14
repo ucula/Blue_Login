@@ -1,5 +1,5 @@
 import { checkRoles } from "./auth";
-import { decodeToken } from "./decodeToken";
+import { decodeToken } from "./auth/decodeToken";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const WEBSITE_REGEX =

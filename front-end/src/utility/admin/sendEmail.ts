@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useFetch } from "@/utility/useFetch";
+import { useFetch } from "@/utility/http/useFetch";
 import { API } from "@/constants";
 
 export function sendEmail(id: string = "resend") {

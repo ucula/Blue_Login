@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useFetch } from "@/utility/useFetch";
+import { useFetch } from "@/utility/http/useFetch";
 import { API } from "@/constants";
 import { decodeToken } from "./decodeToken";
 
