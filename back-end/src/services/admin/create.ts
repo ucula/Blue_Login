@@ -24,7 +24,6 @@ export async function create(user: User) {
     if (data && data.confirmed) error.email = "Email already exists";
 
     if (Object.keys(error).length > 0) {
-      console.log("error");
       throw new AppError(
         HttpResponseCode.BAD_REQUEST,
         "Validation failed",
@@ -37,7 +36,7 @@ export async function create(user: User) {
       const token = await createVerifyToken(user.email ?? "");
       await sendVerificationEmail(user.email ?? "", token, PATHS.ADD_VERIFY);
     } catch (err) {
-      console.log(err);
+      console.error("Post user or send email error:", err);
     }
 
     return new AppSuccess(HttpResponseCode.CREATED, "Success");

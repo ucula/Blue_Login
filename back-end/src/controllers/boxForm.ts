@@ -1,6 +1,7 @@
 import { Response } from "express";
 import service from "@/services/index";
 import { Payload } from "@/utility/express/response";
+import { HttpResponseCode } from "@/types/auth/httpResponseCode";
 
 export async function get(req: any, res: Response) {
   try {
@@ -14,7 +15,7 @@ export async function get(req: any, res: Response) {
     res.status(response.code).json(response);
   } catch (err: any) {
     console.error("Get boxes controller error:", err);
-    res.status(err.code || 500).json(new Payload(err));
+    res.status(err.code || HttpResponseCode.INTERNAL_SERVER_ERROR).json(new Payload(err));
   }
 }
 
@@ -31,6 +32,6 @@ export async function save(req: any, res: Response) {
     res.status(response.code).json(response);
   } catch (err: any) {
     console.error("Save boxes controller error:", err);
-    res.status(err.code || 500).json(new Payload(err));
+    res.status(err.code || HttpResponseCode.INTERNAL_SERVER_ERROR).json(new Payload(err));
   }
 }

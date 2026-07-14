@@ -11,7 +11,6 @@ export default async function login(email: string, pass: string) {
   try {
     const data = await repo.admin.getOne({ email: email });
     if (!data) {
-      console.log("useLogin: ", email);
       throw new AppError(
         HttpResponseCode.BAD_REQUEST,
         "Wrong Username or Password",
@@ -20,7 +19,6 @@ export default async function login(email: string, pass: string) {
 
     const isMatch = await bcrypt.compare(pass, data.pass ?? "");
     if (!isMatch) {
-      console.log("useLogin: ", pass);
       throw new AppError(
         HttpResponseCode.BAD_REQUEST,
         "Wrong Username or Password",

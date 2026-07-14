@@ -30,8 +30,6 @@ export async function sendVerificationEmail(email: string, token: string, path: 
       subject: "Verification Link - Blue Login",
       html: htmlContent,
     });
-
-    console.log(`Message sent: ${info.messageId}`);
   } catch (err) {
     console.error("Error while sending mail:", err);
   }

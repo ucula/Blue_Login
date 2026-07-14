@@ -17,7 +17,6 @@ export async function update(id: string, updatedData: any) {
       error.email = "Email already exists";
 
     if (Object.keys(error).length > 0) {
-      console.log("error");
       throw new AppError(
         HttpResponseCode.BAD_REQUEST,
         "Validation failed",

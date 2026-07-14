@@ -6,6 +6,9 @@ import { AppSuccess } from "@/utility/express/succes";
 export async function get(id: string) {
   try {
     const db = await repo.admin.getById(id);
+    if (!db) {
+      throw new AppError(HttpResponseCode.NOT_FOUND, "User not found");
+    }
     return new AppSuccess(HttpResponseCode.OK, "Success", db);
   } catch (err: any) {
     console.error(err);

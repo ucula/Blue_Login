@@ -14,7 +14,6 @@ export default async function reset(
     // Look for user
     const user = await repo.admin.getOne({ email: email });
     if (!user) {
-      console.log(email);
       throw new AppError(
         HttpResponseCode.BAD_REQUEST,
         "User does not exist",
@@ -32,7 +31,6 @@ export default async function reset(
     // Find the auth record
     const authRecord = await repo.auth.getOne({ token });
     if (!authRecord) {
-      console.log(token);
       throw new AppError(
         HttpResponseCode.BAD_REQUEST,
         "Token does not exist in database",
@@ -47,7 +45,7 @@ export default async function reset(
       response,
     });
   } catch (err: any) {
-    console.log("Service:", err);
+    console.error("Service error in reset password:", err);
     if (err instanceof AppError) {
       throw err;
     }

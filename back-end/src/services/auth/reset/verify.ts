@@ -19,7 +19,13 @@ export default async function verify(token: string) {
       const user = await repo.admin.getOne({
         email: String(record.email),
       });
-      const email = user?.email;
+      if (!user) {
+        throw new AppError(
+          HttpResponseCode.NOT_FOUND,
+          "User associated with this token does not exist",
+        );
+      }
+      const email = user.email;
       return new AppSuccess(HttpResponseCode.OK, "Success", { email });
     } catch (err) {
       console.error("Service: ", err);

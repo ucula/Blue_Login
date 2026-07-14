@@ -6,6 +6,9 @@ import { AppSuccess } from "@/utility/express/succes";
 export async function del(id: string) {
   try {
     const db = await repo.admin.delById(id);
+    if (!db) {
+      throw new AppError(HttpResponseCode.NOT_FOUND, "User not found");
+    }
     return new AppSuccess(HttpResponseCode.NO_CONTENT, "Success", db);
   } catch (err: any) {
     console.error(err);

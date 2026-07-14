@@ -18,7 +18,6 @@ export default async function signup(user: User) {
   let error: Partial<error> = {};
   // Undefined prevent case
   if (!user.pass || !user.email || !user.username) {
-    console.log("useSignup: ", user);
     throw new AppError(
       HttpResponseCode.BAD_REQUEST,
       "Missing Pass, Email and Username",
@@ -62,7 +61,7 @@ export default async function signup(user: User) {
     await sendVerificationEmail(user.email ?? "", token, PATHS.SIGNUP_VERIFY); // send email
 
     return new AppSuccess(
-      HttpResponseCode.NO_CONTENT,
+      HttpResponseCode.OK,
       "Signup Success. Waiting for verification",
     );
   } catch (err: any) {

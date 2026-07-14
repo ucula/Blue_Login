@@ -9,7 +9,6 @@ export default async function verify(token: string) {
       // Verify the input token (Expired?, is used?)
       const record = await repo.auth.getOne({ token });
       if (!record || record.isUsed) {
-        console.log("signupVerify: ", token);
         throw new AppError(
           HttpResponseCode.BAD_REQUEST,
           "Invalid or expired token",
@@ -19,7 +18,6 @@ export default async function verify(token: string) {
       // Find user that has the same email as the provided token package
       const user = await repo.admin.getOne({ email: record.email });
       if (!user) {
-        console.log("signupVerify: ", record.email);
         throw new AppError(HttpResponseCode.NOT_FOUND, "User does not exist");
       }
 
