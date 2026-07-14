@@ -12,10 +12,3 @@ export function getDaysCount(year: number, month: number): number {
   return new Date(year, month, 0).getDate();
 }
 
-export function getDaysInCurrentMonth(): number {
-  const { currentMonth, currentYear } = getDates();
-  return getDaysCount(currentYear, currentMonth + 1);
-}
-
-
-

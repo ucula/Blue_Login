@@ -38,7 +38,7 @@ function menuItem(
       }}
     >
       <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText primary={label} />
+      <ListItemText primary={label} sx={{ color }} />
     </MenuItem>
   );
 }

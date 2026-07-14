@@ -1,3 +1,4 @@
+import { HttpResponseCode } from "@/types/auth/httpResponseCode";
 import redirectLogin from "./redirectLogin";
 import { Payload } from "./response/response";
 import { TOKEN_NAME } from "@/config";
@@ -30,7 +31,7 @@ export async function useFetch<T = any>(
     throw new Payload(err);
   }
 
-  if (response.status === 204) {
+  if (response.status === HttpResponseCode.NO_CONTENT) {
     return {} as T;
   }
 

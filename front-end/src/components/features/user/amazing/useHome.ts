@@ -105,9 +105,9 @@ export default function useHome() {
       action();
     }
   };
+
   // save
   const { mutate: saveBoxes } = service.box.useSaveBoxes();
-
   const handleSave = () => {
     const payload = Object.entries(boxForm).map(([day, value]) => ({
       day: parseInt(day),

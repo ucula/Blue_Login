@@ -11,7 +11,7 @@ export const PATHS = {
   // HOME
   ADMIN_HOME: "/admin/home",
   ADMIN_ADD: "/admin/users/add",
-  ADD_VERIFY: "/add/verify",
+  ADD_VERIFY: "/admin/add/verify",
   ADMIN_USER_INFO: {
     route: "/admin/users/:id",
     build: (id: string | number) => `/admin/users/${id}`,
@@ -20,6 +20,6 @@ export const PATHS = {
     route: "/admin/users/:id/edit",
     build: (id: string | number) => `/admin/users/${id}/edit`,
   },
-  USER_HOME: "/user",
+  USER_HOME: "/users",
   USER_PASS: "/users/add/pass",
 } as const;

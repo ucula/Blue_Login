@@ -3,7 +3,7 @@ export function decodeToken(token: string) {
     const payload = token.split(".")[1];
     const decoded = atob(payload);
     return JSON.parse(decoded);
-  } catch (error) {
+  } catch {
     return null;
   }
 }

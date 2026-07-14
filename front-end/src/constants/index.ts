@@ -28,7 +28,7 @@ const PATHS = {
   // HOME
   ADMIN_HOME: "/admin/home",
   ADMIN_ADD: "/admin/users/add",
-  ADD_VERIFY: "/add/verify",
+  ADD_VERIFY: "/admin/add/verify",
   ADMIN_USER_INFO: {
     route: "/admin/users/:id",
     build: (id: string | number) => `/admin/users/${id}`,
@@ -41,7 +41,7 @@ const PATHS = {
     route: "/admin/users/:id/tasks",
     build: (id: string | number) => `/admin/users/${id}/tasks`,
   },
-  USER_HOME: "/user",
+  USER_HOME: "/users",
   USER_PASS: "/users/add/pass",
 };
 
