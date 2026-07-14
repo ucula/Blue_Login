@@ -36,7 +36,7 @@ interface ResetPassForm extends LoginForm {
   confirmPass: string;
 }
 
-interface ResetPassFormError extends LoginFormError {}
+type ResetPassFormError = LoginFormError;
 
 export type {
   Auth,

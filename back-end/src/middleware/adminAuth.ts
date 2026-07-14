@@ -7,9 +7,7 @@ export function adminAuth(req: Request, res: Response, next: NextFunction) {
   try {
     const { authorization } = req.headers;
     const payload = verifyToken(authorization);
-    // console.log("Token verified");
     checkRoles(payload, "admin");
-    // console.log("Auth success!");
     next();
   } catch (err: any) {
     res.status(err.code).json(new Payload(err));

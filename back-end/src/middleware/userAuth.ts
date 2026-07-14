@@ -14,6 +14,6 @@ export function userAuth(req: any, res: Response, next: NextFunction) {
     req.user = payload;
     next();
   } catch (err: any) {
-    res.status(err.code || 401).json(new Payload(err));
+    res.status(err.code || HttpResponseCode.UNAUTHORIZED).json(new Payload(err));
   }
 }
